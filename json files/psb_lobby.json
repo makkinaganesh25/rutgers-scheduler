@@ -1,0 +1,110 @@
+{
+  "post": "Public Safety Lobby",
+  "location": "Public Safety Building, 55 Paul Robeson Blvd., New Brunswick NJ 08901",
+  "hours": [
+    "0800 to 1230, 1230-1700, Monday through Friday"
+  ],
+  "mission": "CSO mission is to provide professional, courteous service, a uniformed physical presence, and direct observation of all University facilities, Faculty, Staff, Students, and Guests. They will protect the interests of the university while performing access control and CCTV monitoring duties. This will be accomplished by CSO being always alert and vigilant and by utilizing any and all assets at their disposal. CSO will keep in mind their mission purpose which is: TO OBSERVE AND REPORT, render assistance if necessary and to ensure all parties’ rights and interests are protected.",
+  "instructions": {
+    "reporting_for_duty": [
+      "CSO assigned to this post will read and familiarize themselves with the post orders for this post. They will adhere to the rules and regulations set forth in them.",
+      "CSO will report to the Public Safety Building CSO Office on time.",
+      "CSO will report for duty in the uniform of the day.",
+      {
+        "uniforms": {
+          "spring_summer_attire": "Class A Uniform: Short sleeve shirt with white under T-shirt, pants, black belt, and black boots/shoes.",
+          "fall_winter_attire": "Class A Uniform: Long sleeve shirt with white under T-shirt, pants, black belt, and black boots/shoes."
+        }
+      },
+      "CSO reporting for duty that is not in full uniform will not be allowed to work and will be subject to disciplinary action.",
+      "CSO will report to the CSO Office prior to taking post at the front lobby desk to obtain all equipment needed for shift.",
+      "CSO working Monday morning should gather equipment for shift and promptly leave utilizing an available CSO vehicle to pick up paperwork from all exterior posts (Sec Tech and Civic Square).",
+      "Upon entering the lobby at the start of the shift, CSO is to turn on the necessary computer systems (PELCO 1-A, 1-B, 2-A) for the shift. During the duration of the shift, the CSO is to keep the left cabinet door open for each computer system to ensure proper airflow. These doors should be closed when the CSO leaves the lobby for any reason."
+    ],
+    "daily_tasks": {
+      "inventory": [
+        "CSO will take daily inventory of the equipment in the CSO office utilizing the hard copy before returning to the lobby to enter the data electronically and then destroy the hard copy.",
+        "Reflective vests do NOT need to be inventoried, only Winter Jackets, Rain Cap Covers, and Rain Coats.",
+        "The link to electronically submit data can be found on the hard copy or accessed through the following link: https://forms.gle/hUAfNMhc7roABYxG6.",
+        "CSO will take inventory of radios and batteries on Monday and Friday of every week. Radio inventory sheets are located next to the radios and should be stapled to the back of the completed assignment sheet."
+      ],
+      "statistics": [
+        "CSO will check 'Statistics' cubby for any statistics that need to be entered online.",
+        "CSO will bring paperwork to the lobby to enter the information.",
+        "CSO will then add totals from each daily assignment sheet to the corresponding boxes found on the last tab of the current CSO Master Schedule Spreadsheet labeled 'Stats'. Do NOT overwrite the current number, only add to it. Example: +=1+2+3+4+5+...",
+        "CSO will initial all paperwork done inside the Sheet Review box next to 'Statistics:'.",
+        "After statistics are completed, paperwork can be put away in the 'Review' cubby."
+      ],
+      "filing": [
+        "CSO will check 'File' cubby for any paperwork to be put away.",
+        "CSO will file paperwork in the second drawer of the filing cabinet next to the Radio Locker.",
+        "Paperwork gets put inside the corresponding month and shift folders in chronological order according to date."
+      ]
+    },
+    "cso_duties": [
+      "CSO assigned to this post will meet and greet all visitors to the Public Safety Building and assist visitors and departmental personnel as necessary. CSO will lift his or her head up when personnel pass through the lobby to greet them.",
+      "CSO will not allow any unauthorized individuals to access this facility. Entry into the building will require swipe access. CSO will attempt to contact the person(s) being visited via phone or radio to advise them that they have a visitor. If contact isn’t made, CSO will note the info and pass it on to the person(s) when time permits.",
+      "CSO will meet deliverers at the front or back doors and retrieve packages. CSO will attempt to make contact with the intended recipient via phone or email. If no one claims the package by 1700, CSO will leave the package in the CSO office and notify the next CSO working PSB Lobby of the package."
+    ],
+    "cctv_operations": [
+      "CSO will always monitor the CCTV while on post. First CSO on post on Monday, Wednesday, and Friday will complete diagnostics for Busch/Livingston. Second CSO on post will complete diagnostics of both Cook/Douglass and College Avenue.",
+      "Upon conclusion of the diagnostics of all campuses, the form should be saved and sent to Lt. Lazzar and BS Tineo.",
+      "CSO will turn off the monitors and close the cabinet doors if they are to leave the lobby for any reason.",
+      "CSO will focus a CCTV camera on a particular location if instructed to do so by supervisory personnel or if suspicious activity is observed.",
+      "CSOs should monitor all areas throughout their designated campuses and report suspicious activity immediately to RUPD Dispatch. CSO will mark faulty cameras on diagnostics reports."
+    ],
+    "additional_responsibilities": [
+      "CSO will remain on post until properly relieved. Relief should be briefed on any pertinent information.",
+      "CSO will notify his or her supervisor prior to leaving their post for breaks.",
+      "CSO will report any and all suspicious people and packages to RUPD dispatch and Division Supervisor.",
+      "CSO will be careful not to touch any suspicious packages or item(s).",
+      "CSO may be assigned projects to assist with the functioning of the CSO Division, RUPD, or Administration & Public Safety."
+    ],
+    "end_of_shift": [
+      "At the end of the shift, CSO is to completely shut down the computer systems and close the cabinet doors.",
+      "CSO will fill out and complete all paperwork prior to leaving for the day.",
+      "CSO will NOT leave their post without being properly relieved."
+    ]
+  },
+  "frequent_concerns": {
+    "ticket_appeal": "CSO will politely inform the visitor that appeals can only be completed online. The CSO will refer the visitor to the Rutgers DOTS website for more information regarding operations.",
+    "ticket_payment": "CSO will politely inform the visitor that payments can only be made online. The CSO will refer the visitor to the Rutgers DOTS website for more information regarding operations.",
+    "cctv_issues": "CSO will report any problems with the CCTV (PELCO) system. Immediate concerns should be directed to their supervisor, all other concerns can be included in the email with the log sheet for the day.",
+    "lost_and_found": {
+      "procedure": [
+        "Ask the visitor if they were contacted to pick up their item.",
+        "If contacted, contact Emmanuel Perez or the Detective Bureau with the visitor’s name and lost item type.",
+        "If not contacted, search the lost and found database for their item using the person’s description of the item and date it was lost.",
+        "Contact Emmanuel Perez if a corresponding item is listed. If no match is found, politely inform the visitor and suggest they check back later via the database."
+      ],
+      "database_link": "https://psapp.ipo.rutgers.edu/lostandfound/lostandfound1.aspx"
+    },
+    "police_issues": "CSO will attempt to contact the respective officer or Detective Bureau. Otherwise, the visitor may enter the building and consult with the RUPD Communications Window.",
+    "police_report": "CSO will allow the visitor to enter and consult with the RUPD Communications Window or Records Window.",
+    "parking_permit": "CSO will inform visitor that purchases can only be made online.",
+    "suspicious_activity": "CSO will immediately report any suspicious activity observed to RUPD dispatch and notify their supervisor.",
+    "towed_vehicle": "CSO will let the visitor in and refer them to the RUPD Dispatch window.",
+    "fire_permits": "CSO will ask the visitor to leave forms with CSO and attempt to drop off in the mailbox located on the third floor."
+  },
+  "cctv_operations_details": {
+    "diagnostics_check": [
+      "The PSB Lobby CSO will conduct a thorough examination of the CCTV systems three times a week utilizing the CCTV evaluation form located on the PSB lobby computers.",
+      "Turn on all three computers, keeping the left cabinet door open for computer airflow.",
+      "Open the CCTV diagnostics form on computer 2 and immediately 'Save As' in the proper folder to avoid overwriting the original form.",
+      "To perform diagnostics on a building server, open the program DS ControlPoint on computer 3 and connect to individual or multiple systems.",
+      "CSO should check for any issues with the systems and cameras within them and note the appropriate issue on the diagnostic report."
+    ],
+    "common_issues": [
+      "Blue screen with 'no video' or 'lost connection'.",
+      "Screens that flicker on and off.",
+      "Servers that will not connect at all.",
+      "Blurred screens due to mechanical issues or lighting."
+    ],
+    "other_notes": [
+      "Should a CSO move any PTZ camera to monitor activity, it must be moved back to its original angle after use.",
+      "CSO will report any suspicious activity or person(s) observed to RUPD dispatch and note in detail on the log sheet. Should a CSO feel that any observation requires attention, the CSO should calmly and quickly walk to the RUPD dispatch window and immediately notify an RUPD officer, giving them all pertinent details about what they witnessed on the CCTV footage, including location, possible persons, vehicles, etc.",
+      "If an officer requests assistance accessing archived footage, the CSO should first identify which cameras may have witnessed the activity in question and log into the appropriate building servers.",
+      "After identifying the time the activity was expected to occur, conduct a basic search using the search icon and follow basic playback controls for reviewing footage."
+    ]
+  }
+}

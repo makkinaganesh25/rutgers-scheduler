@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "shift-scheduler-project",
+  "private_key_id": "d2178dba5fdbf1261b511ada9fec770c51e34179",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDe/Ob6KwPZDoEY\nqksYWIIUtdQ2K8zym1PWKZU9xW2DYvSqyhrUMbJcDtdjOOeU5/hmc9lb6AnXq1cq\n5K5ULm6PaffeGNmABDKVx1NNCf9/NrbZIh4r3pV5MoWNzbB64xS35kEHUetsNB03\nrPym4koQaEOOIhjzRFS/mxLDK7dk8JJUQq7RDf9jlTV2sWA4jKbo4dmSeEukPP+v\ngih9gdXAiu98j1f41NmOUFJA5ygJqQcf0zAappgHey9o5uK71g6FihOPZR0kYCCC\nJQrWsQg8OU4J3j0vi3MmzkGKUEG71HmkESteoAGg1B1lBtMrBgwANAyJnKgQA7wl\n/yto1dzfAgMBAAECggEACikM3zuZhnOLkf5PGKdjxKIlBBOKgvLCkatoYkhTfUfu\nLQqzc+q7HUhh1mK6jprj7csmjXJXtyIsARzVYqmQ88DuKzUHqAvI6vE09vmB0PVD\nGfFc3ZPb919EHZol30Y8j0U9vkx5xSmPZpY1FueQXLSw1fzwv8OOdwKPtXaRpIGJ\n6r0lUjs98cMaOLLFtYdAymKgxxmr2mmI+binl1rAi49auhQObKN8Hm/neth66inQ\nvMhJJncYGSGX3QH4lkp30nM4ZuWluopcyYS9sQBDuOCZYvpx8HP/W6ZMwR26YBJa\nnpBU1cBYmtt3MaLjGJwtWCjXZsl6IAj2i7DWHRiPeQKBgQDykdFHGz2G03ZNfLds\nc9+wUBiNdGvL7OWSrf9i9Z95e/BqdlbVNj7cy6DzsEFc5S9nmevxc81bmWliBfrK\ntxNCHWcQyYQvBmoeY+70RP1oxKdMGE61Mafgks/k0dvl1yFxZiCcBVqsCWrYORGi\n5sQs/IMgs8EWVtYGCnTmdsKMGQKBgQDrVYiePoDUCPrUgSvEvBAqtT2snSyqWD/c\nLIkTDqm+yUqjiQELS3lGVi3efly+pHK+qaoY8C7JrVl1JhGxJn2McinTHLBeTjCX\nCfLF71XcCVawd1cg+7VS6Xc/b+aqH6WOcWGPGUXutsR+0MOeEisZjXDraPbS/Yoi\nWvmiH8hPtwKBgAgVY+wCtGIx2ddrOJGcqu+tO6Q7JPx+wIfK1J/vn4jk4HYry2j/\njci94Hc+gG8gFBxXvM0nFsjeq+xgVqM6xqGFaVHd5VHL3O12Vxg81FUReKHIjZbs\nOLP7MIJnm/Rk3vBwftW0N/lTtwPNoxDSr+bv407LrruX2ToKTyr++izBAoGBAKsy\nohxcY+PcVHzbKzgHh8tJ5f/4p1GUuYA2ddGDTUEZtk6ZkETjNupQLzY4vseBYmgJ\njVBvCdp1XSq38w7obVUKiBqoODWis/5sokwT/GYB9SqS5rN76UDTzog7o5YHR60E\nFnC/dfxewTtwK56GoQwJtSfMSCLdhuvPOuMSM+qpAoGBANs8x3+9PxGR/c33LC3G\njz0gsNFo+32YGkQiW3ebl90HaYEWRvOzIEtIURd/8z74pkCUEwG63z5ziBJh3330\nbPNofoBZK7pdhaiVep5R+v+Zsxq9kNeKeiO47d6R1yHKHdN4SqnVXjMudNukq28S\nUDYxEXMgozc1FYSZYWDxQ00A\n-----END PRIVATE KEY-----\n",
+  "client_email": "mediafiles-viewer@shift-scheduler-project.iam.gserviceaccount.com",
+  "client_id": "103421802975281291110",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mediafiles-viewer%40shift-scheduler-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

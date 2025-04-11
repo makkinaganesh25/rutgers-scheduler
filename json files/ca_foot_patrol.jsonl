@@ -1,0 +1,64 @@
+{
+  "post": "College Ave Foot Patrol",
+  "location": "Rutgers University New Brunswick campus, New Brunswick NJ 08091",
+  "hours": "1700 to 2100, Monday through Sunday",
+  "mission": "CSO mission is to provide assistance to RUPD by conducting nightly patrols in specific area(s) of assignment at Rutgers University. Community Service Officers will provide professional, courteous service with a uniformed physical presence and direct observation of all University facilities, Faculty, Staff, Students, and Guests. They will protect the interests of the university’s community. This will be accomplished by CSOs being alert, vigilant at all times, and by utilizing any and all assets at their disposal. CSO will keep in mind their mission purpose which is: TO OBSERVE AND REPORT, render assistance when necessary, and to ensure all parties’ interests are protected.",
+  "instructions": {
+    "reporting_for_duty": [
+      "CSO assigned to this post will read, familiarize, and understand the post orders for this post. They will adhere to the rules and regulations set forth in them.",
+      "CSO will report to Public Safety Building CSO Office on time.",
+      "CSO will report for duty in the uniform of the day.",
+      "Spring/Summer Attire – Class A Uniform: Short sleeve shirt with white under T-shirt, pants, black belt, and black boots.",
+      "Fall/Winter Attire – Class A Uniform: Long sleeve shirt with white under T-shirt, pants, black belt, and black boots. Black or navy blue layers may be worn beneath the uniform as long as they are covered entirely by a CSO jacket as the outermost layer.",
+      "CSO reporting for duty that is not in full uniform will not be allowed to work and will be subject to disciplinary action.",
+      "CSOs will not carry on their person or bring to shift any weapons, including but not limited to: knives, pepper spray, handcuffs, and collapsible batons.",
+      "CSOs will take out the necessary post equipment from the CSO office; Radio, reflective vest, rain gear, etc.",
+      "CSOs are to meet at PSB at the report time, get equipment, and arrange for transportation to College Avenue. This shift does not require a vehicle in order to run properly.",
+      "CSOs can take Rutgers buses, call for a Security Escort, or request permission from the Security Lieutenant on Duty (150) to use a CSO vehicle."
+    ],
+    "high_visibility_patrols": {
+      "description": "In order to increase visibility among the University community, we implement high visibility patrol operations in which CSOs remain in a high traffic area for an extended period of time. During the patrol shift, CSOs will utilize the radio to call in the High Visibility Patrols of the areas listed below during strategic times.",
+      "patrol_times": [
+        "1820-1840 – CA Student Center Bus Stop or Yard & Scott Hall Bus Stop",
+        "2000-2020 – College Avenue Student Center Bus Stop or Yard & Scott Hall Bus Stop"
+      ],
+      "completion_procedure": "At the completion of the High Visibility Patrol, CSOs will utilize the radio to state that they have completed the check and to request a CAD # to document on their assignment sheet. If, while scanning the various radio channels, operations are busy, wait until the radio channel clears, then request the CAD #, otherwise, call the non-emergency number for RUPD (732-932-7211) and acquire the CAD#.",
+      "logistics": [
+        "Begin Patrol at 1700.",
+        "Take vehicle 319 to College Ave & park in Lots 35 or 9.",
+        "Use the radio to state 'Central from CSO [Last Name]' before starting or ending High Visibility Patrol.",
+        "Do not walk the same area both times during High Visibility Patrols."
+      ]
+    },
+    "on_patrol": [
+      "CSOs will stay in contact with RUPD at all times by radio and by being accessible via phone. Ensure that the scan function is turned on for situational awareness.",
+      "CSOs will conduct their patrols in a professional manner.",
+      "Upon arriving at College Ave, CSOs should patrol back and forth along College Avenue from Huntington to Somerset St., paying special attention to high traffic areas such as bus stops.",
+      "CSOs will try to be as inconspicuous as possible while reporting an incident.",
+      "CSOs will not engage in any activities that will draw their attention away from their duties: Cell phone usage (except in an emergency), texting, sleeping, emailing, or any other activities.",
+      "CSOs will, upon identifying suspicious activities or item(s), take the appropriate actions, and advise RUPD dispatch. CSOs will report suspicious activities and item(s) from an inconspicuous and safe distance.",
+      "CSOs will not approach, confront, or attempt to detain any suspicious person. They will not handle any suspicious item(s).",
+      "CSOs will note their observations in their notebook/pad and be ready to relay them to RUPD when they report the incident.",
+      "CSOs will provide the following info to RUPD dispatch when reporting an incident: Who, What, Where, When, and How.",
+      "CSOs will meet and pass on to the RUPD responding officer all pertinent info regarding the incident.",
+      "CSOs will move to a safe and adjacent area but be ready to respond if requested to do so by RUPD.",
+      "All incidents should be noted in the patrol log.",
+      "CSOs will report needs for medical assistance and provide medical assistance to the level which they are comfortable performing based on their training. Note that CSOs are not permitted to act as EMTs and are not permitted to give out medication.",
+      "CSOs will close all propped doors that are on their patrol route.",
+      "CSOs should not utilize motorized patrols of College Avenue without the expressed permission of the Security Lieutenant (150)."
+    ],
+    "end_of_shift": [
+      "CSOs should be back to HQ by the assigned end of shift time (2100). CSOs with a vehicle should begin transport back to HQ around 2045. If no vehicle is available, CSOs should either request a Security Escort or take a bus back to HQ around 2030 to ensure they are back on time (unless instructed otherwise).",
+      "CSOs with a vehicle that needs refueling should begin transport to Cook Pumps at 2035 and return to PSB after completion.",
+      "CSOs will report back to headquarters, turn in their equipment, and fill out the appropriate paperwork.",
+      "CSOs will return all equipment in a neat manner. Borrowed jackets and reflective vests are to be hung back up and pockets emptied. Radios should be plugged back in to charge.",
+      "CSOs will fill out a patrol sheet for each shift and CAD number when appropriate.",
+      "CSOs should be mindful of tallying CADs, Checks, and Public Assists as noted on the patrol paperwork."
+    ],
+    "miscellaneous": [
+      "High visibility vests will be worn at all times and CSOs should spend most of their time outside walking, as the weather permits.",
+      "CSOs should also be aware that in the event of another shift needing to be covered they could be reassigned to work another shift.",
+      "If one CSO is removed from the walking patrol, the remaining CSO should restrict their patrol to just car patrol."
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+pandas
+gspread
+gspread-dataframe
+mysql-connector-python
+python-dotenv

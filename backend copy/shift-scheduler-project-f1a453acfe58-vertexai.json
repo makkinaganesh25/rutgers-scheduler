@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "shift-scheduler-project",
+  "private_key_id": "f1a453acfe58819a60b749f7ab9aa3fcd35f8599",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCrehqT0+Hnl9r8\nCOOYoHL7o4ER/zJI/qLCunB9fa2zJV18TnULjxCo62eLjx+ibNTY3+k3j1pdg7um\npUy4Lmt1ZJ6VA+K5V1cKKwq9ArZZ+sXJTdaf7Jmif+pH4+1tkNOU743keOPaHsbL\ncJOpFdAePw/qK2ptB0P1CPbdofDUzMORseUfzuaFJpXu3hWZWjOGi4/SecjL66or\nly15PMNZUOLkAOhC8dLmsontOStLMZzJd1lm4S/gFZEktnD/QWvd/OmggKCioV+G\n/fnuPts+tkVb4BCYqPqF9MZS6kmWBwlFZMkEhGUudQyRtzhZNXMhPqCTLRhr6eZS\niskMEdf3AgMBAAECggEARBp0KMcLnwvYLKYpImqDED8BWZD1uzjqkpUybRy3moFa\nDi8o3ETfNH99+dcHlN5NcK8JNIhKNv7FTeuzuyiwhAjI1N0ctEikaITsuGG146mt\n2QQBnDV/VSMhfJjhKNVOuwWjYJzEvdHgWVcmRg7EP+cC3pmMpK2wh0aeqSqSeCkN\nKV+VxlJHGsJuuB8mOFkMmeDgwbPSXXqBLktY3emkdomD6IZTenxR3J3z3+x1DCKP\n9qyhIo30Me9mNUV/Jg9y7Nq4MttW6RhXEe6RIqrIGyWkEStjah0CUsAMpRb6bAvX\nAWvd4PbdRwKwa3ueUNJ8VJn1DxodChSByvQiNQeiYQKBgQDuWsQ+OwI536qt3PTc\n4EHPd1LCvA8+lMspaM7VuEBgkQM6aOLZz5IXfuB+JSqYhWEgjUKrVchmTClgOUI5\neAsA5cApRDOhFYj2r9Bi82uYr7Z042QqgBCYrIADi0DLq4eUTtDbVRinjmHNjiYN\nwv2r1nGswUx5DUuDQszirV5oIQKBgQC4K+P/Pu4rY7vzI57ziT+a4KvYGjY8FwuW\nI9j80X/XffuJyMo6wslnoOMcSBIk07w7uP7+1UMwruFlNnYgMXT9mi4isaCOk+np\nQ2Py/0qTO+NQcgmOjms5RqZP//BZxpOW4gDlgj/go/Sf2K32HZvRRjRjs5e2Jr5V\nYD67WnLdFwKBgAz68m71JbTjIldfjhItQEg9Fku2lBnzXnD93S20YAUiQIvAxIHa\nFPmkljMocP5nXRe5uaS9AjHX+fTciWe5ytecq29T4H/oPVI51t5cpUJmZ0hMTdsm\nqEC4PCx1O+0bhUGlXShkpPgS/+6CzD25nbjq77vZtwFsoO0gCSpbCKYhAoGBAI0+\nM+PsClJCccEdP2j8iEgqKABa0d8xuVQS9/WkYcwNNVzNHbME8dtEuwhUiX2u2Lxg\nu0cKnTX32Kp7owo7g8J+fQVkfoL6Ezku0rdobHQQSNvIKWYn+Tl64k+WNGlVbpkX\niKJ7SqvocdIpJfkLahWMJt+TuzUZ73ygjFu5GUBPAoGBAKepQ5ejRJBs0IWObh3r\nzjvow2KMUxaJGyPWp2TZ+Pp6nvVTo5CnHmjxQcOn0F22HermxZr20KdZVEJsnxO/\n4JYNI3opEEtntpvb3TR+9bbIGr9MpqNZheSepUvV3YF3l7h6ivA5I0OlThxYvKcq\nbUs2nAkYDKJEEdLCs+6Flun+\n-----END PRIVATE KEY-----\n",
+  "client_email": "vertexai-cso-chatbot@shift-scheduler-project.iam.gserviceaccount.com",
+  "client_id": "104008872498491007932",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/vertexai-cso-chatbot%40shift-scheduler-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,70 @@
+/* App container to hold sidebar and main content */
+.app-container {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 220px;
+    background-color: #7d0000;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Main content styling */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f9;
+    overflow-y: auto;
+}
+
+/* Sidebar link styling */
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    margin: 15px 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar a:hover {
+    background-color: #8e0000;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+}
+
+/* Logout button styling */
+.logout-button {
+    background-color: #b20000;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+    border-radius: 5px;
+}
+
+.logout-button:hover {
+    background-color: #d50000;
+}
+
+/* Optional padding for inner content */
+.content-section {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}

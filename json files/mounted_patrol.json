@@ -1,0 +1,136 @@
+{
+  "post": "Mounted Patrol",
+  "location": "Rutgers University New Brunswick Campus, New Brunswick NJ 08091",
+  "hours": "Monday-Sunday, Varying Hours from 0800-2100",
+  "mission": "To aid RUPD by conducting daily patrols in specific areas of Rutgers University. Community Service Officers will provide professional, courteous service with a uniformed physical presence and direct observation of all University facilities, Faculty, Staff, Students, and Guests. They will protect the interests of the university’s community. This will be accomplished by CSOs being alert, vigilant at all times, and by utilizing any and all training. CSOs will keep in mind their mission purpose which is: TO OBSERVE AND REPORT, render assistance when necessary, and to ensure all parties’ interests are protected. A unique aspect of Mounted Patrol is that the incorporation of horses allows for heightened public relations opportunities that should be taken whenever safe.",
+  "instructions": {
+    "reporting_for_duty": [
+      "CSO assigned to this post will read, familiarize, and understand the post orders for this post. They will adhere to the rules and regulations set forth in them.",
+      "CSO will report to the mounted barn on time.",
+      "CSO will report for duty in the uniform of the day.",
+      "Spring/Summer Attire – Class A Uniform: Short sleeve shirt with white T-shirt, black or navy breeches, black belt, black or navy helmet, and black riding boots or half chaps.",
+      "Fall/Winter Attire – Class A Uniform: Long sleeve shirt, tie, black or navy breeches, black belt, black or navy helmet, and black riding boots or half chaps.",
+      "CSOs will not carry on their person or bring to shift any weapons, including but not limited to: Knives, Pepper spray, Collapsible batons, Handcuffs.",
+      "The CSO that arrives at the barn first will unlock the closet using the combination 5-15-25 and retrieve the keys from the closet.",
+      "CSOs will unlock the mounted patrol office and retrieve CSO radios 49 and 50 and patrol log sheets. They will reference the monthly rotating schedule to determine which horses will be utilized and CSO OIC will assign horses. CSOs will also check the log book in the mounted office to avoid any discrepancies between the rotational schedule and the log book, ensuring that no horse is ridden more than three days in a row unless approved by Mounted Patrol CS. CSOs will reference the updated log book to determine if any caution should be used in certain areas on patrol. CSOs will update the calendar, then exit and relock the office.",
+      "CSOs will then unlock the tack room, RETURN THE KEYS to the closet, and relock the combination lock on the closet. CSOs will NOT bring the keys out on patrol. They will remain in the closet for the duration of patrol.",
+      "CSOs will sign on for the shift with RUPD dispatch via radio using the contact phrase: 'Central from CSO [Last Name]'. Wait for acknowledgement. 'Signing on for Mounted Patrol'. CSOs will ALWAYS sign on and off when beginning and ending shift.",
+      "CSOs will get the appropriate halter and lead rope and retrieve their respective horses from the field. CSOs will then put the horses into their respective stalls, groom the horses well, and prepare them with the proper equipment (bridle, saddle, saddle pad, martingale, girth, appropriate reflective gear, etc.). Reflective gear is mandatory, including reflective boots on both front legs and martingale, and for shifts when the horses would be out at dark.",
+      "Directly before beginning patrol, CSOs will tie their horses' halters to the back of the saddles, as well as making sure one CSO secures the feces shovel to one saddle."
+    ],
+    "high_visibility_patrols": {
+      "description": "In order to increase visibility among the University community, CSOs will implement two high visibility patrol operations in the duration of the shift at two different locations. CSOs will check the log book prior to beginning patrol and will not perform a high visibility patrol at the same location done the day before.",
+      "call_in_procedure": "To begin the high visibility patrol, CSOs will utilize the radio to call in the high visibility patrol as follows: 'Central from CSO [Last Name]'. Wait for acknowledgement. 'Beginning High Visibility Patrol at [Location]'.",
+      "appropriate_locations": [
+        "Cook Campus Center",
+        "Douglass Campus Center",
+        "Bettenbender Plaza",
+        "Chang Science Library",
+        "Mable Smith Library"
+      ],
+      "patrol_times": [
+        "0855-0915",
+        "1035-1055",
+        "1215-1235",
+        "1355-1415",
+        "1535-1555",
+        "1715-1735",
+        "1855-1915",
+        "2035-2045"
+      ],
+      "completion_procedure": "At the completion of the high visibility patrol, CSOs will call out that they have completed the check and request CAD # to document on the assignment sheet as follows: 'Central from CSO [Last Name]'. Wait for acknowledgement. 'Ending High Visibility Patrol at [Location], ready for CAD'. If, while scanning the various radio channels, CSOs find that operations are busy, wait until the radio channel clears, then request the CAD #, otherwise, call the RUPD nonemergency number (732-932-7211). If dispatch tells you to standby, make sure to call again and get a CAD before the end of the shift."
+    },
+    "patrol_expectations": [
+      "CSOs will conduct their patrols in a professional manner.",
+      "CSOs will not allow the horses to exceed a walk.",
+      "CSOs will NOT engage in any activities that will draw their attention away from their duties, ESPECIALLY while mounted: Cell phone usage (except in an emergency), texting, emailing, or any other activities.",
+      "CSOs will take public relations opportunities as available, stopping and allowing the public to inquire about and/or pet the horses when safe.",
+      "CSOs will NOT allow members of the public to feed the horses while they are on duty.",
+      "CSOs will instruct the public to pet the horses only in a safe location (not the nose), and only when the horse is receptive and behaving.",
+      "CSOs will patrol Cook and Douglass including, but not limited to, the following areas: College Farm Road, Helyar House, The Cook Apartments, All Cook dorms, Henderson, University Inn and Conference Center, New and Old Gibbons, Hickman, Woodlawn, Lipman Drive and Passion Puddle, The Cook/Douglass Lecture Hall area, Jameson courtyard, Douglas Student Center, College Hall, Antilles Field, etc.",
+      "CSOs will NOT patrol the following areas of Cook/Douglass: The Little Theater building, Lot 95, The Vivarium, Rutgers Gardens, CSOs will NOT attempt to cross any suspended bridge on campus, i.e. those connecting lot 704 to Bettenbender Plaza.",
+      "CSOs may cross the bridge connecting Hickman and Loree if both CSOs are comfortable and it is safe to cross. CSOs must DISMOUNT to cross the bridge and lead the horses across. The following conditions must be met: NO STUDENTS ARE PRESENT, Weather conditions are safe (no rain, ice, or heavy wind), The horses are calm and confident, Riders space the horses out so as to avoid injury when they speed up on the downhill.",
+      "Always utilize crosswalks when crossing the street and must wait for the 'walk' sign to cross at traffic lights.",
+      "Near the halfway mark of patrol, CSOs will take one 30-minute break at the Cook Student Center, during which they will remove the horses’ bridles, put on their halters, and clip them to the designated outdoor posts. For the duration of the break, at least one CSO will remain at a location, outdoors or indoors, where he/she can see the horses. Should any civilian begin to approach the horses, a CSO will return to the horses and will only allow safe, supervised interactions between the horses and the public.",
+      "During break, both CSOs will update their respective patrol log to include all checks and other appropriate remarks up to that point. CSOs should keep track of the number of interactions with the public as well as the CADs, Checks, Escorts, and Assists. CSOs may perform a high visibility patrol of the Cook Campus Center at this time.",
+      "CSOs will, upon identifying suspicious activities or item(s), take the appropriate actions and advise RUPD dispatch. CSOs will NOT approach, confront or attempt to detain any suspicious person. CSOs will NOT handle any suspicious item(s). CSOs will report suspicious activities and item(s) from an inconspicuous and safe distance. CSOs will provide the following info to RUPD dispatch when reporting an incident: Who, What, Where, When and How. CSOs will move to a safe and adjacent area but be ready to respond if requested to do so by RUPD. CSOs will meet and pass all pertinent info regarding the incident on to the RUPD responding officer. CSOs will render medical assistance consistent with their level of training. CSOs will contact mounted FTO with any non-safety related questions or concerns."
+    ],
+    "end_of_shift": [
+      "CSOs will return to the mounted patrol barn 30 minutes prior to end of shift, untack the horses, groom them to remove sweat marks, and return them to the field.",
+      "CSOs will unlock the closet and retrieve the keys in order to open the tack room at the mounted patrol office.",
+      "CSOs will clean the tack used during their shift, at a minimum cleaning the bit and girth, and return tack to its appropriate locations in the tack room and lock the tack room.",
+      "CSOs will sign off of patrol with RUPD dispatch via radio or phone as follows: 'Central from CSO [Last Name]'. Wait for acknowledgement. 'Signing off of Mounted Patrol'. CSOs will complete their patrol logs and insert the completed log into the appropriate file in the filing cabinet in the CSO office.",
+      "The completed logs will be retrieved and reviewed by the Mounted CS or XO each week.",
+      "CSOs will record a brief review of their mounted patrol shift in the log book. This should include the date, which horses were ridden, a general overview of how the horses behaved, where high visibility patrols were conducted and any special circumstances or issues. (Any hazards, road closures, injuries, etc.)",
+      "Once all paperwork is completed and radios returned, CSOs will close the office and make sure the door is locked. CSOs will return the keys to the closet and office before leaving the barn."
+    ],
+    "non_cook_douglass_patrol": {
+      "description": "CSOs will communicate in advance as to who will retrieve vehicle 55 from Public Safety and bring it to the barn. Only CSOs who are trailer trained and approved by Mounted command staff may drive vehicle 55.",
+      "procedures": [
+        "CSOs will communicate in advance regarding vehicle 55 from Public Safety.",
+        "The driver will complete a vehicle inspection sheet before leaving Public Safety.",
+        "The second CSO will either report to Public Safety or the barn, whichever is most efficient and as long as it is communicated to their partner in advance.",
+        "Upon arrival at the barn they will observe all typical procedures involving getting radios, patrol logs, selecting the horses, reading the log notebook, and updating the calendar.",
+        "CSOs will retrieve the two horses from the field and place them in their respective stalls.",
+        "CSOs will groom their horses.",
+        "CSOs will then hitch the trailer in accordance with their training. If the driver feels confident, they may hitch the trailer by themselves while the other CSO gets the horses and tack ready. If they have any trepidations, they will have the second CSO guide 55 to the trailer hitch.",
+        "CSOs will ensure that trailer lights and brakes work. If there are any faulty lights, they will double check the electrical hookup. If lights and/or brakes have issues, they will stop operations and contact the Mounted CS immediately.",
+        "CSOs will place all tack (saddles, girths, saddle pads, half pads, martingales, bridles, reflective gear, etc.) in the backseat in an orderly fashion so as not to damage tack (DO NOT PUT SADDLES FLAT). They will ensure that they have the feces scoop and that they have all gear needed for the weather as well as any brushes if needed.",
+        "CSOs will work together to load the horses into the trailer one at a time in accordance with training. If needed, CSOs will ensure horses have protective gear (i.e. wraps, bell boots, Norman’s helmet, etc.). CSOs will double check that horses are properly secured, that all gates/bars are secured, and that the wall is in place and bolted.",
+        "CSOs will close the tailgate and fasten any windows in place.",
+        "The trailer trained CSO will drive the horses to the parking location on their destined campus. Busch – Stadium West Lot (in the back and out of the way). Livingston – Berrue Circle (on the grass by the shuttles).",
+        "CSOs will unload the horses and tie them to alternate sides of the trailer with quick-release knots.",
+        "CSOs will ensure horses are still groomed appropriately and tack them up.",
+        "CSOs will begin patrols of the campuses. If patrolling the eco preserve, riders will ensure that weather conditions are safe (no high winds, ice, or mud) and that they won’t be riding after sunset. While in the preserve, riders will use their best judgment as to if conditions are safe for the horses. They will only patrol on trails deemed safe by the attached map.",
+        "If riding in the stadium, riders will ensure that they are as safe as possible. They will ensure they have proper head clearance at all times. They will not push the horses so far as to cause injury to themselves, the horse, or others. As always, if at any time they feel unsafe, they will dismount and remove the horse from the situation. They will ensure any waste produced by the horses is cleaned meticulously.",
+        "CSOs will exercise heightened situational awareness when in crowded and/or narrow areas.",
+        "CSOs will always remove horse defecations off of sidewalks/paths/grass areas and into discrete bushes or at the base of trees. CSOs will ensure that the defecation will not be an eyesore or in a place where it is bothersome.",
+        "CSOs will perform a twenty minute high visibility patrol at the campuses student center or library.",
+        "CSOs will leave campus 45 minutes prior to the end of their shift. CSOs will tie the horses to the trailer (with quick-release knots) and remove all tack before loading the horses. Bridles will be swapped for halters. CSOs will ensure that horses are properly secured, that all gates/bars are secured, and that the wall is in place and bolted. CSOs will ensure the tailgate is latched and windows are secured.",
+        "Upon arrival at the barn, CSOs will park the trailer in its assigned location and unload the horses. CSOs will either bring the horses to the field or place them in their stalls.",
+        "CSOs will return all tack items to their places in the barn and clean them.",
+        "CSOs will then complete their paperwork and return their radios.",
+        "The CSOs will then take vehicle 55 back to PSB, return the keys, and file the vehicle inspection sheet."
+      ]
+    },
+    "safety": [
+      "Only CSOs who passed both the written and riding examinations as well as a mock patrol and were approved to participate in mounted patrol by a CS may utilize a horse for patrol.",
+      "When coverage is provided by a non-mounted CSO, even if the other CSO is approved for mounted patrol, the shift will be either a walking or driving patrol of Cook/Douglass.",
+      "CSOs, even if approved for mounted patrol, should never ride a horse they do not feel comfortable riding.",
+      "Any CSO or CDT who is beginning mounted patrol for their first semester must ONLY ride with a member of the Command Staff who is Mounted Trained.",
+      "In order to ride on another campus, AT LEAST one member must be trained for that campus.",
+      "To drive vehicle 55, the CSO MUST be trailer trained and approved by Mounted Command Staff.",
+      "CSOs should always remount their horses from a safe location.",
+      "If weather conditions seem as though they will not be conducive to a safe mounted patrol (i.e. heavy wind, ice/snow on the ground, extreme cold or extreme heat, or heavy rain), CSOs are advised to notify a CS and complete a walking/car patrol of Cook/Douglass.",
+      "If, once mounted patrol has begun, weather conditions suddenly become unsafe, CSOs will return to the barn immediately and follow end-of-shift protocol. CSOs will then contact a mounted CS to determine a proper course of action for the remainder of the shift.",
+      "If, upon retrieval from the field, a horse has a minor injury, CSO will treat the injury to the level of his/her knowledge and contact the mounted CS for further instructions.",
+      "If, upon retrieval from the field, a horse has a major injury, CSO will first call the veterinarian and the Rutgers employees listed on the bulletin board in the mounted patrol barn. CSO will then call a CS and inform him/her of the situation.",
+      "If a horse loses a shoe while on patrol, if it is a rear leg shoe the CSOs must retrieve the shoe, inform the Mounted CS, and may resume patrol. If it is a front leg shoe, CSOs must retrieve the shoe and they MUST notify the mounted CS, return to the barn, and report in the log book.",
+      "If a horse becomes injured or is suspected of injury during patrol, contact farm care and ask them to come evaluate the horse. Then contact the Mounted CS for further instruction.",
+      "In the event of any incident, such as a CSO falling off a horse while on duty, a horse becoming loose, etc., CSO will utilize the radio or call the desk to inform RUPD dispatch, treat any injuries to the level of his/her knowledge, and then call a CS to report the occurrence.",
+      "Should Mounted Support be substituted for any portion of patrol, due to weather or horses' behavior, perform Support that is necessary and will be noticeable (i.e.: deep cleaning of tack or brushes, laundry, cleaning of stalls, cleaning of office/tack room)."
+    ],
+    "car_walking_patrols": {
+      "description": "Patrol might be rescheduled as walking or car patrol due to inclement weather, coverage, or other approved circumstances. CSOs are to inform the mounted CS prior to having a car/walking patrol.",
+      "procedures": [
+        "CSOs would report directly to Public Safety Building. CSOs are allowed to wear breeches and riding boots instead of full class A uniform if both CSOs have them and agree on it.",
+        "CSOs will ask the on-duty security lieutenant (150) for an available vehicle then utilize whatever vehicle is given to them.",
+        "CSOs must stop by the mounted barn during their shift and record in the log book the date, the type of patrol (car or walking), and their initials. Other comments may be included. They must also update the calendar.",
+        "CSOs are allowed to patrol all of Cook/Douglass when having a car/walking patrol including: Little Theater building, The Corwin buildings, Lot 95, The Vivarium, Rutgers Gardens, All administrative and annex buildings."
+      ]
+    },
+    "trailering_horses": {
+      "description": "On a day when horses will be trailered to the Livingston or Busch campuses, the CSOs must first report to PSB instead of the mounted barn to pick up the keys for vehicle 55.",
+      "procedures": [
+        "One CSO may report to the barn to begin getting tack and supplies ready, checking the trailer, and completing other barn support tasks for patrol while the other picks up the keys or both may report to PSB, CSOs should communicate with each other before the shift about who will complete which tasks.",
+        "Ask 150 on duty if vehicle 55 is available for use before retrieving the keys.",
+        "The drop-down hitch should be used when towing the horse trailer, if it is not already on vehicle 55 it can be found in the back seat.",
+        "When changing hitches always make sure the pin is locked in place.",
+        "When connecting the truck and the trailer make sure the hitch is locked, the lights are plugged into the vehicle, the emergency brake cord is connected to the truck, and the chains are hooked under the hitch.",
+        "When loading horses onto the trailer, DO NOT connect them to the trailer tie until the butt bar is closed.",
+        "When tying the horses to the side of the trailer to tack them up, make sure to use a quick release knot. Before tying horses, make sure the back of the trailer is locked and clicked in place.",
+        "At the end of patrol, the manure should be cleaned out of the trailer and if necessary, new wood chips should be added."
+      ]
+    }
+  }
+}
