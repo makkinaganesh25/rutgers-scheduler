@@ -194,57 +194,135 @@ router.post('/coverage-request', (req, res) => {
 });
 
 
-// POST coverage acceptance endpoint with detailed conflict feedback
+// // POST coverage acceptance endpoint with detailed conflict feedback
+// router.post('/coverage-accept', (req, res) => {
+//   const { shiftId, acceptingOfficer } = req.body;
+
+//   // 1. Conflict check: if a conflict exists, return conflict details.
+//   const conflictQuery = `
+//     SELECT id, date, start_time, end_time, role, officer_name
+//     FROM shifts 
+//     WHERE officer_name = ? 
+//       AND date = (SELECT date FROM shifts WHERE id = ?)
+//       AND NOT (
+//             end_time <= (SELECT start_time FROM shifts WHERE id = ?)
+//             OR start_time >= (SELECT end_time FROM shifts WHERE id = ?)
+//           )
+//   `;
+//   db.query(conflictQuery, [acceptingOfficer, shiftId, shiftId, shiftId], (conflictErr, conflictResult) => {
+//     if (conflictErr) return res.status(500).json({ error: conflictErr.message });
+//     if (conflictResult.length > 0) {
+//       return res.status(409).json({
+//         error: 'Overlapping shift exists for this officer.',
+//         conflict: conflictResult[0]
+//       });
+//     }
+    
+//     // 2. Update the shift: assign the officer and mark as 'assigned'
+//     const updateShiftQuery = `
+//       UPDATE shifts SET officer_name = ?, status = 'assigned'
+//       WHERE id = ? AND status = 'requested'
+//     `;
+//     db.query(updateShiftQuery, [acceptingOfficer, shiftId], (updateErr, updateResult) => {
+//       if (updateErr) return res.status(500).json({ error: updateErr.message });
+//       if (updateResult.affectedRows === 0) {
+//         return res.status(409).json({ error: 'Shift is no longer available for coverage' });
+//       }
+      
+//       // 3. Update the coverage request to 'accepted'
+//       db.query('UPDATE coverage_requests SET status = ? WHERE shift_id = ?', ['accepted', shiftId], (covErr, covResult) => {
+//         if (covErr) return res.status(500).json({ error: covErr.message });
+        
+//         // 4. Retrieve sheet mapping for this shift
+//         db.query('SELECT sheet_name, sheet_row, sheet_col FROM shifts WHERE id = ?', [shiftId], async (selErr, selResult) => {
+//           if (selErr) return res.status(500).json({ error: selErr.message });
+//           const { sheet_name, sheet_row, sheet_col } = selResult[0];
+          
+//           // 5. Update the corresponding cell in the Google Sheet
+//           try {
+//             await updateShiftInSheet(sheet_name, sheet_row, sheet_col, acceptingOfficer);
+//             res.json({ message: 'Coverage accepted and sheet updated' });
+//           } catch (sheetErr) {
+//             res.status(500).json({ error: sheetErr.message });
+//           }
+//         });
+//       });
+//     });
+//   });
+// });
+
 router.post('/coverage-accept', (req, res) => {
   const { shiftId, acceptingOfficer } = req.body;
 
-  // 1. Conflict check: if a conflict exists, return conflict details.
-  const conflictQuery = `
-    SELECT id, date, start_time, end_time, role, officer_name
-    FROM shifts 
-    WHERE officer_name = ? 
-      AND date = (SELECT date FROM shifts WHERE id = ?)
-      AND NOT (
-            end_time <= (SELECT start_time FROM shifts WHERE id = ?)
-            OR start_time >= (SELECT end_time FROM shifts WHERE id = ?)
-          )
+  // 1. Check for the highest-priority (earliest) pending coverage request for this shift.
+  const topRequestQuery = `
+    SELECT * FROM coverage_requests
+    WHERE shift_id = ? AND status = 'pending'
+    ORDER BY requested_at ASC, queue_position ASC
+    LIMIT 1
   `;
-  db.query(conflictQuery, [acceptingOfficer, shiftId, shiftId, shiftId], (conflictErr, conflictResult) => {
-    if (conflictErr) return res.status(500).json({ error: conflictErr.message });
-    if (conflictResult.length > 0) {
-      return res.status(409).json({
-        error: 'Overlapping shift exists for this officer.',
-        conflict: conflictResult[0]
-      });
+  db.query(topRequestQuery, [shiftId], (topErr, topResults) => {
+    if (topErr) return res.status(500).json({ error: topErr.message });
+    if (topResults.length === 0) {
+      return res.status(409).json({ error: 'No pending coverage requests for this shift' });
     }
-    
-    // 2. Update the shift: assign the officer and mark as 'assigned'
-    const updateShiftQuery = `
-      UPDATE shifts SET officer_name = ?, status = 'assigned'
-      WHERE id = ? AND status = 'requested'
+
+    const topRequest = topResults[0];
+    // Optionally: Verify that the acceptingOfficer matches the requester in the top request.
+    // For example, if only the top requester can accept their own request:
+    // if (topRequest.requester_officer !== acceptingOfficer) {
+    //   return res.status(403).json({ error: 'It is not your turn to accept this coverage request' });
+    // }
+    // Alternatively, if any officer (not having a conflict) can accept, we move on to conflict checking.
+
+    // 2. Perform conflict check for the accepting officer.
+    const conflictQuery = `
+      SELECT id, date, start_time, end_time, role, officer_name
+      FROM shifts 
+      WHERE officer_name = ? 
+        AND date = (SELECT date FROM shifts WHERE id = ?)
+        AND NOT (
+              end_time <= (SELECT start_time FROM shifts WHERE id = ?)
+              OR start_time >= (SELECT end_time FROM shifts WHERE id = ?)
+            )
     `;
-    db.query(updateShiftQuery, [acceptingOfficer, shiftId], (updateErr, updateResult) => {
-      if (updateErr) return res.status(500).json({ error: updateErr.message });
-      if (updateResult.affectedRows === 0) {
-        return res.status(409).json({ error: 'Shift is no longer available for coverage' });
+    db.query(conflictQuery, [acceptingOfficer, shiftId, shiftId, shiftId], (conflictErr, conflictResult) => {
+      if (conflictErr) return res.status(500).json({ error: conflictErr.message });
+      if (conflictResult.length > 0) {
+        return res.status(409).json({
+          error: 'Overlapping shift exists for this officer.',
+          conflict: conflictResult[0]
+        });
       }
       
-      // 3. Update the coverage request to 'accepted'
-      db.query('UPDATE coverage_requests SET status = ? WHERE shift_id = ?', ['accepted', shiftId], (covErr, covResult) => {
-        if (covErr) return res.status(500).json({ error: covErr.message });
+      // 3. Update the shift: assign the officer and mark as 'assigned'
+      const updateShiftQuery = `
+        UPDATE shifts SET officer_name = ?, status = 'assigned'
+        WHERE id = ? AND status = 'requested'
+      `;
+      db.query(updateShiftQuery, [acceptingOfficer, shiftId], (updateErr, updateResult) => {
+        if (updateErr) return res.status(500).json({ error: updateErr.message });
+        if (updateResult.affectedRows === 0) {
+          return res.status(409).json({ error: 'Shift is no longer available for coverage' });
+        }
         
-        // 4. Retrieve sheet mapping for this shift
-        db.query('SELECT sheet_name, sheet_row, sheet_col FROM shifts WHERE id = ?', [shiftId], async (selErr, selResult) => {
-          if (selErr) return res.status(500).json({ error: selErr.message });
-          const { sheet_name, sheet_row, sheet_col } = selResult[0];
+        // 4. Mark the top coverage request as 'accepted'
+        db.query('UPDATE coverage_requests SET status = ? WHERE id = ?', ['accepted', topRequest.id], (covErr, covResult) => {
+          if (covErr) return res.status(500).json({ error: covErr.message });
           
-          // 5. Update the corresponding cell in the Google Sheet
-          try {
-            await updateShiftInSheet(sheet_name, sheet_row, sheet_col, acceptingOfficer);
-            res.json({ message: 'Coverage accepted and sheet updated' });
-          } catch (sheetErr) {
-            res.status(500).json({ error: sheetErr.message });
-          }
+          // Optionally, you could update queue positions of remaining requests here
+
+          // 5. Update the corresponding Google Sheet cell for this shift
+          db.query('SELECT sheet_name, sheet_row, sheet_col FROM shifts WHERE id = ?', [shiftId], async (selErr, selResult) => {
+            if (selErr) return res.status(500).json({ error: selErr.message });
+            const { sheet_name, sheet_row, sheet_col } = selResult[0];
+            try {
+              await updateShiftInSheet(sheet_name, sheet_row, sheet_col, acceptingOfficer);
+              res.json({ message: 'Coverage accepted and sheet updated' });
+            } catch (sheetErr) {
+              res.status(500).json({ error: sheetErr.message });
+            }
+          });
         });
       });
     });
