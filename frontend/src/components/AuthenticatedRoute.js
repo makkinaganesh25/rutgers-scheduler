@@ -1,10 +1,13 @@
-// src/components/AuthenticatedRoute.js
-import React from 'react';
+
+// File: src/components/AuthenticatedRoute.js
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
-function AuthenticatedRoute({ children }) {
-    const token = localStorage.getItem('token'); // Check if the token exists
-    return token ? children : <Navigate to="/" />; // Redirect to login if not logged in
+export default function AuthenticatedRoute({ children }) {
+  const { token } = useContext(AuthContext);
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
 }
-
-export default AuthenticatedRoute;
