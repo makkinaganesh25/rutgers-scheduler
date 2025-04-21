@@ -58,10 +58,13 @@ app.use(express.json());
 const usersRouter = require('./routes/users');
 const shiftsRouter = require('./routes/shifts');
 const chatRouter   = require('./routes/chat');
+const mediaRouter  = require('./routes/mediafiles');
 
 app.use('/api/users', usersRouter);
 app.use('/api/shifts', shiftsRouter);
 app.use('/api/chat',   chatRouter);
+app.use('/api/media-files', mediaRouter);
+
 
 // Health check
 app.get('/', (req, res) => {

@@ -1,73 +1,71 @@
 /* Sidebar.css */
 
-
-/* Sidebar.css */
-
 .sidebar {
-    width: 250px;
-    height: 100vh; /* Full height of viewport */
-    background-color: #990000; /* Rutgers red */
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    box-sizing: border-box;
-    position: fixed; /* Fixes sidebar position */
-    top: 0;
-    left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #990000;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
-
 
 .main-content {
-    margin-left: 250px; /* Aligns main content next to fixed sidebar */
-    width: calc(100vw - 250px); /* Ensures main content fills remaining space */
+  margin-left: 250px;
+  width: calc(100vw - 250px);
 }
 
-
 .sidebar-title {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 nav {
-    flex-grow: 1; /* Pushes the nav links to take available space */
+  flex-grow: 1;
 }
 
 nav a {
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    text-decoration: none;
-    font-size: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  text-decoration: none;
+  font-size: 16px;
 }
 
 nav a:hover {
-    color: #e6e6e6;
+  color: #e6e6e6;
 }
 
-
-
-/* src/components/Sidebar.css */
-
+/* Your existing logout styling */
 .logout-button {
-    margin-top: auto;
-    padding: 10px;
-    width: 90%;
-    background-color: #cc0033;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    text-align: center;
+  margin-top: auto;
+  padding: 10px;
+  width: 90%;
+  background-color: #cc0033;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  text-align: center;
 }
-
 .logout-button:hover {
-    background-color: #a60029;
+  background-color: #a60029;
 }
 
+/* -------------------------
+   v6 NavLink active highlight
+   ------------------------- */
+.active-link {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}

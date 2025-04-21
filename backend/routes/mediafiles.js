@@ -1,4 +1,3 @@
-// routes/mediafiles.js
 const express = require('express');
 const { Storage } = require('@google-cloud/storage');
 const path = require('path');
@@ -13,38 +12,38 @@ const bucketName = 'sakai_files';
 const bucket = storage.bucket(bucketName);
 
 async function listFilesAndFolders(prefix = '') {
-  try {
-    const [files] = await bucket.getFiles({ prefix, delimiter: '/' });
-    const items = { files: [], folders: {} };
+  // Fetch files & “directories” under this prefix
+  const [files] = await bucket.getFiles({ prefix, delimiter: '/' });
+  const items = { files: [], folders: {} };
 
-    items.files = files
-      .filter(file => !file.name.endsWith('/'))
-      .map(file => ({
-        name: file.name.split('/').pop(),
-        url: `https://storage.googleapis.com/${bucketName}/${file.name}`,
-      }));
+  // 1) Files at this level
+  items.files = files
+    .filter(f => !f.name.endsWith('/'))
+    .map(f => ({
+      name: f.name.split('/').pop(),
+      url: `https://storage.googleapis.com/${bucketName}/${f.name}`,
+    }));
 
-    const [folderFiles, , apiResponse] = await bucket.getFiles({ prefix, delimiter: '/' });
-    const folderPrefixes = apiResponse.prefixes || [];
-
-    for (const folderPrefix of folderPrefixes) {
-      const folderName = folderPrefix.slice(prefix.length).replace(/\/$/, '');
-      items.folders[folderName] = await listFilesAndFolders(folderPrefix);
-    }
-
-    return items;
-  } catch (error) {
-    console.error('Error fetching media files:', error);
-    throw new Error('Error fetching files and folders');
+  // 2) Sub‑folders at this level
+  const [ , , apiResponse] = await bucket.getFiles({ prefix, delimiter: '/' });
+  const prefixes = apiResponse.prefixes || [];
+  for (const folderPrefix of prefixes) {
+    const folderName = folderPrefix.slice(prefix.length).replace(/\/$/, '');
+    // Recursively list that folder’s contents
+    items.folders[folderName] = await listFilesAndFolders(folderPrefix);
   }
+
+  return items;
 }
 
 router.get('/', async (req, res) => {
   try {
-    const data = await listFilesAndFolders('Sakai Files/');
-    res.json(data);
+    // list everything at the bucket root
+    const data = await listFilesAndFolders('');
+    return res.json(data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch media files' });
+    console.error('Error fetching media files:', error);
+    return res.status(500).json({ error: 'Failed to fetch media files' });
   }
 });
 

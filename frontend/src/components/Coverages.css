@@ -1,0 +1,56 @@
+.coverages-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+  
+  .coverages-container h1 {
+    text-align: center;
+    color: #c62828;
+    margin-bottom: 1.5rem;
+  }
+  
+  .coverages-container h2 {
+    margin-top: 1.5rem;
+    color: #444;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+  
+  .coverages-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .coverages-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.75rem 0;
+  }
+  
+  .coverages-list span {
+    max-width: 70%;
+  }
+  
+  .coverages-list button {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .coverages-list button:hover {
+    background: #135a9f;
+  }
+  
+  .coverages-list em {
+    color: #888;
+    font-style: italic;
+  }
+  

@@ -10,6 +10,7 @@ import {
 
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
+import Coverages from './pages/Coverages';
 import Calendar from './pages/Calendar';
 import Notifications from './pages/Notifications';
 import MediaFiles from './pages/MediaFiles';
@@ -50,6 +51,14 @@ function AppContent() {
             element={
               <AuthenticatedRoute>
                 <Dashboard />
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/coverages"
+            element={
+              <AuthenticatedRoute>
+                <Coverages />
               </AuthenticatedRoute>
             }
           />

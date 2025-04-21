@@ -24,10 +24,15 @@ const MediaFiles = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch('http://localhost:5500/api/media-files');
+            // const response = await fetch('http://localhost:5500/api/media-files');
+            const response = await fetch('http://localhost:50001/api/media-files');
             console.log('Response status:', response.status); // Debugging: Log response status
             const result = await response.json();
-            console.log('Fetched data:', result); // Debugging: Log the result
+            // console.log('Fetched data:', result); // Debugging: Log the result
+            console.log('📦 Fetched data:', JSON.stringify(result, null, 2));
+            console.log('✅ Has folders:', result.folders && Object.keys(result.folders).length > 0);
+            console.log('✅ Has files:', result.files && result.files.length > 0);
+
             setData(result);
             setLoading(false);
           } catch (error) {
