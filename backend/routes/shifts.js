@@ -1,5 +1,6 @@
+// routes/shifts.js
 const express = require('express');
-const db      = require('../db');
+const db = require('../db');
 const authenticateToken = require('../middleware/auth');
 const { updateShiftInSheetDynamic } = require('../sheetsApi');
 
@@ -29,15 +30,9 @@ router.get('/me', authenticateToken, (req, res) => {
 // POST a new shift (testing)
 router.post('/', (req, res) => {
   const {
-    shift_type,
-    date,
-    start_time,
-    end_time,
-    role,
-    officer_name,
-    sheet_name,
-    sheet_row,
-    sheet_col
+    shift_type, date, start_time, end_time,
+    role, officer_name,
+    sheet_name, sheet_row, sheet_col
   } = req.body;
 
   const sql = `
@@ -49,16 +44,9 @@ router.post('/', (req, res) => {
   `;
   db.query(
     sql,
-    [
-      shift_type,
-      date,
-      start_time,
-      end_time,
-      role,
-      officer_name,
-      sheet_name,
-      sheet_row,
-      sheet_col
+    [ shift_type, date, start_time, end_time,
+      role, officer_name,
+      sheet_name, sheet_row, sheet_col
     ],
     (err, result) => {
       if (err) return res.status(500).send('Server error');
@@ -67,7 +55,7 @@ router.post('/', (req, res) => {
   );
 });
 
-// GET all pending coverage requests (any officer can accept)
+// GET all pending coverage requests
 router.get(
   '/coverage-requests/pending',
   authenticateToken,
@@ -94,7 +82,7 @@ router.get(
   }
 );
 
-// POST coverage‑request
+// POST coverage‑request (officer asks someone else to cover their own shift)
 router.post(
   '/coverage-request',
   authenticateToken,
@@ -135,12 +123,24 @@ router.post(
 
             const queuePosition = countResult[0].cnt + 1;
 
-            // 3) Insert into coverage_requests
+            // 3) Insert into coverage_requests, now including all required columns
+            const insertSql = `
+              INSERT INTO coverage_requests
+                (shift_id, requester_officer, queue_position,
+                 shift_type, shift_date, shift_start, shift_end)
+              VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
             db.query(
-              `INSERT INTO coverage_requests
-                 (shift_id, requester_officer, queue_position)
-               VALUES (?, ?, ?)`,
-              [shiftId, requester_officer, queuePosition],
+              insertSql,
+              [
+                shiftId,
+                requester_officer,
+                queuePosition,
+                shiftRow.shift_type,
+                shiftRow.date,
+                shiftRow.start_time,
+                shiftRow.end_time
+              ],
               (insertErr, insertResult) => {
                 if (insertErr) {
                   console.error('Error inserting coverage request:', insertErr);
@@ -157,9 +157,7 @@ router.post(
                       return res.status(500).json({ error: 'Server error' });
                     }
 
-                    console.log(
-                      `[coverage-request] shift ${shiftId} marked requested`
-                    );
+                    console.log(`[coverage-request] shift ${shiftId} marked requested`);
                     return res.json({
                       message: 'Coverage request submitted',
                       requestId: insertResult.insertId,
@@ -176,89 +174,110 @@ router.post(
   }
 );
 
-// POST coverage‑accept (dynamic sheet update)
-router.post('/coverage-accept', authenticateToken, (req, res) => {
-  const { shiftId, acceptingOfficer } = req.body;
+// POST coverage‑accept (any officer accepts the earliest pending request)
+router.post(
+  '/coverage-accept',
+  authenticateToken,
+  (req, res) => {
+    const { shiftId } = req.body;
+    const acceptingOfficer = req.user.username;
 
-  // 1) get the earliest pending request
-  const topRequestQuery = `
-    SELECT * FROM coverage_requests
-    WHERE shift_id = ? AND status = 'pending'
-    ORDER BY requested_at ASC, queue_position ASC
-    LIMIT 1
-  `;
-  db.query(topRequestQuery, [shiftId], (err, topRows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (!topRows.length) return res.status(409).json({ error: 'No pending requests' });
-    const topReq = topRows[0];
-
-    // 2) conflict check
-    const conflictQuery = `
-      SELECT id FROM shifts
-      WHERE officer_name = ?
-        AND date = (SELECT date FROM shifts WHERE id = ?)
-        AND NOT (
-          end_time <= (SELECT start_time FROM shifts WHERE id = ?)
-          OR start_time >= (SELECT end_time   FROM shifts WHERE id = ?)
-        )
+    // 1) Get the earliest pending request
+    const topRequestQuery = `
+      SELECT * FROM coverage_requests
+      WHERE shift_id = ? AND status = 'pending'
+      ORDER BY requested_at ASC, queue_position ASC
+      LIMIT 1
     `;
-    db.query(
-      conflictQuery,
-      [acceptingOfficer, shiftId, shiftId, shiftId],
-      (cErr, conflicts) => {
-        if (cErr) return res.status(500).json({ error: cErr.message });
-        if (conflicts.length) {
-          return res.status(409).json({ error: 'Overlapping shift', conflict: conflicts[0] });
-        }
+    db.query(topRequestQuery, [shiftId], (err, topRows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      if (!topRows.length) {
+        return res.status(409).json({ error: 'No pending requests' });
+      }
+      const topReq = topRows[0];
 
-        // 3) assign the shift
-        const assignSql = `
-          UPDATE shifts
-          SET officer_name = ?, status = 'assigned'
-          WHERE id = ? AND status = 'requested'
-        `;
-        db.query(assignSql, [acceptingOfficer, shiftId], (uErr, uRes) => {
-          if (uErr) return res.status(500).json({ error: uErr.message });
-          if (!uRes.affectedRows) {
-            return res.status(409).json({ error: 'Shift no longer available' });
+      // 2) Conflict check (returns the full blocking shift)
+      const conflictQuery = `
+        SELECT
+          id,
+          shift_type,
+          date       AS shift_date,
+          start_time AS shift_start,
+          end_time   AS shift_end
+        FROM shifts
+        WHERE officer_name = ?
+          AND date = (SELECT date FROM shifts WHERE id = ?)
+          AND NOT (
+            end_time <= (SELECT start_time FROM shifts WHERE id = ?)
+            OR start_time >= (SELECT end_time   FROM shifts WHERE id = ?)
+          )
+      `;
+      db.query(
+        conflictQuery,
+        [acceptingOfficer, shiftId, shiftId, shiftId],
+        (cErr, conflicts) => {
+          if (cErr) return res.status(500).json({ error: cErr.message });
+          if (conflicts.length) {
+            // return conflict details
+            return res
+              .status(409)
+              .json({ error: 'Overlapping shift', conflict: conflicts[0] });
           }
 
-          // 4) mark the coverage request accepted
-          db.query(
-            'UPDATE coverage_requests SET status = "accepted" WHERE id = ?',
-            [topReq.id],
-            cvErr => {
-              if (cvErr) return res.status(500).json({ error: cvErr.message });
-
-              // 5) fetch the shift’s date, start_time & sheet_name
-              db.query(
-                'SELECT date, start_time, sheet_name FROM shifts WHERE id = ?',
-                [shiftId],
-                async (sErr, sRows) => {
-                  if (sErr) return res.status(500).json({ error: sErr.message });
-                  const { date, start_time, sheet_name } = sRows[0];
-
-                  // 6) dynamic Sheets update
-                  try {
-                    await updateShiftInSheetDynamic(
-                      sheet_name,
-                      date,
-                      start_time,
-                      acceptingOfficer
-                    );
-                    return res.json({ message: 'Coverage accepted + sheet updated' });
-                  } catch (sheetErr) {
-                    console.error('Sheets API error:', sheetErr);
-                    return res.status(500).json({ error: sheetErr.message });
-                  }
-                }
-              );
+          // 3) Assign the shift
+          const assignSql = `
+            UPDATE shifts
+            SET officer_name = ?, status = 'assigned'
+            WHERE id = ? AND status = 'requested'
+          `;
+          db.query(assignSql, [acceptingOfficer, shiftId], (uErr, uRes) => {
+            if (uErr) return res.status(500).json({ error: uErr.message });
+            if (!uRes.affectedRows) {
+              return res
+                .status(409)
+                .json({ error: 'Shift no longer available' });
             }
-          );
-        });
-      }
-    );
-  });
-});
+
+            // 4) Mark the coverage request accepted (and record who accepted)
+            db.query(
+              'UPDATE coverage_requests SET status = "accepted", accepting_officer = ? WHERE id = ?',
+              [acceptingOfficer, topReq.id],
+              cvErr => {
+                if (cvErr) return res.status(500).json({ error: cvErr.message });
+
+                // 5) Fetch sheet info for dynamic update
+                db.query(
+                  'SELECT date, start_time, sheet_name FROM shifts WHERE id = ?',
+                  [shiftId],
+                  async (sErr, sRows) => {
+                    if (sErr) return res.status(500).json({ error: sErr.message });
+
+                    const { date, start_time, sheet_name } = sRows[0];
+
+                    // 6) Push update to Google Sheets
+                    try {
+                      await updateShiftInSheetDynamic(
+                        sheet_name,
+                        date,
+                        start_time,
+                        acceptingOfficer
+                      );
+                      return res.json({
+                        message: 'Coverage accepted + sheet updated'
+                      });
+                    } catch (sheetErr) {
+                      console.error('Sheets API error:', sheetErr);
+                      return res.status(500).json({ error: sheetErr.message });
+                    }
+                  }
+                );
+              }
+            );
+          });
+        }
+      );
+    });
+  }
+);
 
 module.exports = router;

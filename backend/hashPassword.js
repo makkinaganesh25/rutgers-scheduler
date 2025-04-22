@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const plainPassword = 'testpassword'; // The password you want to use for the test user
+const plainPassword = 'welcomecso'; // The password you want to use for the test user
 bcrypt.hash(plainPassword, 10, (err, hash) => {
     if (err) {
         console.error('Error hashing password:', err);

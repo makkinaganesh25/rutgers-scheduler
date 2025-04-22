@@ -7,42 +7,51 @@ import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
 import './Dashboard.css';
 
-// Inline StatsCards component
 function StatsCards({ events }) {
-  // helper to sum hours in a period
+  // Sum up the total hours for events passing filterFn.
   const totalHours = (filterFn) =>
     events.reduce((sum, ev) => {
-      // const [date, time] = ev.start.split('T');
       const start = new Date(ev.start);
-      const end   = new Date(ev.end);
-      return filterFn(start) ? sum + (end - start) / (1000 * 60 * 60) : sum;
+      let end   = new Date(ev.end);
+
+      // If end <= start, assume it rolled past midnight → add 24h
+      if (end <= start) {
+        end = new Date(end.getTime() + 24 * 60 * 60 * 1000);
+      }
+
+      const hours = (end - start) / (1000 * 60 * 60);
+      return filterFn(start) ? sum + hours : sum;
     }, 0);
 
   const now = new Date();
-  const isWeek = d => {
-    const diff = (d - new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay()));
-    return diff >= 0 && diff < 7 * 24*60*60*1000;
-  };
-  const isMonth = d => d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-  const isYear = d => d.getFullYear() === now.getFullYear();
 
-  const weekH = Math.round(totalHours(isWeek));
+  // Helpers for filtering by week / month / year:
+  const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+  const isWeek  = (d) => d >= startOfWeek && d < startOfWeek.getTime() + 7 * 24 * 60 * 60 * 1000;
+  const isMonth = (d) => d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  const isYear  = (d) => d.getFullYear() === now.getFullYear();
+
+  const weekH  = Math.round(totalHours(isWeek));
   const monthH = Math.round(totalHours(isMonth));
-  const yearH = Math.round(totalHours(isYear));
+  const yearH  = Math.round(totalHours(isYear));
 
-  // next shift
+  // Next upcoming shift card
   const upcoming = events
-    .map(ev => ({ ...ev, date: new Date(ev.start) }))
-    .filter(ev => ev.date > now)
-    .sort((a, b) => a.date - b.date)[0];
+    .map(ev => ({ ...ev, dateObj: new Date(ev.start) }))
+    .filter(ev => ev.dateObj > now)
+    .sort((a, b) => a.dateObj - b.dateObj)[0];
 
   return (
     <div className="stats-cards">
       <div className="card">
         <h4>Next Shift</h4>
         {upcoming
-          ? <p>{upcoming.title}<br/>{upcoming.start.slice(11,16)}–{upcoming.end.slice(11,16)}</p>
-          : <p>None</p>}
+          ? <p>
+              {upcoming.title}<br/>
+              {upcoming.start.slice(11,16)}–{upcoming.end.slice(11,16)}
+            </p>
+          : <p>None</p>
+        }
       </div>
       <div className="card">
         <h4>This Week</h4>
@@ -75,9 +84,10 @@ export default function Dashboard() {
     })
     .then(resp => {
       const evs = resp.data.map(s => {
+        // Build ISO datetimes for FullCalendar
         const date = s.date.slice(0,10);
         return {
-          id: s.id,
+          id:    s.id,
           title: s.shift_type,
           start: `${date}T${s.start_time}`,
           end:   `${date}T${s.end_time}`,
@@ -109,7 +119,6 @@ export default function Dashboard() {
         ? <div className="loading-modern">Loading...</div>
         : (
           <>
-            {/* Stats widget below title */}
             <StatsCards events={events} />
 
             <div className="calendar-wrap-modern">
@@ -128,7 +137,7 @@ export default function Dashboard() {
                 scrollTime={scrollTime}
                 slotDuration="01:00:00"
                 allDaySlot={false}
-                nowIndicator={true}
+                nowIndicator
                 height="80vh"
                 eventContent={renderEventContent}
                 className="fc-modern"

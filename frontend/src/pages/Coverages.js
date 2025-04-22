@@ -1,9 +1,9 @@
+// src/pages/Coverages.js
 import React, { useState, useEffect, useContext } from 'react';
 import './Coverages.css';
 import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
 
-// Hard‑code the exact address your Express server is on:
 const API_BASE = 'http://localhost:50001/api/shifts';
 
 export default function Coverages() {
@@ -13,6 +13,7 @@ export default function Coverages() {
   const [pending, setPending]                 = useState([]);
   const [loadingMyShifts, setLoadingMyShifts] = useState(true);
   const [loadingPending, setLoadingPending]   = useState(true);
+  const [conflictMsg, setConflictMsg]         = useState('');
 
   const parseLocal = (d, t) => {
     const [y, m, day] = d.split('T')[0].split('-').map(Number);
@@ -20,74 +21,74 @@ export default function Coverages() {
     return new Date(y, m - 1, day, h, mi);
   };
 
-  // 1) Load this user’s shifts
-  const loadMyShifts = async () => {
+  async function loadMyShifts() {
     setLoadingMyShifts(true);
     try {
       const token = localStorage.getItem('token');
-      const resp  = await axios.get(
-        `${API_BASE}/me`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setMyShifts(resp.data);
-    } catch (err) {
-      console.error('loadMyShifts error', err);
+      const { data } = await axios.get(`${API_BASE}/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMyShifts(data);
+    } catch {
       setMyShifts([]);
     } finally {
       setLoadingMyShifts(false);
     }
-  };
+  }
 
-  // 2) Load pending requests
-  const loadPending = async () => {
+  async function loadPending() {
     setLoadingPending(true);
     try {
       const token = localStorage.getItem('token');
-      const resp  = await axios.get(
-        `${API_BASE}/coverage-requests/pending`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setPending(resp.data);
-    } catch (err) {
-      console.error('loadPending error', err);
+      const { data } = await axios.get(`${API_BASE}/coverage-requests/pending`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setPending(data);
+    } catch {
       setPending([]);
     } finally {
       setLoadingPending(false);
     }
-  };
+  }
 
-  // 3) Request coverage
-  const requestCoverage = async (shiftId) => {
+  async function requestCoverage(shiftId) {
+    setConflictMsg('');
     try {
       const token = localStorage.getItem('token');
-      const resp  = await axios.post(
+      await axios.post(
         `${API_BASE}/coverage-request`,
-        { shiftId }, 
+        { shiftId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log('requestCoverage success', resp.data);
-      await loadMyShifts();
-    } catch (err) {
-      console.error('requestCoverage failed', err.response?.data || err);
+      await Promise.all([loadMyShifts(), loadPending()]);
+    } catch (e) {
+      console.error(e.response?.data || e);
     }
-  };
+  }
 
-  // 4) Accept coverage
-  const acceptCoverage = async (shiftId) => {
+  async function acceptCoverage(shiftId) {
+    setConflictMsg('');
     try {
       const token = localStorage.getItem('token');
-      const resp  = await axios.post(
+      await axios.post(
         `${API_BASE}/coverage-accept`,
-        { shiftId, acceptingOfficer: user.username },
+        { shiftId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log('acceptCoverage success', resp.data);
-      setPending(p => p.filter(r => r.shift_id !== shiftId));
-      await loadMyShifts();
+      await Promise.all([loadMyShifts(), loadPending()]);
     } catch (err) {
-      console.error('acceptCoverage failed', err.response?.data || err);
+      const data = err.response?.data;
+      if (err.response?.status === 409 && data.error === 'Overlapping shift') {
+        const c = data.conflict;
+        setConflictMsg(
+          `⚠️ You already have a “${c.shift_type}” shift on ${c.shift_date} ` +
+          `from ${c.shift_start} to ${c.shift_end}.`
+        );
+      } else {
+        console.error(data || err);
+      }
     }
-  };
+  }
 
   useEffect(() => {
     loadMyShifts();
@@ -100,6 +101,12 @@ export default function Coverages() {
   return (
     <div className="coverages-container">
       <h1>Coverage Management</h1>
+
+      {conflictMsg && (
+        <div className="error-message" style={{ color: 'crimson', marginBottom: '1rem' }}>
+          {conflictMsg}
+        </div>
+      )}
 
       <section>
         <h2>My Upcoming Shifts</h2>
