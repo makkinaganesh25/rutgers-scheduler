@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import ChatWindow from './chatwindow';
+// File: src/components/Chatbot.js
+import React, { useState } from 'react';
+import ChatWindow from './ChatWindow';
 import './Chatbot.css';
 
 export default function Chatbot() {
@@ -7,16 +8,13 @@ export default function Chatbot() {
 
   return (
     <div className="chatbot-container">
-      {open && (
-        <div className="chat-window-wrapper">
-          <ChatWindow />
-        </div>
-      )}
+      {open && <ChatWindow onClose={() => setOpen(false)} />}
       <button
         className="chat-toggle-btn"
         onClick={() => setOpen(o => !o)}
+        aria-label={open ? 'Close chat' : 'Open chat'}
       >
-        {open ? '✕' : '💬'}
+        {open ? '×' : '💬'}
       </button>
     </div>
   );
