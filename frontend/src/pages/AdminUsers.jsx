@@ -235,7 +235,7 @@
 //   );
 // }
 
-//-------------------------------------------------------------------------------------
+// src/pages/AdminUsers.jsx
 import React, { useState, useEffect } from 'react';
 import {
   getAdminUsers,
@@ -271,6 +271,7 @@ export default function AdminUsers() {
       setLoading(false);
     }
   };
+
   // we deliberately omit `load` here; it’s stable enough for our use
   /* eslint-disable-next-line react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -299,12 +300,8 @@ export default function AdminUsers() {
       } else {
         await createAdminUser(form);
       }
-
-      // reload admin-users table
       load();
-      // notify the hierarchy to re-fetch
       window.dispatchEvent(new Event('hierarchyUpdated'));
-
       cancelEdit();
     } catch (err) {
       alert(err.response?.data?.error || 'Save failed');
@@ -328,8 +325,6 @@ export default function AdminUsers() {
   const onDelete = async id => {
     if (!window.confirm('Delete this user?')) return;
     await deleteAdminUser(id);
-
-    // reload admin-users and hierarchy
     load();
     window.dispatchEvent(new Event('hierarchyUpdated'));
   };
@@ -503,5 +498,5 @@ export default function AdminUsers() {
         </table>
       )}
     </div>
-  );
+);
 }
