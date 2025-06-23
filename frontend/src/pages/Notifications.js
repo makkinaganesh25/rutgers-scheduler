@@ -1,13 +1,23 @@
-// src/pages/Notifications.js
 import React from 'react';
+import { useNotifications } from '../contexts/NotificationsContext';
+import './Notifications.css';
 
-function Notifications() {
-    return (
-        <div>
-            <h1>Notifications</h1>
-            <p>All important messages and coverage requests will appear here.</p>
-        </div>
-    );
+export default function Notifications() {
+  const { notifications } = useNotifications();
+
+  return (
+    <div className="notifications-container">
+      <h1>Notifications</h1>
+      {notifications.length === 0 ? (
+        <p>No notifications yet.</p>
+      ) : (
+        notifications.map(n => (
+          <div className="notification-item" key={n.id}>
+            <p className="notification-title">{n.title}</p>
+            <p className="notification-body">{n.body}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
 }
-
-export default Notifications;

@@ -1,0 +1,29 @@
+.notifications-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .notifications-container h1 {
+    margin-bottom: 1rem;
+    color: #c00;
+    text-align: center;
+  }
+  .notification-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  .notification-item:last-child {
+    border-bottom: none;
+  }
+  .notification-title {
+    margin: 0;
+    font-weight: bold;
+  }
+  .notification-body {
+    margin: 0.25rem 0 0;
+    color: #333;
+  }
+  

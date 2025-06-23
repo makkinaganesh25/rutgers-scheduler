@@ -1,0 +1,71 @@
+/* src/pages/EventSlots.css */
+.event-slots-wrapper {
+    max-width: 900px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  .event-header {
+    background: #c00;
+    padding: 24px;
+    text-align: center;
+  }
+  .event-header h1 {
+    margin: 0 0 8px;
+    font-size: 1.8rem;
+    color: #fff;
+  }
+  .desc {
+    margin: 8px 0 12px;
+    color: #f5f5f5;
+  }
+  .meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-size: 0.95rem;
+    color: #f0f0f0;
+  }
+  .slots-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .slots-table thead {
+    background: #f5f5f5;
+  }
+  .slots-table th {
+    color: #c00;
+    padding: 16px;
+    text-align: left;
+    font-weight: bold;
+  }
+  .slots-table td {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .slots-table tr:nth-child(even) td {
+    background: #fafafa;
+  }
+  .slots-table tr:hover td {
+    background: #f0f0f0;
+  }
+  .btn {
+    background: #c00;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .btn:hover:not(.filled) {
+    background: #900;
+  }
+  .btn.filled {
+    background: #ccc;
+    color: #666;
+    cursor: default;
+  }
+  

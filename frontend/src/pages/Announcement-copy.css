@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+  --brand:  #c62828;
+  --bg:     #f4f5f7;
+  --fg:     #2e2e2e;
+  --light:  #ffffff;
+  --muted:  #757575;
+  --radius: 6px;
+  --gap:    1rem;
+  --shadow: rgba(0,0,0,0.05);
+  --border: #ddd;
+}
+
+.announcements-page {
+  font-family: 'Inter', sans-serif;
+  padding: var(--gap) 2rem;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+h1 {
+  color: var(--brand);
+  text-align: center;
+  margin-bottom: var(--gap);
+}
+
+.ann-filter {
+  margin-bottom: var(--gap);
+  text-align: center;
+}
+
+.ann-table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--light);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.ann-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ann-table th,
+.ann-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.ann-table th {
+  position: sticky;
+  top: 0;
+  background: var(--light);
+  color: var(--brand);
+}
+
+.ann-row:hover {
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+.ann-preview {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  margin-right: 0.3rem;
+  color: var(--muted);
+  vertical-align: middle;
+}
+
+.ann-star-cell {
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 4rem;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: var(--light);
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem; right: 0.5rem;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.modal-meta {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.modal-body p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.modal-files {
+  margin-top: 1.5rem;
+}
+
+.modal-files h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-files ul {
+  list-style: none;
+  padding: 0;
+}
+
+.modal-files li + li {
+  margin-top: 0.25rem;
+}
+
+.modal-files a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.modal-files a:hover {
+  text-decoration: underline;
+}

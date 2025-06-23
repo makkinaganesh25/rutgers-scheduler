@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg-page:         #f0f2f5;
+  --bg-card:         rgba(255, 255, 255, 0.8);
+  --bg-card-blur:    10px;
+  --border-card:     rgba(255,255,255,0.6);
+  --accent:          #e53935;
+  --accent-dark:     #c62828;
+  --text-base:       #2c3e50;
+  --text-muted:      #7f8c8d;
+  --input-bg:        #fff;
+  --input-border:    #dfe3e8;
+  --radius:          8px;
+  --shadow-card:     0 8px 24px rgba(0,0,0,0.08);
+  --transition:      0.2s ease-in-out;
+}
+
+body {
+  background: var(--bg-page);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-base);
+}
+
+.cso-mandate-page {
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--bg-card-blur));
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2rem 2.5rem;
+}
+
+h2 {
+  margin: 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.error, .success {
+  border-radius: var(--radius);
+  padding: 1rem;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  transition: background var(--transition);
+}
+.error {
+  background: #fdecea;
+  color: var(--accent-dark);
+}
+.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.cso-mandate-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem 2rem;
+}
+@media (min-width: 640px) {
+  .cso-mandate-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.cso-mandate-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-base);
+}
+
+.cso-mandate-form label + label {
+  margin-top: 0.5rem;
+}
+
+/* Divider between scenarios */
+.section-divider {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--input-border);
+  margin: 1rem 0;
+}
+
+.cso-mandate-form input,
+.cso-mandate-form select,
+.cso-mandate-form textarea {
+  margin-top: 0.4rem;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.cso-mandate-form input:focus,
+.cso-mandate-form select:focus,
+.cso-mandate-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(229,57,53,0.15);
+  outline: none;
+}
+
+/* Custom select arrow */
+.cso-mandate-form select {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='12' height='8' xmlns='http://www.w3.org/2000/svg'><path d='M1 1l5 5 5-5' stroke='%237f8c8d' stroke-width='2' fill='none'/></svg>");
+  padding-right: 2.5rem;
+}
+
+.cso-mandate-form small {
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* Primary button as a gradient */
+.cso-mandate-form button {
+  grid-column: 1 / -1;
+  justify-self: end;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+}
+.cso-mandate-form button:hover {
+  opacity: 0.95;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 640px) {
+  .cso-mandate-form button {
+    grid-column: 2 / 3;
+  }
+}

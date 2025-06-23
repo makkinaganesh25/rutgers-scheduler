@@ -1,0 +1,21 @@
+{
+    "Lindemeyer": ["Shehat", "Diaz", "Daga"],          
+    "Shehat": ["Cuomo"],                                
+    "Diaz": ["Via Da Costa", "Balza"],                         
+    "Daga": ["Ton"],                                    
+  
+    "Cuomo": ["Maldonado","Ali","Mulvaney"],         
+    "Via Da Costa": ["Azer","Padsala"],                        
+    "Balza": ["Varalakshmi Narla","Asturias"],                      
+    "Ton": ["Schoellkopff"],                            
+  
+    "Maldonado": ["Simmons","Rozett","Ramos","Ruske","Patel_M","Chen_A","Brown"],
+    "Ali":     ["Kim","Larrea","Bapat","Roy","Nydick","Gundlapalli","Mora","Carver","Agarwal","Daiya"],
+    "Mulvaney":   ["Mai","Hatley","Van Auken","Minkiewicz","Khode"],
+    "Azer":       ["Makkina","Yousef","Nagavelli_V","Adani","Dillon","Bhattacharya","Piechowski"],
+    "Padsala":    ["Chen_J","Erdal","Amoako","Butler","Jawad","Montano"],
+    "Varalakshmi Narla":      ["Espinosa","Sakariya","Ewell","Tarver","Gamboa‑Diaz","Martone","Nair"],
+    "Asturias":   ["Baek","Small","Saravu","Mesina","Yoskowitz","Patel_R","Monegro","Okeke"],
+    "Schoellkopff":["Jones","Vasantha","Nagavelli_T","Berger","Saintyl","Koli","Quirola"]
+  }
+  

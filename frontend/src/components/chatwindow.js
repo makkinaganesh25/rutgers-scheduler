@@ -1,7 +1,8 @@
+// src/components/ChatWindow.js
 import React, { useState, useEffect, useRef } from 'react';
+import api from '../api';             // ← import the shared axios
 import './ChatWindow.css';
 
-// File: src/components/ChatWindow.js
 export default function ChatWindow({ onClose }) {
   const [messages, setMessages] = useState([
     { from: 'bot', type: 'text', text: '👋 Hi there! Ask me about your CSO duties or officer info.' }
@@ -10,7 +11,6 @@ export default function ChatWindow({ onClose }) {
   const [loading, setLoading] = useState(false);
   const endRef = useRef();
 
-  // auto-scroll to bottom
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
@@ -23,23 +23,15 @@ export default function ChatWindow({ onClose }) {
     setInput('');
 
     try {
-      const res = await fetch('http://localhost:50001/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: q }),
-      });
-      const payload = await res.json();
+      // ← use api.post instead of fetch
+      const res = await api.post('/api/chat', { query: q });
+      const payload = res.data;
 
-      // format response
       if (payload.type === 'officer') {
         const { name, rank, email, phone } = payload.data;
         setMessages(m => [
           ...m,
-          {
-            from: 'bot',
-            type: 'officer',
-            data: { name, rank, email, phone }
-          }
+          { from: 'bot', type: 'officer', data: { name, rank, email, phone } }
         ]);
       } else {
         setMessages(m => [
@@ -47,9 +39,8 @@ export default function ChatWindow({ onClose }) {
           { from: 'bot', type: 'text', text: payload.text }
         ]);
       }
-
     } catch (err) {
-      console.error(err);
+      console.error('Chatbot error:', err);
       setMessages(m => [
         ...m,
         { from: 'bot', type: 'text', text: 'Sorry—something went wrong.' }

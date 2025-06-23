@@ -1,4 +1,4 @@
-// File: src/components/Chatbot.js
+// src/components/Chatbot.js
 import React, { useState } from 'react';
 import ChatWindow from './ChatWindow';
 import './Chatbot.css';

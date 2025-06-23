@@ -1,0 +1,145 @@
+:root {
+    --bg-light:  #f8f9fb;
+    --bg-white:  #ffffff;
+    --text-main: #222;
+    --text-muted:#555;
+    --accent:    #c62828;
+  }
+  
+  .overview-page {
+    display: flex;
+    height: 100%;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  /* ----- SIDEBAR AREA ----- */
+  .overview-aside {
+    width: 280px;
+    background: var(--bg-light);
+    border-right: 1px solid #e0e0e0;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .overview-search {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  
+  /* ----- MAIN DASHBOARD ----- */
+  .overview-main {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: #f0f2f5;
+  }
+  
+  .access-denied {
+    margin: 2rem;
+    padding: 1.5rem;
+    background: #ffecec;
+    border: 1px solid #f5c2c2;
+    border-radius: 8px;
+    color: #a33;
+    text-align: center;
+  }
+  
+  .overview-title {
+    margin-bottom: 1rem;
+    color: var(--accent);
+    font-size: 1.5rem;
+  }
+  
+  /* ----- FILTER CONTROLS ----- */
+  .overview-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .overview-controls select {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: var(--bg-white);
+    color: var(--text-main);
+  }
+  
+  /* ----- STATS CARDS ----- */
+  .overview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .overview-card {
+    background: var(--bg-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .overview-card:hover {
+    transform: translateY(-3px);
+  }
+  .overview-card h4 {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
+  .overview-card .value {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-main);
+  }
+  
+  /* ----- TEAM TABLE ----- */
+  .team-dashboard {
+    margin-bottom: 2rem;
+  }
+  .team-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .team-table th,
+  .team-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+  .team-table th {
+    background: #fafafa;
+    border-bottom: 2px solid #eee;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .team-table tbody tr:hover {
+    background: #f5f5f5;
+  }
+  
+  /* ----- CALENDAR ----- */
+  .fc .fc-toolbar-chunk button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  .fc .fc-toolbar-chunk button:hover {
+    background: darken(var(--accent),10%);
+  }
+  .overview-calendar {
+    background: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 0.5rem;
+  }
+  

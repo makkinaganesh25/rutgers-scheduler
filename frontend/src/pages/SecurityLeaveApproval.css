@@ -1,0 +1,65 @@
+/* src/pages/SecurityLeaveApproval.css */
+
+.approval-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .approval-page h2 {
+    color: #b71c1c;
+    margin-bottom: 1rem;
+  }
+  
+  .approval-error {
+    color: #c62828;
+    background: #ffebee;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .approval-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .approval-table th,
+  .approval-table td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+  }
+  
+  .approval-table th {
+    background: #f5f5f5;
+    text-align: left;
+  }
+  
+  .approval-table tr:nth-child(even) {
+    background: #fafafa;
+  }
+  
+  .approval-actions button {
+    margin-right: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .approval-actions button:first-of-type {
+    background: #2e7d32;
+    color: #fff;
+  }
+  
+  .approval-actions button:last-of-type {
+    background: #c62828;
+    color: #fff;
+  }
+  
+  .approval-actions button:hover {
+    opacity: 0.9;
+  }
+  

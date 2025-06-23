@@ -1,71 +1,144 @@
-/* Sidebar.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-.sidebar {
-  width: 250px;
-  height: 100vh;
-  background-color: #990000;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
+:root {
+  --sidebar-width: 250px;
+  --transition: 0.25s ease;
+  --radius: 6px;
+  --shadow: rgba(0,0,0,0.2);
 }
 
-.main-content {
-  margin-left: 250px;
-  width: calc(100vw - 250px);
+.sidebar.light {
+  --bg:       #8e1e1e;
+  --fg:       #fff;
+  --hover:    rgba(255,255,255,0.1);
+  --accent:   #db0a22;
+  --muted:    #ddd;
+  --btn-bg:   #db0a22;
+  --btn-hover:#b10b20;
+}
+
+.sidebar.dark {
+  --bg:       #2f2f2f;
+  --fg:       #eee;
+  --hover:    rgba(255,255,255,0.08);
+  --accent:   #ff4757;
+  --muted:    #aaa;
+  --btn-bg:   #ff4757;
+  --btn-hover:#e84118;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  box-shadow: 3px 0 12px var(--shadow);
+  font-family: 'Inter', sans-serif;
+  overflow-y: auto;
+  transition: background var(--transition), color var(--transition);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .sidebar-title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
 }
 
-nav {
-  flex-grow: 1;
+.theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+.theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
 }
 
-nav a {
-  color: white;
+.sidebar-nav {
+  flex: 1;
+}
+
+.sidebar-link {
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  margin: 0.2rem 0;
+  border-radius: var(--radius);
+  color: var(--muted);
   text-decoration: none;
-  font-size: 16px;
+  position: relative;
+  transition: background var(--transition), color var(--transition);
+}
+.sidebar-link svg {
+  transition: transform var(--transition), color var(--transition);
 }
 
-nav a:hover {
-  color: #e6e6e6;
+.sidebar-link:hover {
+  background: var(--hover);
+  color: var(--fg);
+}
+.sidebar-link:hover svg {
+  transform: scale(1.1);
+  color: var(--accent);
 }
 
-/* Your existing logout styling */
-.logout-button {
-  margin-top: auto;
-  padding: 10px;
-  width: 90%;
-  background-color: #cc0033;
-  color: white;
+.sidebar-link.active {
+  background: var(--hover);
+  color: var(--fg);
+}
+.sidebar-link.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--accent);
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+.badge {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0 6px;
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+
+.logout-btn {
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  background: var(--btn-bg);
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius);
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  text-align: center;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: background var(--transition), transform var(--transition);
 }
-.logout-button:hover {
-  background-color: #a60029;
+.logout-btn:hover {
+  background: var(--btn-hover);
+  transform: scale(1.02);
 }
 
-/* -------------------------
-   v6 NavLink active highlight
-   ------------------------- */
-.active-link {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+.main-content {
+  margin-left: var(--sidebar-width);
+  transition: margin-left var(--transition);
 }

@@ -1,63 +1,236 @@
-.coverages-container {
+/* ----------------------------
+   Coverages.css (updated to match sidebar)
+   ---------------------------- */
+
+   :root {
+    /* Sidebar colors */
+    --sidebar-red:    #990000;
+    --sidebar-red-d:  #770000; /* darker for hover */
+    --sidebar-accent: #cc0033;
+  
+    /* Other palette */
+    --brand-blue:      #1976d2;
+    --brand-blue-d:    #115293;
+    --bg-page:         #fafafa;
+    --bg-card:         #ffffff;
+    --text-dark:       #212121;
+    --text-muted:      #555;
+  
+    /* Spacing & shadows */
+    --radius:        8px;
+    --spacing:       1rem;
+    --shadow-sm:     0 2px 6px rgba(0,0,0,0.08);
+    --shadow-md:     0 4px 12px rgba(0,0,0,0.12);
+  }
+  
+  body {
+    background: var(--bg-page);
+    color: var(--text-dark);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  .coverages-container {
     max-width: 900px;
-    margin: 40px auto;
-    background: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    margin: 2rem auto;
+    padding: var(--spacing);
   }
   
   .coverages-container h1 {
     text-align: center;
-    color: #c62828;
+    color: var(--sidebar-red);
+    font-size: 2rem;
     margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .coverages-container h1::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 4px;
+    background: var(--sidebar-red);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
   }
   
-  .coverages-container h2 {
-    margin-top: 1.5rem;
-    color: #444;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 0.5rem;
+  /* Sections styled like sidebar items */
+  .coverages-section {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-top: var(--spacing);
+    overflow: hidden;
+  }
+  .coverages-section h2 {
+    background: var(--sidebar-red);
+    color: white;
+    margin: 0;
+    padding: var(--spacing);
+    font-size: 1.3rem;
   }
   
+  /* List grid */
   .coverages-list {
     list-style: none;
-    padding: 0;
+    margin: 0;
+    padding: var(--spacing);
+    display: grid;
+    gap: var(--spacing);
   }
   
+  /* Card items */
   .coverages-list li {
+    background: var(--bg-page);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing);
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
-    margin: 0.75rem 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .coverages-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
   }
   
-  .coverages-list span {
-    max-width: 70%;
+  /* Info & actions */
+  .info {
+    flex: 1 1 60%;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .actions {
+    flex: 1 1 35%;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
   }
   
-  .coverages-list button {
-    background: #1976d2;
-    color: #fff;
+  /* Buttons */
+  button {
     border: none;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: background 0.2s ease;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, transform 0.1s;
   }
-  .coverages-list button:hover {
-    background: #135a9f;
+  button:active {
+    transform: scale(0.97);
+  }
+  button::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease-out, height 0.4s ease-out;
+  }
+  button:active::after {
+    width: 200%;
+    height: 200%;
+    transition: 0s;
   }
   
+  /* Button variants */
+  .btn-cover {
+    background: var(--brand-blue);
+  }
+  .btn-cover:hover {
+    background: var(--brand-blue-d);
+  }
+  
+  .btn-swap {
+    background: var(--sidebar-accent);
+    color: white;
+  }
+  .btn-swap:hover {
+    background: var(--sidebar-red-d);
+  }
+  
+  .btn-accept {
+    background: var(--sidebar-red);
+  }
+  .btn-accept:hover {
+    background: var(--sidebar-red-d);
+  }
+  
+  /* Badges */
   .badge {
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
+    background: var(--sidebar-accent);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius);
     font-weight: 600;
-    text-transform: capitalize;
+    font-size: 0.85rem;
   }
   
-  .badge.requested {
-    background: #ffeeba;
-    color: #856404;
+  /* Error */
+  .error-message {
+    background: rgba(153,0,0,0.1);
+    color: var(--sidebar-red);
+    padding: var(--spacing);
+    border-radius: var(--radius);
+    text-align: center;
+    margin-bottom: var(--spacing);
+  }
+  
+  /* Swap modal */
+  .swap-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing);
+    z-index: 1000;
+  }
+  .swap-content {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: calc(var(--spacing)*1.5);
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow-md);
+    animation: fadeInUp 0.3s ease-out;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .swap-content h3 {
+    margin-top: 0;
+    color: var(--sidebar-red);
+  }
+  .swap-content select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    margin: var(--spacing) 0;
+  }
+  .swap-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 620px) {
+    .coverages-list li {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .actions {
+      justify-content: flex-start;
+    }
   }
   

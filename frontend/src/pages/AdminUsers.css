@@ -1,0 +1,164 @@
+.AdminUsers {
+  max-width:1200px;
+  margin:24px auto;
+  font-family:'Segoe UI', sans-serif;
+  color:#333;
+}
+
+.AdminUsers h2 {
+  text-align:center;
+  margin-bottom:16px;
+}
+
+/* Form */
+.user-form {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:16px;
+  background:#fff;
+  padding:24px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom:32px;
+}
+.user-form div { display:flex; flex-direction:column; }
+.user-form label {
+  margin-bottom:6px;
+  font-size:0.9rem;
+  color:#555;
+}
+.user-form input,
+.user-form select {
+  padding:10px 12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  transition:border-color 0.2s;
+}
+.user-form input:focus,
+.user-form select:focus {
+  border-color:#007bff;
+  outline:none;
+}
+.user-form .checkbox {
+  flex-direction:row;
+  align-items:center;
+}
+.user-form .checkbox label {
+  margin-right:8px;
+}
+.user-form .buttons {
+  grid-column:1/-1;
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+}
+.user-form button {
+  padding:10px 20px;
+  border:none;
+  border-radius:6px;
+  background:#007bff;
+  color:#fff;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.user-form button[type="button"] {
+  background:#6c757d;
+}
+.user-form button:hover {
+  background:#0056b3;
+}
+.user-form button[type="button"]:hover {
+  background:#5a6268;
+}
+
+/* Table */
+.users-table {
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+.users-table thead th {
+  background:#007bff;
+  color:#fff;
+  padding:12px;
+  font-weight:600;
+  text-align:left;
+}
+
+/* Toggle pill */
+.toggle-header {
+  cursor:pointer;
+}
+.toggle-header .toggle-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.25);
+  font-weight:600;
+}
+
+/* Body rows */
+.users-table tbody tr {
+  border-bottom:1px solid #eee;
+}
+.users-table tbody tr:nth-child(even) {
+  background:#f9f9f9;
+}
+.users-table tbody tr:hover {
+  background:#e9f5ff;
+}
+.users-table th,
+.users-table td {
+  padding:12px;
+  font-size:0.9rem;
+}
+
+/* Actions */
+.users-table button {
+  margin-right:6px;
+  padding:6px 10px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.users-table button:first-of-type {
+  background:#17a2b8;
+  color:#fff;
+}
+.users-table button:first-of-type:hover {
+  background:#117a8b;
+}
+.users-table button:last-of-type {
+  background:#dc3545;
+  color:#fff;
+}
+.users-table button:last-of-type:hover {
+  background:#a71d2a;
+}
+
+/* Responsive */
+@media(max-width:800px){
+  .user-form { grid-template-columns:1fr; }
+  .users-table thead { display:none; }
+  .users-table tbody tr {
+    display:block;
+    margin-bottom:16px;
+  }
+  .users-table tbody td {
+    display:flex;
+    justify-content:space-between;
+    padding:8px 12px;
+  }
+  .users-table tbody td::before {
+    content:attr(data-label);
+    font-weight:600;
+    flex:1;
+  }
+}
