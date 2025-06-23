@@ -236,6 +236,8 @@
 // }
 
 // src/pages/AdminUsers.jsx
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from 'react';
 import {
   getAdminUsers,
@@ -245,6 +247,7 @@ import {
 } from '../api';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import './AdminUsers.css';
+
 
 export default function AdminUsers() {
   const [users, setUsers]     = useState([]);
