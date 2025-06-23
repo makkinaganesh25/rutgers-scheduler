@@ -271,7 +271,8 @@ export default function AdminUsers() {
       setLoading(false);
     }
   };
-
+  // we deliberately omit `load` here; it’s stable enough for our use
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
   useEffect(() => {
     load();
   }, [filter]);
