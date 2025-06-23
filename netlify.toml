@@ -1,0 +1,14 @@
+[build]
+  # 1) CD into your frontend folder
+  base    = "frontend"
+
+  # 2) Run your install + build
+  command = "npm install && npm run build"
+
+  # 3) Publish the generated files
+  publish = "frontend/build"
+
+[dev]
+  command = "npm start"
+  port    = 3000
+  targetPort = 3000
