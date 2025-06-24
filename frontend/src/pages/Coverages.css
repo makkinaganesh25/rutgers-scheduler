@@ -1,236 +1,267 @@
 /* ----------------------------
-   Coverages.css (updated to match sidebar)
-   ---------------------------- */
+  Coverages.css
+---------------------------- */
 
-   :root {
-    /* Sidebar colors */
-    --sidebar-red:    #990000;
-    --sidebar-red-d:  #770000; /* darker for hover */
-    --sidebar-accent: #cc0033;
+:root {
+  /* Colors */
+  --brand-red:        #990000;
+  --brand-red-dark:   #770000;
+  --brand-accent:     #cc0033;
+  --brand-blue:       #1976d2;
+  --brand-blue-dark:  #115293;
+  --brand-green:      #2e7d32;
+  --brand-green-dark: #1b5e20;
+  --bg-page:          #f0f2f5;
+  --bg-card:          #ffffff;
+  --text-dark:        #212121;
+  --text-light:       #ffffff;
+  --text-muted:       #555;
   
-    /* Other palette */
-    --brand-blue:      #1976d2;
-    --brand-blue-d:    #115293;
-    --bg-page:         #fafafa;
-    --bg-card:         #ffffff;
-    --text-dark:       #212121;
-    --text-muted:      #555;
-  
-    /* Spacing & shadows */
-    --radius:        8px;
-    --spacing:       1rem;
-    --shadow-sm:     0 2px 6px rgba(0,0,0,0.08);
-    --shadow-md:     0 4px 12px rgba(0,0,0,0.12);
-  }
-  
-  body {
-    background: var(--bg-page);
-    color: var(--text-dark);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  }
-  
+  /* Spacing & shadows */
+  --radius:      8px;
+  --spacing-sm:  0.5rem;
+  --spacing-md:  1rem;
+  --spacing-lg:  1.5rem;
+  --shadow-sm:   0 2px 6px rgba(0,0,0,0.08);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.12);
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-dark);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.coverages-container {
+  max-width: 900px;
+  margin: var(--spacing-lg) auto;
+  padding: var(--spacing-md);
+}
+
+.coverages-container h1 {
+  text-align: center;
+  color: var(--brand-red);
+  font-size: 2rem;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+}
+.coverages-container h1::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: var(--brand-red);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* Sections */
+.coverages-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--spacing-lg);
+  overflow: hidden;
+}
+.coverages-section h2 {
+  background: var(--brand-red);
+  color: white;
+  margin: 0;
+  padding: var(--spacing-md);
+  font-size: 1.3rem;
+}
+
+.loading-text {
+  padding: var(--spacing-md);
+  color: var(--text-muted);
+}
+
+/* List Items */
+.coverages-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-md);
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.coverages-list li {
+  background: var(--bg-page);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--brand-red);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+/* Info & actions containers */
+.info {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  line-height: 1.4;
+}
+.actions {
+  flex: 0 1 auto; /* Let it shrink but not grow */
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Info text parts */
+.shift-title {
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+.shift-details {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.shift-requester {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* General Button Styles */
+button {
+  border: none;
+  border-radius: var(--radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: background-color 0.2s, transform 0.1s;
+}
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Button variants */
+.btn-cover { background: var(--brand-blue); }
+.btn-cover:hover:not(:disabled) { background: var(--brand-blue-dark); }
+
+.btn-swap { background: var(--brand-accent); }
+.btn-swap:hover:not(:disabled) { background: var(--brand-red-dark); }
+
+.btn-accept { background: var(--brand-green); }
+.btn-accept:hover:not(:disabled) { background: var(--brand-green-dark); }
+
+.btn-decline { background: var(--text-muted); }
+.btn-decline:hover:not(:disabled) { background: var(--text-dark); }
+
+/* Badge */
+.badge {
+  background: #757575; /* Muted gray for status */
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Error Message */
+.error-message {
+  background: rgba(204, 0, 51, 0.1);
+  color: var(--brand-accent);
+  border: 1px solid var(--brand-accent);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Swap Modal */
+.swap-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  z-index: 1000;
+}
+.swap-content {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: var(--spacing-lg);
+  width: 100%;
+  max-width: 450px;
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.swap-content h3 {
+  margin-top: 0;
+  color: var(--brand-red);
+}
+.swap-content label {
+  display: block;
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+.swap-content select {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+.swap-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+
+/* ===================================================================== */
+/* === Responsive Styles (for Mobile) === */
+/* ===================================================================== */
+
+@media (max-width: 620px) {
   .coverages-container {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: var(--spacing);
+    margin: var(--spacing-md) auto;
   }
-  
   .coverages-container h1 {
-    text-align: center;
-    color: var(--sidebar-red);
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    position: relative;
+    font-size: 1.5rem;
   }
-  .coverages-container h1::after {
-    content: "";
-    display: block;
-    width: 50px;
-    height: 4px;
-    background: var(--sidebar-red);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
-  }
-  
-  /* Sections styled like sidebar items */
-  .coverages-section {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    margin-top: var(--spacing);
-    overflow: hidden;
-  }
-  .coverages-section h2 {
-    background: var(--sidebar-red);
-    color: white;
-    margin: 0;
-    padding: var(--spacing);
-    font-size: 1.3rem;
-  }
-  
-  /* List grid */
-  .coverages-list {
-    list-style: none;
-    margin: 0;
-    padding: var(--spacing);
-    display: grid;
-    gap: var(--spacing);
-  }
-  
-  /* Card items */
+
+  /* Stack list items vertically */
   .coverages-list li {
-    background: var(--bg-page);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: var(--spacing);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    flex-direction: column;
+    align-items: stretch; /* Make children full width */
+    padding: var(--spacing-sm);
   }
-  .coverages-list li:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-  
-  /* Info & actions */
   .info {
-    flex: 1 1 60%;
-    font-size: 0.95rem;
-    line-height: 1.4;
+    margin-bottom: var(--spacing-md); /* Space between info and actions */
   }
   .actions {
-    flex: 1 1 35%;
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    justify-content: flex-start; /* Align buttons to the left */
+    gap: var(--spacing-md);
   }
-  
-  /* Buttons */
-  button {
-    border: none;
-    border-radius: var(--radius);
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    color: white;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.2s, transform 0.1s;
-  }
-  button:active {
-    transform: scale(0.97);
-  }
-  button::after {
-    content: "";
-    position: absolute;
-    left: 50%; top: 50%;
-    width: 0; height: 0;
-    background: rgba(255,255,255,0.3);
-    border-radius: 100%;
-    transform: translate(-50%, -50%);
-    transition: width 0.4s ease-out, height 0.4s ease-out;
-  }
-  button:active::after {
-    width: 200%;
-    height: 200%;
-    transition: 0s;
-  }
-  
-  /* Button variants */
-  .btn-cover {
-    background: var(--brand-blue);
-  }
-  .btn-cover:hover {
-    background: var(--brand-blue-d);
-  }
-  
-  .btn-swap {
-    background: var(--sidebar-accent);
-    color: white;
-  }
-  .btn-swap:hover {
-    background: var(--sidebar-red-d);
-  }
-  
-  .btn-accept {
-    background: var(--sidebar-red);
-  }
-  .btn-accept:hover {
-    background: var(--sidebar-red-d);
-  }
-  
-  /* Badges */
-  .badge {
-    background: var(--sidebar-accent);
-    color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: var(--radius);
-    font-weight: 600;
-    font-size: 0.85rem;
-  }
-  
-  /* Error */
-  .error-message {
-    background: rgba(153,0,0,0.1);
-    color: var(--sidebar-red);
-    padding: var(--spacing);
-    border-radius: var(--radius);
+  .actions button {
+    flex-grow: 1; /* Allow buttons to grow and fill space */
     text-align: center;
-    margin-bottom: var(--spacing);
   }
-  
-  /* Swap modal */
-  .swap-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing);
-    z-index: 1000;
+  .actions button:first-child:last-child {
+    flex-grow: 0; /* Don't let a single button stretch fully */
   }
-  .swap-content {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    padding: calc(var(--spacing)*1.5);
-    width: 100%;
-    max-width: 400px;
-    box-shadow: var(--shadow-md);
-    animation: fadeInUp 0.3s ease-out;
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .swap-content h3 {
-    margin-top: 0;
-    color: var(--sidebar-red);
-  }
-  .swap-content select {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    margin: var(--spacing) 0;
-  }
-  .swap-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-  }
-  
-  /* Responsive */
-  @media (max-width: 620px) {
-    .coverages-list li {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .actions {
-      justify-content: flex-start;
-    }
-  }
-  
+}
