@@ -398,6 +398,7 @@ export default function AdminEvents() {
       : ev.date < today
   );
 
+  // start editing an event
   async function startEdit(ev) {
     setEditingId(ev.id);
     setForm({
@@ -406,6 +407,7 @@ export default function AdminEvents() {
       description: ev.description,
       capacity: ev.capacity
     });
+    // fetch its slots
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001'}/api/events/${ev.id}`,
       { headers:{ Authorization: `Bearer ${localStorage.getItem('token')}` } }
@@ -418,8 +420,16 @@ export default function AdminEvents() {
         filled_rank: s.filled_rank||'',
       }))
     );
+
+    // --- THIS IS THE FIX ---
+    // Smoothly scroll the window to the top to show the form
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
+  // create or update
   async function onSubmit(e) {
     e.preventDefault();
     if (!form.name || !form.date) {
@@ -631,7 +641,6 @@ export default function AdminEvents() {
                 <td data-label="Date">{formatDate(ev.date)}</td>
                 <td data-label="Capacity">{ev.capacity}</td>
                 <td data-label="Actions">
-                  {/* THIS IS THE CHANGE: WRAP BUTTONS IN A DIV */}
                   <div className="action-buttons">
                     <button
                       className="btn-edit"
