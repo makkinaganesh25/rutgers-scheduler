@@ -16,7 +16,7 @@
   --text-dark:        #212121;
   --text-light:       #ffffff;
   --text-muted:       #555;
-  
+
   /* Spacing & shadows */
   --radius:      8px;
   --spacing-sm:  0.5rem;
@@ -235,43 +235,53 @@ button:active:not(:disabled) {
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === REFINED */
+/* === Responsive Styles (for Mobile) === FINAL REFINED VERSION */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
   .coverages-container {
-    margin: var(--spacing-sm) auto;
+    margin: 0;
     padding: var(--spacing-sm);
   }
   .coverages-container h1 {
     font-size: 1.5rem;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
   }
-
-  /* Make list items stack vertically */
-  .coverages-list li {
-    flex-direction: column;
-    align-items: stretch; /* Make children take up full width */
-    gap: 0; /* Control gap inside children instead */
+  .coverages-section {
+    margin-top: var(--spacing-md);
+  }
+  .coverages-list {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
   }
   
-  /* Add more space between lines of text in the info block */
-  .info {
-    margin-bottom: var(--spacing-md); /* Space between info and actions */
-    gap: 0.5rem;
+  /* Make each list item a clean vertical stack */
+  .coverages-list li {
+    flex-direction: column;
+    align-items: stretch; /* Make children full-width */
+    padding: var(--spacing-md); 
+    gap: var(--spacing-md); /* Creates space between info and actions */
   }
 
-  /* --- KEY CHANGE FOR REFINEMENT --- */
-  /* Make the action buttons stack vertically on top of each other */
+  /* Ensure info text block is well-spaced */
+  .info {
+    gap: 0.5rem; /* Space between lines of text */
+  }
+
+  /* Actions container stacks buttons vertically */
   .actions {
-    flex-direction: column; /* Stack buttons vertically */
-    align-items: stretch;  /* Make buttons full-width */
+    flex-direction: column;
+    align-items: stretch;  /* Makes buttons full-width */
     justify-content: flex-start;
     gap: var(--spacing-sm); /* Space between stacked buttons */
   }
 
-  /* When a badge is the only item in actions, it should look good */
+  /* Style all buttons and badges within the actions container consistently */
+  .actions button,
   .actions .badge {
     width: 100%;
-    box-sizing: border-box;
+    padding: 0.75rem var(--spacing-md); /* Generous, tappable padding */
+    box-sizing: border-box; /* Ensures padding is included in the width */
   }
 }
