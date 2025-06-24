@@ -201,7 +201,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { FaBars } from 'react-icons/fa';
+// import { FaBars } from 'react-icons/fa'; // <<< FIX 1: This unused import has been removed.
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
@@ -237,29 +237,33 @@ function AppContent() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // We wrap this in useCallback to make it a stable dependency for useEffect
   const checkIsMobile = useCallback(() => {
     const mobile = window.innerWidth < 768;
     setIsMobile(mobile);
-    setSidebarOpen(!mobile); // Default to open on desktop, closed on mobile
+    setSidebarOpen(!mobile);
   }, []);
 
   useEffect(() => {
     window.addEventListener('resize', checkIsMobile);
-    checkIsMobile(); // Initial check
+    checkIsMobile();
     return () => window.removeEventListener('resize', checkIsMobile);
   }, [checkIsMobile]);
-
+  
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => {
+
+  // We wrap this in useCallback to make it a stable dependency for useEffect
+  const closeSidebar = useCallback(() => {
     if (isMobile) {
       setSidebarOpen(false);
     }
-  };
+  }, [isMobile]);
   
   // Close sidebar on route change on mobile
   useEffect(() => {
     closeSidebar();
-  }, [pathname]);
+    // <<< FIX 2: Added 'closeSidebar' to the dependency array.
+  }, [pathname, closeSidebar]);
 
   if (pathname === '/') {
     return (
@@ -274,7 +278,7 @@ function AppContent() {
     <div className={`app-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isMobile={isMobile} />
       
-      {(isMobile && isSidebarOpen) && <div className="overlay" onClick={closeSidebar} />}
+      {(isMobile && isSidebarOpen) && <div className="overlay" onClick={closeSidebar}></div>}
       
       <div className="main-content">
         <Routes>
