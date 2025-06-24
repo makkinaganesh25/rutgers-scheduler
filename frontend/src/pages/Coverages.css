@@ -174,25 +174,9 @@ button:active:not(:disabled) {
   display: block;
 }
 
-/* Swap Modal (No changes needed, but included for completeness) */
-.swap-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-md);
-  z-index: 1000;
-}
-.swap-content {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  padding: var(--spacing-lg);
-  width: 100%;
-  max-width: 450px;
-  box-shadow: var(--shadow-md);
-}
+/* Swap Modal - no changes needed, but included for completeness */
+.swap-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: var(--spacing-md); z-index: 1000; }
+.swap-content { background: var(--bg-card); border-radius: var(--radius); padding: var(--spacing-lg); width: 100%; max-width: 450px; box-shadow: var(--shadow-md); }
 .swap-content h3 { margin-top: 0; color: var(--brand-red); }
 .swap-content label { display: block; margin-top: var(--spacing-md); margin-bottom: var(--spacing-sm); font-weight: 600; }
 .swap-content select { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: var(--radius); font-size: 1rem; }
@@ -200,7 +184,7 @@ button:active:not(:disabled) {
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === FINAL FINAL VERSION */
+/* === Responsive Styles (for Mobile) === FINAL GUARANTEED VERSION */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
@@ -220,12 +204,12 @@ button:active:not(:disabled) {
     padding: var(--spacing-sm);
     gap: var(--spacing-sm);
   }
-  
+
   /* Make each list item a clean vertical stack */
   .coverages-list li {
     flex-direction: column;
-    align-items: stretch; 
-    padding: var(--spacing-md); 
+    align-items: stretch;
+    padding: var(--spacing-md);
     gap: var(--spacing-md);
   }
 
@@ -234,25 +218,31 @@ button:active:not(:disabled) {
     gap: 0.5rem;
   }
 
-  /* --- THE DEFINITIVE FIX --- */
-  /* Target the .actions container */
+  /* --- DEFINITIVE FIX FOR BUTTONS --- */
+  /* This ensures the actions container is ready for its children */
   .actions {
-    display: grid; /* Use grid for simple, robust stacking */
-    grid-template-columns: 1fr; /* A single column */
-    gap: var(--spacing-sm); /* The space between stacked items */
+    display: flex;
+    flex-direction: column; /* Force vertical stacking */
+    gap: var(--spacing-sm); /* Space between stacked items */
     width: 100%;
   }
 
-  /* Target every direct child of .actions to ensure consistency */
+  /* Target every direct child to ensure TOTAL consistency */
   .actions > * {
-    /* Text Behavior */
-    white-space: normal; /* CRITICAL: Allows text to wrap */
-    text-align: center; /* CRITICAL: Centers the text */
-
-    /* Sizing & Spacing */
-    width: 100%; /* Take up full width of the grid column */
-    padding: 0.75rem var(--spacing-sm);
-    box-sizing: border-box; 
+    /* Set an explicit height and line-height to vertically center text */
+    height: 44px;
+    line-height: 44px; /* Match the height */
+    
+    /* Override any weird text behavior */
+    white-space: nowrap; /* Keep text on one line (it's short now) */
+    overflow: hidden; /* Hide anything that still overflows */
+    text-overflow: ellipsis; /* Add "..." if text is STILL too long */
+    
+    /* Standard styling for a clean look */
+    padding: 0 var(--spacing-md); /* Vertical padding is now controlled by height */
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
     margin: 0;
   }
 }
