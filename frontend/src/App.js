@@ -199,15 +199,14 @@
 // }
 
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-// import { FaBars } from 'react-icons/fa'; // <<< FIX 1: This unused import has been removed.
+import { FaBars } from 'react-icons/fa';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
 import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from './config/roles';
 
-// Import all pages and components
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -234,37 +233,17 @@ import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
 function AppContent() {
   const { pathname } = useLocation();
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  // We wrap this in useCallback to make it a stable dependency for useEffect
-  const checkIsMobile = useCallback(() => {
-    const mobile = window.innerWidth < 768;
-    setIsMobile(mobile);
-    setSidebarOpen(!mobile);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('resize', checkIsMobile);
-    checkIsMobile();
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, [checkIsMobile]);
-  
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  const closeSidebar = () => setSidebarOpen(false);
 
-  // We wrap this in useCallback to make it a stable dependency for useEffect
-  const closeSidebar = useCallback(() => {
-    if (isMobile) {
-      setSidebarOpen(false);
-    }
-  }, [isMobile]);
-  
-  // Close sidebar on route change on mobile
+  // Close sidebar on route change
   useEffect(() => {
     closeSidebar();
-    // <<< FIX 2: Added 'closeSidebar' to the dependency array.
-  }, [pathname, closeSidebar]);
+  }, [pathname]);
 
+  // Special layout for the login page
   if (pathname === '/') {
     return (
       <Routes>
@@ -274,11 +253,16 @@ function AppContent() {
     );
   }
 
+  // The main authenticated app layout
   return (
-    <div className={`app-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isMobile={isMobile} />
+    <div className="app-container">
+      <button className="global-hamburger-btn" onClick={toggleSidebar}>
+        <FaBars />
+      </button>
+
+      <Sidebar isOpen={isSidebarOpen} />
       
-      {(isMobile && isSidebarOpen) && <div className="overlay" onClick={closeSidebar}></div>}
+      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
       
       <div className="main-content">
         <Routes>
