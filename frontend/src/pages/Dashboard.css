@@ -7,12 +7,14 @@
   align-items: center;
   background: #f0f2f5;
   padding: 2rem;
+  box-sizing: border-box;
 }
 .header-modern h1 {
   color: #c62828;
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
   letter-spacing: 0.5px;
+  text-align: center;
 }
 .loading-modern {
   font-size: 1.2rem;
@@ -39,6 +41,7 @@
   text-align: center;
 }
 .stats-cards h4 {
+  margin-top: 0;
   margin-bottom: 0.5rem;
   color: #c62828;
   font-size: 1rem;
@@ -49,6 +52,10 @@
   font-weight: bold;
   margin: 0;
 }
+.stats-cards p br {
+  display: none; /* Hide line break in card on desktop for better alignment */
+}
+
 
 .calendar-wrap-modern {
   width: 100%;
@@ -56,41 +63,101 @@
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
+  /* overflow: hidden; -- Removing this to prevent issues */
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-/* FullCalendar modern styles (keeping from earlier) */
-.fc-modern .fc-toolbar {
-  background: #ffffff;
-  padding: 0.5rem 1rem;
+/* Base styles for FullCalendar, applying to both mobile and desktop */
+.fc { /* Target the root FullCalendar element */
+  font-size: 14px; /* A good base font size */
+}
+
+.fc .fc-toolbar {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap; /* Allow toolbar items to wrap on small screens */
   justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 1.5em;
 }
-.fc-modern .fc-toolbar-chunk:first-child button {
-  margin-right: 0.5rem;
-}
-.fc-modern .fc-button {
-  background: #2f3e4e;
+
+.fc .fc-button {
+  background: #c62828;
   border: none;
   color: #fff;
   font-weight: 500;
   border-radius: 6px;
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
+  text-transform: capitalize;
 }
-.fc-modern .fc-button:hover { background: #1e2a38; }
-.fc-modern .fc-button-active { background: #162129 !important; }
-.fc-modern .fc-toolbar-chunk:last-child .fc-button { margin-left: 0.5rem; }
-.fc-modern .fc-col-header-cell { background: #fafafa; border-bottom: none; }
-.fc-modern .fc-col-header-cell-cushion { font-weight: 600; color: #333; text-transform: uppercase; }
-.fc-modern .fc-timegrid-col-frame, .fc-modern .fc-timegrid-col { border-left: none; }
-.fc-modern .fc-timegrid-slot-lane-frame, .fc-modern .fc-timegrid-slot-lane { border: none; border-bottom: 1px solid #e5e5e5; }
-.fc-modern .fc-timegrid-slot-lane:nth-child(even) { background: #fcfcfc; }
-.fc-modern .fc-timegrid-axis { color: #777; font-size: 0.85rem; width: 4.5rem; text-align: right; padding-right: 0.5rem; border-right: 1px solid #e5e5e5; }
-.fc-modern .fc-timegrid-now-indicator-line { background: #ff5252 !important; height: 3px !important; }
-.fc-modern .fc-scroller { scrollbar-width: thin; }
-.fc-modern .fc-scroller::-webkit-scrollbar { width: 6px; }
-.fc-modern .fc-scroller::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
-.fc-event-modern { background: #1976d2; border-radius: 8px; color: #ffffff; padding: 0.5rem; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #004ba0; }
-.fc-modern .fc-timeGridDay-view .fc-col-header-cell-cushion { font-size: 1.1rem; color: #c62828; margin-top: 0.5rem; }
-.fc-modern .fc-view { transition: opacity 0.3s ease; }
+.fc .fc-button:hover {
+  background: #ad2222;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #8e1e1e;
+}
+.fc .fc-toolbar-title {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.fc .fc-col-header-cell-cushion { /* Day headers: Mon, Tue, etc. */
+  font-weight: 600;
+  padding: 10px 4px;
+}
+.event-content {
+  padding: 4px;
+  font-size: 0.8em;
+}
+
+/* ===================================================================== */
+/* === Responsive Styles (for Mobile) === */
+/* ===================================================================== */
+
+@media (max-width: 768px) {
+  .dashboard-modern {
+    padding: 1rem; /* Reduce padding on mobile */
+  }
+
+  .header-modern h1 {
+    font-size: 1.8rem; /* Smaller header text */
+  }
+
+  .stats-cards {
+    gap: 0.5rem; /* Tighter gap for cards */
+  }
+
+  .stats-cards .card {
+    flex-basis: calc(50% - 0.5rem); /* Two cards per row */
+  }
+  
+  .stats-cards p br {
+      display: initial; /* Show line break for two-line content */
+  }
+
+  .calendar-wrap-modern {
+    padding: 0.5rem;
+  }
+  
+  /* Adjust FullCalendar for smaller screens */
+  .fc {
+    font-size: 12px; /* Reduce base font size further on mobile */
+  }
+
+  .fc .fc-toolbar {
+    flex-direction: column; /* Stack toolbar chunks vertically */
+    align-items: center;
+  }
+
+  .fc .fc-toolbar-chunk {
+    margin-bottom: 10px;
+  }
+
+  .fc .fc-button {
+    padding: 0.4rem 0.8rem; /* Smaller buttons */
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.4em; /* Smaller title */
+    text-align: center;
+  }
+}
