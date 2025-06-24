@@ -1,26 +1,33 @@
+/* src/app.css */
+
+/* App container - simplified */
 .app-container {
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    position: relative;
-  }
-  
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+/* Main content and Sidebar styling is now handled by sidebar.css */
+/* You can remove the old .sidebar and .main-content rules from here */
+
+/* Optional padding for inner content */
 .content-section {
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Login-specific styles can remain */
 .app-container.login-layout {
-    display: block;
-    height: 100vh;
-  }
-  
+  display: block;
+  height: 100vh;
+}
+
 .app-container.login-layout .main-content {
-    padding: 0;
-    background: none;
-    height: 100vh;
-    overflow: hidden;
-    margin-left: 0;
-  }
+  padding: 0;
+  background: none;
+  height: 100vh;
+  overflow: hidden;
+}
