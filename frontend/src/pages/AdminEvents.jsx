@@ -398,7 +398,7 @@ export default function AdminEvents() {
       .catch(() => alert('Could not load events'));
   }
 
-  // helper: today in YYYY-MM-DD
+  // helper: today in<x_bin_342>-MM-DD
   const today = new Date().toISOString().slice(0,10);
 
   // filter events based on view
@@ -417,7 +417,7 @@ export default function AdminEvents() {
       description: ev.description,
       capacity: ev.capacity
     });
-    // fetch its slots (with filled_name & filled_rank via updated backend)
+    // fetch its slots
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001'}/api/events/${ev.id}`,
       { headers:{ Authorization: `Bearer ${localStorage.getItem('token')}` } }
@@ -426,7 +426,6 @@ export default function AdminEvents() {
     setSlots(
       data.slots.map(s => ({
         ...s,
-        // ensure all keys exist
         filled_name: s.filled_name||'',
         filled_rank: s.filled_rank||'',
       }))
@@ -448,7 +447,6 @@ export default function AdminEvents() {
           description: form.description,
           capacity: form.capacity
         });
-        // update each existing slot
         await Promise.all(
           slots.map(s =>
             updateEventSlot(editingId, s.id, {
@@ -480,7 +478,6 @@ export default function AdminEvents() {
           body: `${form.name} on ${formatDate(form.date)} has been created.`
         });
       }
-      // reset & reload
       setEditingId(null);
       setForm({ name:'', date:'', description:'', capacity:0 });
       setSlots([{ id: null, filled_by: null, filled_name:'', filled_rank:'', assignment:'', time_in:'', time_out:'' }]);
@@ -503,9 +500,7 @@ export default function AdminEvents() {
     }
   }
 
-  // form field change
   const onF = key => e => setForm(f => ({ ...f, [key]: e.target.value }));
-  // slot field change
   const onS = (i, key) => e => {
     const cp = [...slots];
     cp[i] = { ...cp[i], [key]: e.target.value };
@@ -514,9 +509,8 @@ export default function AdminEvents() {
 
   return (
     <div className="admin-events">
-      <h1 className="page-title">{editingId ? 'Edit Event' : 'Admin: Special Events'}</h1>
+      <h1 className="page-title">Admin: Special Events</h1>
 
-      {/* ── Create / Edit Form ── */}
       <section className="admin-form">
         <div className="form-row">
           {['name','date','description','capacity'].map((key,i) => (
@@ -527,7 +521,6 @@ export default function AdminEvents() {
               <input
                 id={`evt-${key}`}
                 {...(key==='date'?{type:'date'}:{})}
-                {...(key==='capacity'?{type:'number'}:{})}
                 value={form[key]}
                 onChange={onF(key)}
               />
@@ -550,7 +543,8 @@ export default function AdminEvents() {
               </thead>
               <tbody>
                 {slots.map((s,i) => (
-                  <tr key={s.id || i}>
+                  <tr key={i}>
+                    {/* ADDED data-label ATTRIBUTES TO THIS TABLE ONLY */}
                     <td data-label="Officer">
                       {s.filled_name
                         ? `${s.filled_name} (${s.filled_rank})`
@@ -620,7 +614,6 @@ export default function AdminEvents() {
         </div>
       </section>
 
-      {/* ── Ongoing / Archived Toggle ── */}
       <div className="toggle-container">
         <button
           className={`toggle-btn ${view==='ongoing'?'active':''}`}
@@ -636,7 +629,6 @@ export default function AdminEvents() {
         </button>
       </div>
 
-      {/* ── Events Table ── */}
       <div className="table-container">
         <table className="events-table">
           <thead>
@@ -650,10 +642,10 @@ export default function AdminEvents() {
           <tbody>
             {filtered.map(ev => (
               <tr key={ev.id}>
-                <td data-label="Name">{ev.name}</td>
-                <td data-label="Date">{formatDate(ev.date)}</td>
-                <td data-label="Capacity">{ev.capacity}</td>
-                <td data-label="Actions" className="event-actions">
+                <td>{ev.name}</td>
+                <td>{formatDate(ev.date)}</td>
+                <td>{ev.capacity}</td>
+                <td>
                   <button
                     className="btn-edit"
                     onClick={()=>startEdit(ev)}
