@@ -198,6 +198,7 @@
 //   );
 // }
 
+
 // src/App.js
 import React, { useState } from 'react';
 import {
@@ -211,6 +212,7 @@ import {
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
+import { FaBars } from 'react-icons/fa'; // <-- IMPORT THE ICON
 
 import {
   SUPERVISOR_ROLES,
@@ -273,8 +275,15 @@ function AppContent() {
   // authenticated app
   return (
     <div className="app-container">
+      {/* --- ADD THIS BUTTON --- */}
+      <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Open menu">
+        <FaBars />
+      </button>
+
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className={`main-content ${isSidebarOpen ? 'sidebar-is-open' : ''}`}>
+
+      {/* Note: The main-content class is now in sidebar.css for proper layout handling */}
+      <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
             {/* Core pages */}
