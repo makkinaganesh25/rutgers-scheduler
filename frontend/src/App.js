@@ -466,7 +466,7 @@ function AppContent() {
   if (pathname === '/') {
     return (
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<h1>DEPLOY TEST</h1>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
