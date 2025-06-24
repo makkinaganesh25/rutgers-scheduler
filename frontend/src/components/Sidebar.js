@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-// The problematic import has been REMOVED.
 import {
   SUPERVISOR_ROLES,
   EVENT_CREATOR_ROLES,
@@ -36,7 +35,6 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const [dark, setDark] = useState(false);
-  // The annCount state and useEffect have been REMOVED.
 
   const onLogout = () => {
     logout();
@@ -106,12 +104,9 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             <FaUsers /> User Management
           </NavLink>
         )}
-
-        {/* The count badge has been REMOVED from this NavLink */}
         <NavLink to="/announcements" className={linkClass}>
           <FaBullhorn /> Announcements
         </NavLink>
-
         {show(ANNOUNCEMENT_CREATOR_ROLES) && (
           <NavLink to="/admin/announcements" className={linkClass}>
             <FaBullhorn /> Manage Announcements
