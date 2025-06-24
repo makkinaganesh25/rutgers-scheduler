@@ -328,13 +328,11 @@
 //   );
 // }
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-// --- THIS IS THE MAIN CHANGE ---
-// We are now importing all exports from 'api.js' into a single 'api' object
-import * as api from '../api';
-// --- END CHANGE ---
+// The problematic import has been REMOVED.
+// import { listAnnouncements } from '../api'; 
 import {
   SUPERVISOR_ROLES,
   EVENT_CREATOR_ROLES,
@@ -363,19 +361,12 @@ import {
 } from 'react-icons/fa';
 import './Sidebar.css';
 
+// The toggleSidebar prop is no longer needed as it's handled in App.js
 export default function Sidebar({ isOpen }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const [dark, setDark] = useState(false);
-  const [annCount, setAnnCount] = useState(0);
-
-  useEffect(() => {
-    // --- THIS IS THE OTHER CHANGE ---
-    // We now call the function as a method of the 'api' object
-    api.listAnnouncements()
-      .then(list => setAnnCount(list.length))
-      .catch(() => {});
-  }, []);
+  // The annCount state and useEffect have been REMOVED.
 
   const onLogout = () => {
     logout();
@@ -408,7 +399,10 @@ export default function Sidebar({ isOpen }) {
         <NavLink to="/events" className={linkClass}><FaCalendarAlt /> Special Events</NavLink>
         {show(EVENT_CREATOR_ROLES) && ( <NavLink to="/admin/events" className={linkClass}><FaCalendarAlt /> Admin Events</NavLink> )}
         {show(ADMIN_USER_ROLES) && ( <NavLink to="/admin/users" className={linkClass}><FaUsers /> User Management</NavLink> )}
-        <NavLink to="/announcements" className={linkClass}> <FaBullhorn /> Announcements {annCount > 0 && <span className="badge">{annCount}</span>} </NavLink>
+        
+        {/* The count badge has been REMOVED from this link */}
+        <NavLink to="/announcements" className={linkClass}> <FaBullhorn /> Announcements </NavLink>
+
         {show(ANNOUNCEMENT_CREATOR_ROLES) && ( <NavLink to="/admin/announcements" className={linkClass}><FaBullhorn /> Manage Announcements</NavLink> )}
         {show(SUPERVISOR_ROLES) && ( <NavLink to="/overview" className={linkClass}><FaChartBar /> Overview</NavLink> )}
         {show(CSO_LEAVE_REQUESTER_ROLES) && ( <NavLink to="/cso/leave" className={linkClass}> Request CSO Leave</NavLink> )}
