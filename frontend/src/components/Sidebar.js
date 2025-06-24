@@ -3,8 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   FaHome, FaUserCheck, FaCalendar, FaBell, FaFile, FaCalendarAlt, FaChartBar,
-  FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun, FaBars, FaSignOutAlt,
-  FaAngleLeft, FaAngleRight // <<< ICONS ARE NOW CORRECTLY IMPORTED HERE
+  FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun, FaSignOutAlt
 } from 'react-icons/fa';
 import {
   SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES,
@@ -13,14 +12,13 @@ import {
 } from '../config/roles';
 import './Sidebar.css';
 
-// SVG Logo to avoid broken image links
 const RutgersLogo = () => (
-  <svg className="logo-img" viewBox="0 0 100 121" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 120.5V0H100V120.5H83.25V17H16.75V120.5H0Z" fill="white"/>
-  </svg>
+    <svg className="logo-img" viewBox="0 0 100 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 120.5V0H100V120.5H83.25V17H16.75V120.5H0Z" fill="white"/>
+    </svg>
 );
 
-export default function Sidebar({ isOpen, toggleSidebar, isMobile }) {
+export default function Sidebar({ isOpen }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const [dark, setDark] = useState(false);
@@ -34,16 +32,12 @@ export default function Sidebar({ isOpen, toggleSidebar, isMobile }) {
   const show = roles => user && roles.includes(user.user_rank);
 
   return (
-    <aside className={`sidebar ${dark ? 'dark' : 'light'}`}>
+    <aside className={`sidebar ${isOpen ? 'is-open' : ''} ${dark ? 'dark' : 'light'}`}>
       <header className="sidebar-header">
         <div className="logo-area">
           <RutgersLogo />
           <h2 className="sidebar-title">CSO Rutgers</h2>
         </div>
-        {/* Universal toggle button, icon changes based on state */}
-        <button className="sidebar-toggle" onClick={toggleSidebar} aria-label="Toggle Sidebar">
-          {isMobile ? <FaBars /> : (isOpen ? <FaAngleLeft /> : <FaAngleRight />)}
-        </button>
       </header>
 
       <nav className="sidebar-nav">
