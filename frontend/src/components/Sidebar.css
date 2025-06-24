@@ -1,4 +1,4 @@
-/* src/components/Sidebar.css */
+/* src/components/Sidebar.css (Corrected Version) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
@@ -44,12 +44,9 @@
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
   transition: transform var(--transition), background var(--transition), color var(--transition);
-  
-  /* --- MOBILE FIRST: Hide sidebar by default --- */
-  transform: translateX(-100%);
+  transform: translateX(-100%); /* Hidden by default on all screens */
 }
 
-/* --- When sidebar is open on mobile, slide it in --- */
 .sidebar.open {
   transform: translateX(0);
   box-shadow: 3px 0 15px var(--shadow);
@@ -69,30 +66,31 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Hamburger toggle button --- */
+/* ────────────────────────────────────────────────────────────────── */
+/* ↓↓↓ CORRECTED BUTTON STYLES ↓↓↓                   */
+/* ────────────────────────────────────────────────────────────────── */
 .sidebar-toggle {
-  display: block; /* Show on mobile */
-  background: transparent;
-  border: none;
+  position: fixed; /* Use fixed position to stay on screen */
+  top: 1.2rem;     /* Position from top */
+  left: 1rem;      /* Position from left */
+  z-index: 1001;   /* Ensure it's on top of other content */
+  
+  display: block;  /* Show on mobile */
+  background: var(--bg);
   color: var(--fg);
-  font-size: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  position: absolute;
-  top: 1.5rem;
-  right: -45px; /* Position it outside the hidden sidebar */
-  z-index: 1001;
-  background-color: var(--bg);
-  padding: 5px 8px;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  line-height: 0; /* Helps center the icon */
 }
 
+/* When the sidebar is open, hide the toggle button */
 .sidebar.open .sidebar-toggle {
-    right: 1rem;
-    background-color: transparent;
-    box-shadow: none;
+  display: none;
 }
-
+/* ────────────────────────────────────────────────────────────────── */
 
 .theme-toggle {
   background: transparent;
@@ -101,6 +99,10 @@
   font-size: 1.2rem;
   cursor: pointer;
   transition: transform var(--transition);
+}
+
+.sidebar-header .theme-toggle {
+  margin-left: auto; /* Push theme toggle to the right */
 }
 
 .theme-toggle:hover {
@@ -182,7 +184,6 @@
   transform: scale(1.02);
 }
 
-/* --- Main content starts with no margin --- */
 .main-content {
   margin-left: 0;
   padding: 20px;
@@ -195,12 +196,15 @@
 /* --- DESKTOP STYLES --- */
 @media (min-width: 768px) {
   .sidebar {
-    transform: translateX(0); /* Always show sidebar */
-    box-shadow: 3px 0 12px var(--shadow);
+    transform: translateX(0); /* Always show sidebar on desktop */
   }
 
   .sidebar-toggle {
     display: none; /* Hide hamburger on desktop */
+  }
+  
+  .sidebar-header .theme-toggle {
+     margin-left: 0; /* Reset margin on desktop */
   }
 
   .main-content {
