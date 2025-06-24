@@ -411,23 +411,13 @@
 
 // src/App.js
 import React, { useState } from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation
-} from 'react-router-dom';
-
-// --- ADD THIS IMPORT ---
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
-
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
-
-// ... (keep all your other component and role imports)
 import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from './config/roles';
+
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -452,7 +442,6 @@ import CsoMandate from './pages/CsoMandate';
 import SecurityLeaveRequest from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
-
 function AppContent() {
   const { pathname } = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -460,8 +449,6 @@ function AppContent() {
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
 
-
-  // public login-only routes
   if (pathname === '/') {
     return (
       <Routes>
@@ -471,15 +458,12 @@ function AppContent() {
     );
   }
 
-  // authenticated app
   return (
     <div className="app-container">
-      {/* --- NEW: Standalone Hamburger Button --- */}
       <button className="global-hamburger-btn" onClick={toggleSidebar}>
         <FaBars />
       </button>
 
-      {/* The Sidebar no longer needs the toggleSidebar prop */}
       <Sidebar isOpen={isSidebarOpen} />
       
       {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
@@ -495,7 +479,13 @@ function AppContent() {
             <Route path="/media-files" element={<MediaFiles />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shifts" element={<ShiftList />} />
-            <Route path="/events" element={<Route index element={<SpecialEventsList />} /><Route path=":id" element={<EventSlots />} /></Route>
+            
+            {/* --- THIS IS THE CORRECTED ROUTE SYNTAX --- */}
+            <Route path="/events">
+              <Route index element={<SpecialEventsList />} />
+              <Route path=":id" element={<EventSlots />} />
+            </Route>
+
             <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
             <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
             <Route path="/announcements" element={<Announcements />} />
