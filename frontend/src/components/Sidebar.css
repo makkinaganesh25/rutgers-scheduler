@@ -1,3 +1,4 @@
+/* src/components/sidebar.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
@@ -42,8 +43,8 @@
   padding: 1.5rem 1rem;
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
-  transition: transform var(--transition), background var(--transition), color var(--transition);
-  transform: translateX(-100%);
+  transition: transform var(--transition);
+  transform: translateX(-100%); /* Hidden by default on mobile */
 }
 
 .sidebar.open {
@@ -59,19 +60,9 @@
 }
 
 .sidebar-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  line-height: 1.1;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-}
-
-.sidebar-toggle {
-  display: block; 
-  background: transparent;
-  border: none;
-  color: var(--fg);
   font-size: 1.5rem;
-  cursor: pointer;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .theme-toggle {
@@ -80,11 +71,6 @@
   color: var(--fg);
   font-size: 1.2rem;
   cursor: pointer;
-  transition: transform var(--transition);
-}
-
-.theme-toggle:hover {
-  transform: rotate(20deg) scale(1.1);
 }
 
 .sidebar-nav {
@@ -100,30 +86,14 @@
   border-radius: var(--radius);
   color: var(--muted);
   text-decoration: none;
-  position: relative;
-  transition: background var(--transition), color var(--transition);
 }
-
 .sidebar-link:hover {
   background: var(--hover);
   color: var(--fg);
 }
-
 .sidebar-link.active {
   background: var(--hover);
   color: var(--fg);
-}
-
-.sidebar-link.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--accent);
-  border-top-right-radius: var(--radius);
-  border-bottom-right-radius: var(--radius);
 }
 
 .badge {
@@ -144,13 +114,26 @@
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background var(--transition), transform var(--transition);
 }
-
 .logout-btn:hover {
   background: var(--btn-hover);
-  transform: scale(1.02);
+}
+
+/* Hamburger toggle button - now positioned independently */
+.sidebar-toggle {
+    display: block; /* Hidden on desktop by the media query below */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001; /* On top of everything */
+    background-color: #8e1e1e;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 .main-content {
@@ -163,16 +146,14 @@
   transition: margin-left var(--transition);
 }
 
+/* Desktop styles */
 @media (min-width: 768px) {
   .sidebar {
     transform: translateX(0);
-    box-shadow: 3px 0 12px var(--shadow);
   }
-
   .sidebar-toggle {
-    display: none;
+    display: none; /* Hide hamburger on desktop */
   }
-
   .main-content {
     margin-left: var(--sidebar-width);
   }
