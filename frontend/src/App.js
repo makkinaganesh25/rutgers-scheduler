@@ -197,7 +197,6 @@
 
 
 
-// src/App.js
 import React, { useState } from 'react';
 import {
   BrowserRouter,
@@ -206,6 +205,7 @@ import {
   Navigate,
   useLocation
 } from 'react-router-dom';
+import { FaBars } from 'react-icons/fa'; // <-- IMPORT FaBars HERE
 
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
@@ -223,34 +223,34 @@ import {
   SECURITY_LEAVE_APPROVER_ROLES
 } from './config/roles';
 
-import Sidebar          from './components/Sidebar';
-import Login            from './pages/Login';
-import Dashboard        from './pages/Dashboard';
-import Coverages        from './pages/Coverages';
-import Calendar         from './pages/Calendar';
-import Notifications    from './pages/Notifications';
-import MediaFiles       from './pages/MediaFiles';
-import FAQ              from './pages/FAQ';
-import ShiftList        from './pages/ShiftList';
+import Sidebar from './components/Sidebar';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Coverages from './pages/Coverages';
+import Calendar from './pages/Calendar';
+import Notifications from './pages/Notifications';
+import MediaFiles from './pages/MediaFiles';
+import FAQ from './pages/FAQ';
+import ShiftList from './pages/ShiftList';
 import SpecialEventsList from './pages/SpecialEventsList';
-import EventSlots       from './pages/EventSlots';
-import AdminEvents      from './pages/AdminEvents';
-import AdminUsers       from './pages/AdminUsers';
-import Overview         from './pages/Overview';
+import EventSlots from './pages/EventSlots';
+import AdminEvents from './pages/AdminEvents';
+import AdminUsers from './pages/AdminUsers';
+import Overview from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
-import Chatbot          from './components/Chatbot';
+import Chatbot from './components/Chatbot';
 
 // Announcements pages
-import Announcements      from './pages/Announcements';
+import Announcements from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
 
 // CSO Leave + Mandate pages
-import CsoLeaveRequest    from './pages/CsoLeaveRequest';
-import CsoLeaveApproval   from './pages/CsoLeaveApproval';
-import CsoMandate         from './pages/CsoMandate';
+import CsoLeaveRequest from './pages/CsoLeaveRequest';
+import CsoLeaveApproval from './pages/CsoLeaveApproval';
+import CsoMandate from './pages/CsoMandate';
 
 // Security Leave pages
-import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
+import SecurityLeaveRequest from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
 function AppContent() {
@@ -272,8 +272,20 @@ function AppContent() {
   // authenticated app
   return (
     <div className="app-container">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className={`main-content ${isSidebarOpen ? 'sidebar-is-open' : ''}`}>
+      {/* Sidebar now only needs to know if it is open or not */}
+      <Sidebar isOpen={isSidebarOpen} />
+
+      {/* The toggle button is now rendered here, outside of the Sidebar component */}
+      <button
+        className={`sidebar-toggle ${isSidebarOpen ? 'hide-toggle' : ''}`}
+        onClick={toggleSidebar}
+        aria-label="Toggle sidebar"
+      >
+        <FaBars />
+      </button>
+
+      {/* The main content area where all pages are rendered */}
+      <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
             {/* Core pages */}
