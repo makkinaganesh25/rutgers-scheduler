@@ -408,6 +408,7 @@
 //   );
 // }
 
+// src/App.js
 import React, { useState } from 'react';
 import {
   BrowserRouter,
@@ -449,11 +450,17 @@ import AdminUsers       from './pages/AdminUsers';
 import Overview         from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
 import Chatbot          from './components/Chatbot';
+
+// Announcements pages
 import Announcements      from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
+
+// CSO Leave + Mandate pages
 import CsoLeaveRequest    from './pages/CsoLeaveRequest';
 import CsoLeaveApproval   from './pages/CsoLeaveApproval';
 import CsoMandate         from './pages/CsoMandate';
+
+// Security Leave pages
 import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
@@ -463,21 +470,24 @@ function AppContent() {
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
+  // public login-only routes
   if (pathname === '/') {
     return (
       <Routes>
-        <Route path="/" element={<h1>DEPLOY TEST</h1>} />
+        <Route path="/" element={<Login />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
   }
 
+  // authenticated app
   return (
     <div className="app-container">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className={`main-content ${isSidebarOpen ? 'sidebar-is-open' : ''}`}>
         <Routes>
           <Route element={<AuthenticatedRoute />}>
+            {/* Core pages */}
             <Route path="/hierarchy" element={<CommandHierarchy />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/coverages" element={<Coverages />} />
@@ -487,21 +497,96 @@ function AppContent() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shifts" element={<ShiftList />} />
 
+            {/* Special Events */}
             <Route path="/events">
               <Route index element={<SpecialEventsList />} />
               <Route path=":id" element={<EventSlots />} />
             </Route>
-            
-            <Route path="/admin/events" element={ <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute> } />
-            <Route path="/admin/users" element={ <RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute> } />
+            <Route
+              path="/admin/events"
+              element={
+                <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
+                  <AdminEvents />
+                </RoleRoute>
+              }
+            />
+
+            {/* Admin Users */}
+            <Route
+              path="/admin/users"
+              element={
+                <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
+                  <AdminUsers />
+                </RoleRoute>
+              }
+            />
+
+            {/* Announcements */}
             <Route path="/announcements" element={<Announcements />} />
-            <Route path="/admin/announcements" element={ <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute> } />
-            <Route path="/overview" element={ <RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute> } />
-            <Route path="/cso/leave" element={ <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute> } />
-            <Route path="/cso/leave/approve" element={ <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute> } />
-            <Route path="/cso/mandate" element={ <RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute> } />
-            <Route path="/security/leave" element={ <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute> } />
-            <Route path="/security/leave/approve" element={ <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute> } />
+            <Route
+              path="/admin/announcements"
+              element={
+                <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
+                  <AdminAnnouncements />
+                </RoleRoute>
+              }
+            />
+
+            {/* Overview */}
+            <Route
+              path="/overview"
+              element={
+                <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
+                  <Overview />
+                </RoleRoute>
+              }
+            />
+
+            {/* CSO Leave & Mandates */}
+            <Route
+              path="/cso/leave"
+              element={
+                <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
+                  <CsoLeaveRequest />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/cso/leave/approve"
+              element={
+                <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
+                  <CsoLeaveApproval />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/cso/mandate"
+              element={
+                <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
+                  <CsoMandate />
+                </RoleRoute>
+              }
+            />
+
+            {/* Security Leave */}
+            <Route
+              path="/security/leave"
+              element={
+                <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
+                  <SecurityLeaveRequest />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/security/leave/approve"
+              element={
+                <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
+                  <SecurityLeaveApproval />
+                </RoleRoute>
+              }
+            />
+
+            {/* Catch-all: redirect to dashboard */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
