@@ -25,38 +25,12 @@
   overflow: hidden;
 }
 
-/* --- Styles for the mobile toggle button --- */
-.mobile-menu-toggle {
-  display: block;
-  position: fixed;
-  top: 15px;
-  right: 20px; 
-  z-index: 1001; 
-  /* ======================================= */
-  /* --- THIS IS THE FIX --- */
-  /* Using !important to force the style override and make the button red. */
-  background: #8e1e1e !important; 
-  color: white !important;
-  /* ======================================= */
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 1.4rem;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease-in-out;
-}
-
-.mobile-menu-toggle:hover {
-    transform: scale(1.1);
-}
+/* The .mobile-menu-toggle styles have been moved directly into App.js
+  to guarantee they are applied and to avoid browser caching issues.
+  The old CSS rule can be safely removed from here.
+*/
 
 @media (min-width: 768px) {
-  .mobile-menu-toggle {
-    display: none;
-  }
+  /* You can keep this block if you have other mobile-only styles,
+     but the .mobile-menu-toggle rule inside it is no longer needed. */
 }
