@@ -1,6 +1,5 @@
 :root {
-  --sidebar-width-open: 260px;
-  --sidebar-width-collapsed: 88px;
+  --sidebar-width: 260px;
   --transition-speed: 0.3s ease-in-out;
 }
 
@@ -13,13 +12,6 @@
   padding: 20px;
 }
 
-/* --- Login Page specific styles --- */
-.login-layout .main-content {
-  padding: 0;
-  margin-left: 0 !important;
-}
-
-/* --- Overlay for mobile view --- */
 .overlay {
   position: fixed;
   top: 0;
@@ -36,16 +28,30 @@
   to { opacity: 1; }
 }
 
+/* --- The global hamburger button, only visible on mobile --- */
+.global-hamburger-btn {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001; /* On top of everything */
+  background-color: #8e1e1e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  align-items: center;
+  justify-content: center;
+}
+
 /* --- DESKTOP LAYOUT --- */
 @media (min-width: 768px) {
-  .app-container.sidebar-open .main-content {
-    margin-left: var(--sidebar-width-open);
-  }
-  .app-container.sidebar-collapsed .main-content {
-    margin-left: var(--sidebar-width-collapsed);
-  }
-  .overlay {
-    display: none;
+  .main-content {
+    margin-left: var(--sidebar-width);
   }
 }
 
@@ -53,5 +59,8 @@
 @media (max-width: 767px) {
   .main-content {
     margin-left: 0;
+  }
+  .global-hamburger-btn {
+    display: flex; /* Show the button on mobile */
   }
 }
