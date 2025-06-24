@@ -29,11 +29,7 @@
   --btn-hover: #e84118;
 }
 
-/*
- * ======================================================
- * --- MOBILE-FIRST STYLES (Bottom Sheet Pop-up) ---
- * ======================================================
- */
+/* --- MOBILE-FIRST STYLES --- */
 
 .sidebar-backdrop {
   position: fixed;
@@ -66,16 +62,20 @@
   padding: 1rem 1rem 1.5rem;
   font-family: 'Inter', sans-serif;
   transition: transform var(--transition);
-  transform: translateY(100%); /* Start hidden at the bottom */
+  transform: translateY(100%);
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   box-shadow: 0 -5px 20px var(--shadow);
   max-height: 85vh;
-  overflow: hidden;
+  /* ======================================= */
+  /* --- MOBILE SCROLLING FIX --- */
+  /* This makes the entire bottom sheet scrollable if its content is too tall. */
+  overflow-y: auto;
+  /* ======================================= */
 }
 
 .sidebar.open {
-  transform: translateY(0); /* Slide into view */
+  transform: translateY(0);
 }
 
 .sidebar-handle {
@@ -107,19 +107,17 @@
   color: var(--fg);
   font-size: 1.2rem;
   cursor: pointer;
-  transition: transform var(--transition);
 }
 
 .sidebar-nav {
-  flex: 1;
-  overflow-y: auto; /* THIS ENABLES SCROLLING ON MOBILE */
+  /* No scrolling needed here anymore, the parent handles it. */
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.7rem 0.8rem; /* Larger padding for mobile touch targets */
+  padding: 0.7rem 0.8rem;
   margin: 0.2rem 0;
   border-radius: var(--radius);
   color: var(--muted);
@@ -151,6 +149,7 @@
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
+  flex-shrink: 0; /* Prevents button from shrinking */
 }
 
 .main-content {
@@ -163,57 +162,39 @@
 }
 
 
-/*
- * ======================================================
- * --- DESKTOP STYLES (Restoring Original View) ---
- * ======================================================
- */
+/* --- DESKTOP STYLES --- */
 @media (min-width: 768px) {
-  /* Hide mobile-only elements on desktop */
   .sidebar-backdrop, .sidebar-handle {
     display: none;
   }
   
-  /* Restore original sidebar styles */
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     width: var(--sidebar-width);
     height: 100vh;
+    max-height: 100vh;
     z-index: 1000;
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1rem;
-    overflow-y: hidden; /* <--- DISABLE SCROLLING ON DESKTOP */
+    overflow-y: hidden; /* Disable scrolling on desktop sidebar container */
     transform: translateX(0);
     border-radius: 0;
     box-shadow: 3px 0 12px var(--shadow);
-  }
-  
-  .sidebar-nav {
-      flex: 1;
-      overflow-y: visible; /* Ensure content is not cut off */
   }
 
   .sidebar-header {
     margin-bottom: 1rem;
   }
   
-  /* --- THIS IS THE FIX --- */
-  /* Revert to original, smaller padding on desktop to prevent overflow */
   .sidebar-link {
-    padding: 0.6rem 0.8rem;
+    padding: 0.6rem 0.8rem; /* Revert to smaller padding */
   }
 
   .sidebar-link:hover {
     background: var(--hover);
-    color: var(--fg);
-  }
-
-  .sidebar-link:hover svg {
-    transform: scale(1.1);
-    color: var(--accent);
   }
 
   .sidebar-link.active::before {
@@ -228,12 +209,19 @@
     border-bottom-right-radius: var(--radius);
   }
 
+  .logout-btn {
+    /* ======================================= */
+    /* --- DESKTOP GAP FIX --- */
+    /* This pushes the logout button to the absolute bottom of the sidebar. */
+    margin-top: auto;
+    /* ======================================= */
+  }
+
   .logout-btn:hover {
     background: var(--btn-hover);
     transform: scale(1.02);
   }
 
-  /* Restore original main content margin */
   .main-content {
     margin-left: var(--sidebar-width);
   }
