@@ -1,74 +1,25 @@
-/* src/app.css */
-
-/* --- Global Hamburger Button Styles --- */
-.global-hamburger-btn {
-    display: none; /* Hidden on desktop */
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1001; /* Must be on top of everything */
-    background-color: #8e1e1e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-}
-
-@media (max-width: 768px) {
-    .global-hamburger-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-/* --- App Container --- */
 .app-container {
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  position: relative;
-}
-
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    position: relative;
+  }
+  
 .content-section {
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-/* --- Login Layout --- */
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
 .app-container.login-layout {
-  display: block;
-}
+    display: block;
+    height: 100vh;
+  }
+  
 .app-container.login-layout .main-content {
-  padding: 0;
-  background: none;
-  height: 100vh;
-  overflow: hidden;
-  margin-left: 0; /* Ensure no margin on login */
-}
-
-/* --- Overlay Styles --- */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999; 
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@media (min-width: 768px) {
-    .overlay {
-        display: none;
-    }
-}
+    padding: 0;
+    background: none;
+    height: 100vh;
+    overflow: hidden;
+  }
