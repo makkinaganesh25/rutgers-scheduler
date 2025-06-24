@@ -33,14 +33,14 @@ body {
   border-radius: var(--radius);
   padding: 2rem;
   box-shadow: var(--shadow);
-  overflow: hidden; /* Prevent table from breaking card radius */
+  overflow: hidden;
 }
 
 h2 {
   margin-top: 0;
   color: var(--primary);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .alert {
@@ -53,9 +53,55 @@ h2 {
   color: var(--error);
 }
 
-/* --- DESKTOP TABLE STYLES --- */
+/* --- NEW: View Toggle Styles --- */
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  background-color: #eee;
+  border-radius: var(--radius);
+  padding: 5px;
+  margin-bottom: 2rem;
+}
+.toggle-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  background-color: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.toggle-btn.active {
+  background-color: var(--card-bg);
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.count-badge {
+  background-color: var(--primary);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 999px;
+  min-width: 20px;
+  text-align: center;
+}
+.toggle-btn:not(.active) .count-badge {
+  background-color: #ccc;
+  color: #555;
+}
+/* --- END NEW --- */
+
+
 .table-wrapper {
-  overflow-x: auto; /* Allows horizontal scrolling on desktop if needed */
+  overflow-x: auto;
 }
 
 .data-table {
@@ -69,7 +115,7 @@ h2 {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border);
   text-align: left;
-  white-space: nowrap; /* Prevent text from wrapping on desktop */
+  white-space: nowrap;
 }
 
 .data-table th {
@@ -81,139 +127,47 @@ h2 {
   background: #fcfcfc;
 }
 
+.no-data-cell {
+    text-align: center !important;
+    padding: 3rem 1rem !important;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
 .status {
   text-transform: capitalize;
   font-weight: 500;
 }
-.status.approved {
-  color: var(--success);
-}
-.status.denied {
-  color: var(--error);
-}
-.status.pending {
-  color: #f57c00; /* amber */
-}
+.status.approved { color: var(--success); }
+.status.denied { color: var(--error); }
+.status.pending { color: #f57c00; }
 
-.actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.actions button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  color: #fff;
-}
-
-.btn-accept {
-  background: var(--success);
-}
-.btn-accept:hover {
-  background: var(--success-dark);
-}
-
-.btn-deny {
-  background: var(--error);
-}
-.btn-deny:hover {
-  background: var(--error-dark);
-}
+.actions { display: flex; gap: 0.5rem; }
+.actions button { padding: 0.5rem 1rem; border: none; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.2s; color: #fff; }
+.btn-accept { background: var(--success); }
+.btn-accept:hover { background: var(--success-dark); }
+.btn-deny { background: var(--error); }
+.btn-deny:hover { background: var(--error-dark); }
 
 /* ===================================================================== */
 /* === Responsive Styles (for Mobile) === */
 /* ===================================================================== */
 
 @media (max-width: 768px) {
-  .card {
-    padding: 1rem; /* Less padding on mobile */
-  }
-
-  /* 1. Hide the original table header */
-  .data-table thead {
-    display: none;
-  }
-
-  /* 2. Remove table behavior and make elements blocks */
-  .data-table,
-  .data-table tbody,
-  .data-table tr,
-  .data-table td {
-    display: block;
-    width: 100%;
-  }
-
-  /* 3. Style each row like a card */
-  .data-table tr {
-    margin-bottom: 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem;
-  }
-  .data-table tr:last-child {
-    margin-bottom: 0;
-  }
-  
-  /* 4. Style each data cell */
-  .data-table td {
-    padding: 0.5rem 0;
-    border-bottom: 1px dashed var(--border);
-    display: flex;
-    justify-content: space-between; /* Align label and value */
-    align-items: center;
-    text-align: right; /* Align value to the right */
-    white-space: normal;
-  }
-  .data-table td:last-child {
-    border-bottom: none;
-  }
-
-  /* 5. The Magic: Add data labels using pseudo-elements */
-  .data-table td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    text-align: left;
-    margin-right: 1rem;
-    color: var(--primary);
-  }
-
-  /* 6. Specifically target each cell to assign its label */
-  .data-table td:nth-of-type(1)::before { content: "Officer"; }
-  .data-table td:nth-of-type(2)::before { content: "From"; }
-  .data-table td:nth-of-type(3)::before { content: "To"; }
-  .data-table td:nth-of-type(4)::before { content: "Status"; }
-  .data-table td:nth-of-type(5)::before { content: "Action"; }
-
-  /* 7. Style the action buttons for mobile */
-  .actions {
-    justify-content: flex-end; /* Align buttons to the right */
-  }
-
-  /* If there are two buttons, make them share the space */
-  .actions button {
-    flex-grow: 1;
-  }
+  .card { padding: 1rem; }
+  .data-table thead { display: none; }
+  .data-table, .data-table tbody, .data-table tr, .data-table td { display: block; width: 100%; }
+  .data-table tr { margin-bottom: 1rem; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .data-table tr:last-child { margin-bottom: 0; }
+  .data-table td { padding: 0.5rem 0; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; text-align: right; white-space: normal; }
+  .data-table td:last-child { border-bottom: none; }
+  .data-table td::before { content: attr(data-label); font-weight: 600; text-align: left; margin-right: 1rem; color: var(--primary); }
+  .actions { justify-content: flex-end; }
+  .actions button { flex-grow: 1; }
 }
 
 @media (max-width: 400px) {
-    /* For very small screens, stack the action buttons */
-    .data-table td:nth-of-type(5) {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-    }
-    .data-table td:nth-of-type(5)::before {
-        margin-bottom: 0.5rem;
-        text-align: center;
-        width: 100%;
-    }
-    .actions {
-        flex-direction: column;
-        width: 100%;
-    }
+    .data-table td:nth-of-type(5) { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .data-table td:nth-of-type(5)::before { margin-bottom: 0.5rem; text-align: center; width: 100%; }
+    .actions { flex-direction: column; width: 100%; }
 }
