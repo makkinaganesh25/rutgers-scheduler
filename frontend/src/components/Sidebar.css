@@ -4,12 +4,11 @@
 :root {
   --sidebar-width: 250px;
   --transition: 0.3s ease-in-out;
-  --radius: 8px; /* Slightly increased for a modern look */
+  --radius: 6px;
   --shadow: rgba(0, 0, 0, 0.2);
   --breakpoint-md: 768px;
 }
 
-/* --- THEME COLORS --- */
 .sidebar.light {
   --bg: #8e1e1e;
   --fg: #fff;
@@ -31,8 +30,11 @@
 }
 
 /*
- * --- MOBILE FIRST STYLES (Bottom Sheet) ---
+ * ======================================================
+ * --- MOBILE-FIRST STYLES (Bottom Sheet Pop-up) ---
+ * ======================================================
  */
+
 .sidebar-backdrop {
   position: fixed;
   top: 0;
@@ -53,7 +55,7 @@
 
 .sidebar {
   position: fixed;
-  bottom: 0; /* Position at the bottom */
+  bottom: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -61,22 +63,21 @@
   color: var(--fg);
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem 1.5rem; /* Adjusted padding */
+  padding: 1rem 1rem 1.5rem;
   font-family: 'Inter', sans-serif;
   transition: transform var(--transition);
-  transform: translateY(100%); /* Start off-screen at the bottom */
+  transform: translateY(100%); /* Start hidden at the bottom */
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   box-shadow: 0 -5px 20px var(--shadow);
-  max-height: 85vh; /* Ensure it doesn't cover the full screen */
-  overflow: hidden; /* Hide overflow on the main container */
+  max-height: 85vh;
+  overflow: hidden;
 }
 
 .sidebar.open {
   transform: translateY(0); /* Slide into view */
 }
 
-/* Handle at the top of the bottom sheet for UX */
 .sidebar-handle {
   width: 40px;
   height: 4px;
@@ -86,13 +87,11 @@
   flex-shrink: 0;
 }
 
-
 .sidebar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-  flex-shrink: 0;
 }
 
 .sidebar-title {
@@ -111,20 +110,16 @@
   transition: transform var(--transition);
 }
 
-.theme-toggle:hover {
-  transform: rotate(20deg) scale(1.1);
-}
-
 .sidebar-nav {
   flex: 1;
-  overflow-y: auto; /* Allow nav links to scroll */
+  overflow-y: auto;
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.7rem 0.8rem; /* Increased padding for better touch targets */
+  padding: 0.7rem 0.8rem;
   margin: 0.2rem 0;
   border-radius: var(--radius);
   color: var(--muted);
@@ -133,91 +128,105 @@
   transition: background var(--transition), color var(--transition);
 }
 
-.sidebar-link svg {
-  transition: transform var(--transition), color var(--transition);
-}
-
-.sidebar-link:hover {
-  background: var(--hover);
-  color: var(--fg);
-}
-
 .sidebar-link.active {
-  background: var(--hover);
   color: var(--fg);
-  font-weight: 600;
-}
-
-/* On mobile, the active indicator is a subtle dot */
-.sidebar-link.active::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: -2px;
-  transform: translateY(-50%);
-  width: 5px;
-  height: 5px;
-  background: var(--accent);
-  border-radius: 50%;
+  background: var(--hover);
 }
 
 .badge {
   background: var(--accent);
   color: #fff;
   border-radius: 999px;
-  padding: 2px 8px; /* Adjusted padding */
+  padding: 2px 8px;
   margin-left: auto;
   font-size: 0.8rem;
-  font-weight: 600;
 }
 
 .logout-btn {
   margin-top: 1rem;
-  padding: 0.8rem 1rem; /* Larger touch target */
+  padding: 0.8rem 1rem;
   font-weight: 600;
   background: var(--btn-bg);
   color: #fff;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background var(--transition), transform var(--transition);
 }
 
+/* * --- UNCHANGED ORIGINAL MAIN CONTENT STYLES ---
+ * This block is preserved from your original file to keep the desktop layout intact.
+ */
+.main-content {
+  margin-left: 0;
+  padding: 20px;
+  width: 100%;
+  background-color: #f4f4f9;
+  overflow-y: auto;
+  transition: margin-left var(--transition);
+}
+
+
 /*
- * --- DESKTOP STYLES (Side Bar) ---
+ * ======================================================
+ * --- DESKTOP STYLES (Restoring Original View) ---
+ * ======================================================
  */
 @media (min-width: 768px) {
-  /* Restore the original sidebar layout */
+  /* Hide mobile-only elements on desktop */
+  .sidebar-backdrop, .sidebar-handle {
+    display: none;
+  }
+  
+  /* Restore original sidebar styles */
   .sidebar {
+    position: fixed;
     top: 0;
     left: 0;
     width: var(--sidebar-width);
     height: 100vh;
-    max-height: 100vh;
-    transform: translateX(0);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    overflow-y: auto;
+    transform: translateX(0); /* Make sure it's visible */
     border-radius: 0;
+    box-shadow: 3px 0 12px var(--shadow);
   }
 
-  /* We don't need a backdrop on desktop */
-  .sidebar-backdrop {
-    display: none;
+  .sidebar-header {
+    margin-bottom: 1rem;
   }
 
-  /* We don't need the handle on desktop */
-  .sidebar-handle {
-    display: none;
+  .sidebar-link:hover {
+    background: var(--hover);
+    color: var(--fg);
+  }
+
+  .sidebar-link:hover svg {
+    transform: scale(1.1);
+    color: var(--accent);
   }
 
   .sidebar-link.active::before {
-    /* Restore the vertical line indicator */
-    width: 4px;
-    height: 100%;
-    transform: none;
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent);
     border-top-right-radius: var(--radius);
     border-bottom-right-radius: var(--radius);
-    border-radius: 0; /* Reset mobile dot style */
+  }
+
+  .logout-btn:hover {
+    background: var(--btn-hover);
+    transform: scale(1.02);
+  }
+
+  /* Restore original main content margin */
+  .main-content {
+    margin-left: var(--sidebar-width); /* Push content on desktop */
   }
 }
