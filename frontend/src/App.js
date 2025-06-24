@@ -197,6 +197,7 @@
 
 
 
+// src/App.js (FINAL WORKING CODE)
 import React, { useState } from 'react';
 import {
   BrowserRouter,
@@ -205,7 +206,7 @@ import {
   Navigate,
   useLocation
 } from 'react-router-dom';
-import { FaBars } from 'react-icons/fa'; // <-- IMPORT FaBars HERE
+import { FaBars } from 'react-icons/fa';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
@@ -272,19 +273,17 @@ function AppContent() {
   // authenticated app
   return (
     <div className="app-container">
-      {/* Sidebar now only needs to know if it is open or not */}
       <Sidebar isOpen={isSidebarOpen} />
 
-      {/* The toggle button is now rendered here, outside of the Sidebar component */}
+      {/* The className is now simplified to no longer hide the button */}
       <button
-        className={`sidebar-toggle ${isSidebarOpen ? 'hide-toggle' : ''}`}
+        className="sidebar-toggle"
         onClick={toggleSidebar}
         aria-label="Toggle sidebar"
       >
         <FaBars />
       </button>
 
-      {/* The main content area where all pages are rendered */}
       <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
