@@ -1,4 +1,3 @@
-/* src/components/Sidebar.css (Corrected Version) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
@@ -43,8 +42,8 @@
   padding: 1.5rem 1rem;
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
-  transition: transform var(--transition), background var(--transition), color var(--transition);
-  transform: translateX(-100%); /* Hidden by default on all screens */
+  transition: transform var(--transition);
+  transform: translateX(-100%); /* Hidden by default on mobile */
 }
 
 .sidebar.open {
@@ -66,32 +65,6 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* ────────────────────────────────────────────────────────────────── */
-/* ↓↓↓ CORRECTED BUTTON STYLES ↓↓↓                   */
-/* ────────────────────────────────────────────────────────────────── */
-.sidebar-toggle {
-  position: fixed; /* Use fixed position to stay on screen */
-  top: 1.2rem;     /* Position from top */
-  left: 1rem;      /* Position from left */
-  z-index: 1001;   /* Ensure it's on top of other content */
-  
-  display: block;  /* Show on mobile */
-  background: var(--bg);
-  color: var(--fg);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: var(--radius);
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  line-height: 0; /* Helps center the icon */
-}
-
-/* When the sidebar is open, hide the toggle button */
-.sidebar.open .sidebar-toggle {
-  display: none;
-}
-/* ────────────────────────────────────────────────────────────────── */
-
 .theme-toggle {
   background: transparent;
   border: none;
@@ -102,7 +75,7 @@
 }
 
 .sidebar-header .theme-toggle {
-  margin-left: auto; /* Push theme toggle to the right */
+  margin-left: auto;
 }
 
 .theme-toggle:hover {
@@ -184,6 +157,30 @@
   transform: scale(1.02);
 }
 
+/* --- Toggle Button (Now outside the sidebar) --- */
+.sidebar-toggle {
+  position: fixed;
+  top: 1.2rem;
+  left: 1rem;
+  z-index: 1001;
+  display: block; /* Show by default for mobile-first */
+  background: #8e1e1e;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 0; /* Helps vertically center the icon */
+}
+
+/* Hide toggle button when the sidebar is open */
+.sidebar-toggle.hide-toggle {
+  display: none;
+}
+
+
+/* --- Main Content Area --- */
 .main-content {
   margin-left: 0;
   padding: 20px;
@@ -204,7 +201,7 @@
   }
   
   .sidebar-header .theme-toggle {
-     margin-left: 0; /* Reset margin on desktop */
+     margin-left: 0; /* Reset margin for desktop layout */
   }
 
   .main-content {
