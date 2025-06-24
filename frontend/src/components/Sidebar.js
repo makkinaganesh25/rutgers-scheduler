@@ -3,7 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   FaHome, FaUserCheck, FaCalendar, FaBell, FaFile, FaCalendarAlt, FaChartBar,
-  FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun, FaBars, FaSignOutAlt
+  FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun, FaBars, FaSignOutAlt,
+  FaAngleLeft, FaAngleRight // <<< ICONS ARE NOW CORRECTLY IMPORTED HERE
 } from 'react-icons/fa';
 import {
   SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES,
