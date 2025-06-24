@@ -287,18 +287,16 @@ export default function AdminUsers() {
     active: true,
   });
 
-  // Load users when filter changes
   const load = async () => {
     setLoading(true);
     try {
-      const all = await getAdminUsers(true); // Always fetch all to get manager list
+      const all = await getAdminUsers(true);
       setUsers(all);
     } finally {
       setLoading(false);
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     load();
   }, []);
@@ -428,6 +426,24 @@ export default function AdminUsers() {
           )}
         </div>
       </form>
+
+      {/* --- NEW: Mobile-Only View Toggle Buttons --- */}
+      <div className="mobile-view-toggle">
+        <button 
+            className={`toggle-btn ${filter === 'active' ? 'active' : ''}`}
+            onClick={() => setFilter('active')}
+        >
+            Active Users
+        </button>
+        <button 
+            className={`toggle-btn ${filter === 'inactive' ? 'active' : ''}`}
+            onClick={() => setFilter('inactive')}
+        >
+            Inactive Users
+        </button>
+      </div>
+      {/* --- END NEW --- */}
+
 
       {loading ? (
         <p>Loading users…</p>
