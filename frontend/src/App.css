@@ -1,72 +1,44 @@
 :root {
-  --sidebar-width: 260px; /* Let's give it a little more space */
-  --transition-speed: 0.3s ease-in-out;
+  --sidebar-width: 250px;
 }
 
-/* --- DESKTOP LAYOUT (Grid is the default) --- */
-
 .app-container {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr; /* Sidebar column | Main content column */
-  height: 100vh;
+  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
 }
 
 .main-content {
-  overflow-y: auto; /* Allow content to scroll */
   padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
-.global-hamburger-btn,
 .overlay {
-  display: none; /* Hide mobile-only elements on desktop */
-}
-
-
-/* --- MOBILE LAYOUT OVERRIDE --- */
-
-@media (max-width: 767px) {
-  /* On mobile, turn off the grid and revert to a standard block layout */
-  .app-container {
-    display: block; 
-  }
-
-  /* The main content takes up the full screen on mobile */
-  .main-content {
-    padding: 20px;
-  }
-  
-  /* Show the hamburger button on mobile */
-  .global-hamburger-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1001; /* On top of everything */
-    background-color: #8e1e1e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  }
-
-  /* Show the overlay when the sidebar is open on mobile */
-  .overlay {
-    display: block; /* It's only rendered in App.js when needed */
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 999;
-    animation: fadeIn 0.3s;
-  }
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  animation: fadeIn 0.3s;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* --- DESKTOP LAYOUT --- */
+@media (min-width: 768px) {
+  /* THIS IS THE KEY FIX: The main content will always have a left margin
+     to make space for the fixed sidebar. */
+  .main-content {
+    margin-left: var(--sidebar-width);
+  }
+}
+
+/* --- MOBILE LAYOUT --- */
+@media (max-width: 767px) {
+  /* On mobile, the main content takes up the full screen */
+  .main-content {
+    margin-left: 0;
+  }
 }
