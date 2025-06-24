@@ -174,18 +174,7 @@ button:active:not(:disabled) {
   display: block;
 }
 
-/* Error Message */
-.error-message {
-  background: rgba(204, 0, 51, 0.1);
-  color: var(--brand-accent);
-  border: 1px solid var(--brand-accent);
-  padding: var(--spacing-md);
-  border-radius: var(--radius);
-  text-align: center;
-  margin-bottom: var(--spacing-md);
-}
-
-/* Swap Modal */
+/* Swap Modal (No changes needed, but included for completeness) */
 .swap-modal {
   position: fixed;
   inset: 0;
@@ -203,39 +192,15 @@ button:active:not(:disabled) {
   width: 100%;
   max-width: 450px;
   box-shadow: var(--shadow-md);
-  animation: fadeIn 0.3s ease-out;
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
-}
-.swap-content h3 {
-  margin-top: 0;
-  color: var(--brand-red);
-}
-.swap-content label {
-  display: block;
-  margin-top: var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
-  font-weight: 600;
-}
-.swap-content select {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: var(--radius);
-  font-size: 1rem;
-}
-.swap-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
-}
+.swap-content h3 { margin-top: 0; color: var(--brand-red); }
+.swap-content label { display: block; margin-top: var(--spacing-md); margin-bottom: var(--spacing-sm); font-weight: 600; }
+.swap-content select { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: var(--radius); font-size: 1rem; }
+.swap-buttons { display: flex; justify-content: flex-end; gap: var(--spacing-sm); margin-top: var(--spacing-lg); }
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === DEFINITIVE FINAL VERSION */
+/* === Responsive Styles (for Mobile) === FINAL FINAL VERSION */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
@@ -269,22 +234,25 @@ button:active:not(:disabled) {
     gap: 0.5rem;
   }
 
-  /* --- THE DEFINITIVE FIX FOR INCONSISTENCY --- */
-  /* Target the .actions container specifically for mobile view */
+  /* --- THE DEFINITIVE FIX --- */
+  /* Target the .actions container */
   .actions {
-    display: flex;
-    flex-direction: column; /* Force all children to stack vertically */
-    align-items: stretch;  /* Force all children to stretch to full width */
-    justify-content: flex-start;
-    gap: var(--spacing-sm); /* Create space BETWEEN stacked buttons */
-    width: 100%; /* Ensure the container itself is full width */
+    display: grid; /* Use grid for simple, robust stacking */
+    grid-template-columns: 1fr; /* A single column */
+    gap: var(--spacing-sm); /* The space between stacked items */
+    width: 100%;
   }
 
   /* Target every direct child of .actions to ensure consistency */
   .actions > * {
-    width: 100%;
-    padding: 0.75rem var(--spacing-md);
-    box-sizing: border-box; /* Crucial for correct width calculation */
-    margin: 0; /* Reset any rogue margins */
+    /* Text Behavior */
+    white-space: normal; /* CRITICAL: Allows text to wrap */
+    text-align: center; /* CRITICAL: Centers the text */
+
+    /* Sizing & Spacing */
+    width: 100%; /* Take up full width of the grid column */
+    padding: 0.75rem var(--spacing-sm);
+    box-sizing: border-box; 
+    margin: 0;
   }
 }
