@@ -191,7 +191,6 @@ body, .admin-events {
 
 /* ─── Events Table ─── */
 .table-container {
-  max-height: 400px;
   overflow-y: auto;
   margin-bottom: 2rem;
 }
@@ -253,23 +252,36 @@ body, .admin-events {
 
 /*
  * ================================================================
- * --- MOBILE RESPONSIVE STYLES (SLOTS TABLE ONLY) ---
+ * --- MOBILE RESPONSIVE STYLES ---
  * ================================================================
  */
 @media (max-width: 768px) {
-  .slots-table thead {
+  
+  /* --- Shared Card Styles for Both Tables --- */
+  .slots-table, .events-table {
+      border: none;
+  }
+  .slots-table thead,
+  .events-table thead {
     display: none;
   }
 
-  .slots-table tr {
+  .slots-table tr,
+  .events-table tr {
     display: block;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     margin-bottom: 1rem;
     padding: 1rem;
   }
+  
+  /* Don't apply card styles to the 'no data' row */
+  .events-table .no-data {
+      display: table-cell;
+  }
 
-  .slots-table td {
+  .slots-table td,
+  .events-table td {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -277,21 +289,42 @@ body, .admin-events {
     border-bottom: 1px solid #f0f0f0;
   }
   
-  .slots-table td:last-child {
+  .slots-table td:last-child,
+  .events-table td:last-child {
       border-bottom: none;
   }
 
-  .slots-table td::before {
+  .slots-table td::before,
+  .events-table td::before {
     content: attr(data-label);
     font-weight: 600;
     color: var(--fg);
+    margin-right: 1rem;
   }
   
+  /* --- Slots Table Specifics --- */
   .slots-table td.col-action {
       justify-content: flex-end;
   }
-
   .slots-table td.col-action::before {
       display: none;
+  }
+  
+  /* --- Events Table Specifics --- */
+  .events-table .event-actions {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+  }
+  .events-table .event-actions::before {
+      /* Make label take up space to align with other labels */
+      flex-grow: 1;
+      text-align: left;
+  }
+  .events-table .btn-edit,
+  .events-table .btn-delete {
+      width: 100px;
+      text-align: center;
+      margin-right: 0;
   }
 }
