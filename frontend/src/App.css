@@ -40,7 +40,7 @@
   position: fixed;
   top: 15px;
   right: 20px;
-  z-index: 900; /* Must be above content but below sidebar overlay */
+  z-index: 1001; /* Must be above content but below sidebar overlay */
   background: #2a2a2a;
   color: white;
   border: none;
