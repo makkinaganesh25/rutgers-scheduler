@@ -223,9 +223,16 @@
     font-size: 1.8rem; /* Smaller title */
   }
 
+  /* --- THIS IS THE FIX FOR THE TOP FORM --- */
   .form-row {
     flex-direction: column; /* Stack form inputs vertically */
+    align-items: stretch; /* Make items full-width */
+    gap: 1.2rem; /* Adjust gap for vertical stacking */
   }
+  .input-group {
+      flex-grow: 0; /* Prevent the input groups from expanding vertically */
+  }
+  /* --- END OF FIX --- */
 
   /* --- Responsive Tables (Card View) --- */
   .slots-table thead,
@@ -247,7 +254,6 @@
       margin-bottom: 0;
   }
   
-  /* Dont apply card view to the 'no data' row */
   .events-table .no-data, .slots-table .no-data {
       display: table-cell;
       text-align: center;
@@ -278,12 +284,11 @@
     text-align: left;
   }
   
-  /* Adjustments for specific columns */
   .slots-table td.col-action {
-      justify-content: flex-end; /* Push trash icon to the right */
+      justify-content: flex-end;
   }
   .slots-table td.col-action::before {
-      display: none; /* No label for the trash icon */
+      display: none;
   }
   .events-table td.event-actions {
       flex-direction: column;
@@ -291,21 +296,21 @@
       gap: 0.5rem;
   }
   .events-table td.event-actions::before {
-      align-self: center; /* Center the 'Actions' label */
+      align-self: center;
   }
 
   .form-controls {
-    flex-direction: column; /* Stack form buttons */
+    flex-direction: column;
     gap: 0.75rem;
   }
   .btn-primary, .btn-outline {
-    width: 100%; /* Make buttons full-width */
+    width: 100%;
   }
 
   .toggle-container {
       display: flex;
   }
   .toggle-btn {
-      flex: 1; /* Make toggle buttons even width */
+      flex: 1;
   }
 }
