@@ -1,32 +1,19 @@
+/* src/components/sidebar.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
   --sidebar-width: 250px;
   --transition: 0.3s ease-in-out;
+  /* ... (keep the rest of your :root variables) ... */
   --radius: 6px;
   --shadow: rgba(0, 0, 0, 0.2);
   --breakpoint-md: 768px;
 }
 
-.sidebar.light {
-  --bg: #8e1e1e;
-  --fg: #fff;
-  --hover: rgba(255, 255, 255, 0.1);
-  --accent: #db0a22;
-  --muted: #ddd;
-  --btn-bg: #db0a22;
-  --btn-hover: #b10b20;
-}
+/* ... (keep .sidebar.light and .sidebar.dark styles) ... */
+.sidebar.light { --bg: #8e1e1e; --fg: #fff; --hover: rgba(255, 255, 255, 0.1); --accent: #db0a22; --muted: #ddd; --btn-bg: #db0a22; --btn-hover: #b10b20; }
+.sidebar.dark { --bg: #2f2f2f; --fg: #eee; --hover: rgba(255, 255, 255, 0.08); --accent: #ff4757; --muted: #aaa; --btn-bg: #ff4757; --btn-hover: #e84118; }
 
-.sidebar.dark {
-  --bg: #2f2f2f;
-  --fg: #eee;
-  --hover: rgba(255, 255, 255, 0.08);
-  --accent: #ff4757;
-  --muted: #aaa;
-  --btn-bg: #ff4757;
-  --btn-hover: #e84118;
-}
 
 .sidebar {
   position: fixed;
@@ -43,8 +30,6 @@
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
   transition: transform var(--transition), background var(--transition), color var(--transition);
-  
-  /* Mobile First: Hide sidebar by default */
   transform: translateX(-100%);
 }
 
@@ -53,11 +38,10 @@
   box-shadow: 3px 0 15px var(--shadow);
 }
 
-/* --- REFINED HEADER STYLES --- */
 .sidebar-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align items to the start */
+  justify-content: space-between; /* This will now push title and theme toggle apart */
   gap: 0.75rem;
   padding: 0.5rem;
   margin-bottom: 1rem;
@@ -68,113 +52,40 @@
   font-weight: 700;
   line-height: 1;
   margin: 0;
-  /* Allow title to take up remaining space */
   flex-grow: 1; 
 }
 
-/* --- REFINED TOGGLE BUTTON STYLES --- */
-.sidebar-toggle, .theme-toggle {
+/* THE OLD .sidebar-toggle STYLES HAVE BEEN REMOVED */
+
+.theme-toggle {
   background: transparent;
   border: none;
   color: var(--fg);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Only show sidebar toggle on mobile */
-.sidebar-toggle {
-  display: block;
-}
-
-.theme-toggle {
-  font-size: 1.2rem;
   transition: transform var(--transition);
 }
 .theme-toggle:hover {
   transform: rotate(20deg) scale(1.1);
 }
-/* --- END REFINEMENT --- */
 
-.sidebar-nav {
-  flex: 1;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.8rem;
-  margin: 0.2rem 0;
-  border-radius: var(--radius);
-  color: var(--muted);
-  text-decoration: none;
-  position: relative;
-  transition: background var(--transition), color var(--transition);
-}
+/* ... (keep all other styles for .sidebar-nav, .sidebar-link, .logout-btn, .main-content etc.) ... */
+.sidebar-nav { flex: 1; }
+.sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.8rem; margin: 0.2rem 0; border-radius: var(--radius); color: var(--muted); text-decoration: none; position: relative; transition: background var(--transition), color var(--transition); }
 .sidebar-link svg { transition: transform var(--transition), color var(--transition); }
 .sidebar-link:hover { background: var(--hover); color: var(--fg); }
 .sidebar-link:hover svg { transform: scale(1.1); color: var(--accent); }
 .sidebar-link.active { background: var(--hover); color: var(--fg); }
-.sidebar-link.active::before {
-  content: ''; position: absolute; top: 0; left: 0;
-  width: 4px; height: 100%; background: var(--accent);
-  border-top-right-radius: var(--radius);
-  border-bottom-right-radius: var(--radius);
-}
-
-.badge {
-  background: var(--accent);
-  color: #fff;
-  border-radius: 999px;
-  padding: 0 6px;
-  margin-left: auto;
-  font-size: 0.75rem;
-}
-
-.logout-btn {
-  margin-top: 1rem;
-  padding: 0.7rem 1rem;
-  font-weight: 600;
-  background: var(--btn-bg);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background var(--transition), transform var(--transition);
-}
-.logout-btn:hover {
-  background: var(--btn-hover);
-  transform: scale(1.02);
-}
-
-.main-content {
-  margin-left: 0;
-  transition: margin-left var(--transition);
-}
-
-/* --- DESKTOP STYLES --- */
+.sidebar-link.active::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+.badge { background: var(--accent); color: #fff; border-radius: 999px; padding: 0 6px; margin-left: auto; font-size: 0.75rem; }
+.logout-btn { margin-top: 1rem; padding: 0.7rem 1rem; font-weight: 600; background: var(--btn-bg); color: #fff; border: none; border-radius: var(--radius); cursor: pointer; box-shadow: 0 2px 8px var(--shadow); transition: background var(--transition), transform var(--transition); }
+.logout-btn:hover { background: var(--btn-hover); transform: scale(1.02); }
+.main-content { margin-left: 0; transition: margin-left var(--transition); }
 @media (min-width: 768px) {
-  .sidebar {
-    transform: translateX(0);
-    box-shadow: 3px 0 12px var(--shadow);
-  }
-
-  /* Hide hamburger on desktop */
-  .sidebar-toggle {
-    display: none;
-  }
-  
-  /* On desktop, push title left and theme toggle right */
-  .sidebar-header {
-      justify-content: space-between;
-  }
-
-  .main-content {
-    margin-left: var(--sidebar-width);
-  }
+  .sidebar { transform: translateX(0); box-shadow: 3px 0 12px var(--shadow); }
+  .main-content { margin-left: var(--sidebar-width); }
 }
