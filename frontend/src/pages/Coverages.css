@@ -16,7 +16,7 @@
   --text-dark:        #212121;
   --text-light:       #ffffff;
   --text-muted:       #555;
-
+  
   /* Spacing & shadows */
   --radius:      8px;
   --spacing-sm:  0.5rem;
@@ -235,7 +235,7 @@ button:active:not(:disabled) {
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === FINAL REFINED VERSION */
+/* === Responsive Styles (for Mobile) === DEFINITIVE FINAL VERSION */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
@@ -259,29 +259,32 @@ button:active:not(:disabled) {
   /* Make each list item a clean vertical stack */
   .coverages-list li {
     flex-direction: column;
-    align-items: stretch; /* Make children full-width */
+    align-items: stretch; 
     padding: var(--spacing-md); 
-    gap: var(--spacing-md); /* Creates space between info and actions */
+    gap: var(--spacing-md);
   }
 
   /* Ensure info text block is well-spaced */
   .info {
-    gap: 0.5rem; /* Space between lines of text */
+    gap: 0.5rem;
   }
 
-  /* Actions container stacks buttons vertically */
+  /* --- THE DEFINITIVE FIX FOR INCONSISTENCY --- */
+  /* Target the .actions container specifically for mobile view */
   .actions {
-    flex-direction: column;
-    align-items: stretch;  /* Makes buttons full-width */
+    display: flex;
+    flex-direction: column; /* Force all children to stack vertically */
+    align-items: stretch;  /* Force all children to stretch to full width */
     justify-content: flex-start;
-    gap: var(--spacing-sm); /* Space between stacked buttons */
+    gap: var(--spacing-sm); /* Create space BETWEEN stacked buttons */
+    width: 100%; /* Ensure the container itself is full width */
   }
 
-  /* Style all buttons and badges within the actions container consistently */
-  .actions button,
-  .actions .badge {
+  /* Target every direct child of .actions to ensure consistency */
+  .actions > * {
     width: 100%;
-    padding: 0.75rem var(--spacing-md); /* Generous, tappable padding */
-    box-sizing: border-box; /* Ensures padding is included in the width */
+    padding: 0.75rem var(--spacing-md);
+    box-sizing: border-box; /* Crucial for correct width calculation */
+    margin: 0; /* Reset any rogue margins */
   }
 }
