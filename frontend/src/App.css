@@ -1,16 +1,11 @@
 /* src/app.css */
 
-/* App container - simplified */
 .app-container {
   height: 100vh;
   font-family: Arial, sans-serif;
   position: relative;
 }
 
-/* Main content and Sidebar styling is now handled by sidebar.css */
-/* You can remove the old .sidebar and .main-content rules from here */
-
-/* Optional padding for inner content */
 .content-section {
   padding: 20px;
   background: white;
@@ -19,7 +14,6 @@
   margin-bottom: 20px;
 }
 
-/* Login-specific styles can remain */
 .app-container.login-layout {
   display: block;
   height: 100vh;
@@ -30,4 +24,28 @@
   background: none;
   height: 100vh;
   overflow: hidden;
+  margin-left: 0;
+}
+
+/* --- Overlay to close sidebar on mobile --- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; 
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (min-width: 768px) {
+    .overlay {
+        display: none;
+    }
 }
