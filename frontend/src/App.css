@@ -33,12 +33,12 @@
   right: 20px; 
   z-index: 1001; 
   /* ======================================= */
-  /* --- COLOR CONTRAST FIX --- */
-  /* This uses the sidebar's red for high visibility and brand consistency. */
-  background: #8e1e1e; 
+  /* --- FINAL COLOR FIX --- */
+  /* Using !important to force the style override */
+  background: #8e1e1e !important; 
+  color: white !important;
   /* ======================================= */
-  color: white;
-  border: 1px solid rgba(0,0,0,0.1); /* Optional: adds a subtle border */
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 50%;
   width: 50px;
   height: 50px;
