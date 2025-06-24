@@ -364,26 +364,19 @@ function formatDate(dateStr) {
 
 export default function AdminEvents() {
   const { addNotification } = useNotifications();
-
-  // All events from the server
   const [events, setEvents] = useState([]);
-  // 'ongoing' or 'archived'
   const [view, setView] = useState('ongoing');
-  // currently editing event ID
   const [editingId, setEditingId] = useState(null);
-  // form fields for event
   const [form, setForm] = useState({
     name: '',
     date: '',
     description: '',
     capacity: 0
   });
-  // slots for the event being edited
   const [slots, setSlots] = useState([
     { id: null, filled_by: null, filled_name: '', filled_rank: '', assignment: '', time_in: '', time_out: '' }
   ]);
 
-  // load all events once
   useEffect(() => {
     reload();
   }, []);
@@ -391,24 +384,20 @@ export default function AdminEvents() {
   function reload() {
     listEvents()
       .then(data => {
-        // sort ascending by date
         const sorted = data.sort((a,b)=> a.date.localeCompare(b.date));
         setEvents(sorted);
       })
       .catch(() => alert('Could not load events'));
   }
 
-  // helper: today in<x_bin_342>-MM-DD
   const today = new Date().toISOString().slice(0,10);
 
-  // filter events based on view
   const filtered = events.filter(ev =>
     view === 'ongoing'
       ? ev.date >= today
       : ev.date < today
   );
 
-  // start editing an event
   async function startEdit(ev) {
     setEditingId(ev.id);
     setForm({
@@ -417,7 +406,6 @@ export default function AdminEvents() {
       description: ev.description,
       capacity: ev.capacity
     });
-    // fetch its slots
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001'}/api/events/${ev.id}`,
       { headers:{ Authorization: `Bearer ${localStorage.getItem('token')}` } }
@@ -432,7 +420,6 @@ export default function AdminEvents() {
     );
   }
 
-  // create or update
   async function onSubmit(e) {
     e.preventDefault();
     if (!form.name || !form.date) {
@@ -487,7 +474,6 @@ export default function AdminEvents() {
     }
   }
 
-  // delete with type-DELETE prompt
   async function onDelete(id) {
     const ans = prompt('Type DELETE to confirm permanent deletion');
     if (ans !== 'DELETE') return;
@@ -641,23 +627,25 @@ export default function AdminEvents() {
           <tbody>
             {filtered.map(ev => (
               <tr key={ev.id}>
-                {/* ADDED data-label ATTRIBUTES TO THIS TABLE */}
                 <td data-label="Name">{ev.name}</td>
                 <td data-label="Date">{formatDate(ev.date)}</td>
                 <td data-label="Capacity">{ev.capacity}</td>
-                <td data-label="Actions" className="event-actions">
-                  <button
-                    className="btn-edit"
-                    onClick={()=>startEdit(ev)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn-delete"
-                    onClick={()=>onDelete(ev.id)}
-                  >
-                    Delete
-                  </button>
+                <td data-label="Actions">
+                  {/* THIS IS THE CHANGE: WRAP BUTTONS IN A DIV */}
+                  <div className="action-buttons">
+                    <button
+                      className="btn-edit"
+                      onClick={()=>startEdit(ev)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={()=>onDelete(ev.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
