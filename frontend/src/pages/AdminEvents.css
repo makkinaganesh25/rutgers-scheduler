@@ -13,16 +13,12 @@
   --border:   #e0e0e0;
 }
 
-body, .admin-events {
+.admin-events {
   margin: 0;
-  padding: 0;
+  padding: var(--gap) 2rem;
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--fg);
-}
-
-.admin-events {
-  padding: var(--gap) 2rem;
 }
 
 .page-title {
@@ -33,7 +29,7 @@ body, .admin-events {
   margin-bottom: var(--gap);
 }
 
-/* ─── Form Container ─── */
+/* --- Form Container --- */
 .admin-form {
   background: var(--light);
   padding: var(--gap);
@@ -42,7 +38,6 @@ body, .admin-events {
   margin-bottom: 2rem;
 }
 
-/* ─── Four-column row ─── */
 .form-row {
   display: flex;
   flex-wrap: wrap;
@@ -50,7 +45,6 @@ body, .admin-events {
   align-items: flex-end;
 }
 
-/* ─── Input Group ─── */
 .input-group {
   flex: 1 1 200px;
   display: flex;
@@ -60,6 +54,7 @@ body, .admin-events {
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--muted);
+  font-size: 0.9rem;
 }
 .input-group input {
   padding: 0.75rem 1rem;
@@ -67,6 +62,7 @@ body, .admin-events {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fdfdfd;
 }
 .input-group input:focus {
   border-color: var(--brand);
@@ -74,7 +70,7 @@ body, .admin-events {
   outline: none;
 }
 
-/* ─── Slots Section ─── */
+/* --- Slots Section --- */
 .slots-section {
   margin-top: calc(var(--gap)*1.5);
 }
@@ -82,29 +78,29 @@ body, .admin-events {
   margin: 0 0 var(--gap);
   font-weight: 600;
   color: var(--brand);
+  text-align: center;
+  font-size: 1.8rem;
 }
 
-/* ─── Slots Table ─── */
-.slots-table-wrapper {
+/* --- Slots & Events Tables (Shared Desktop Styles) --- */
+.slots-table-wrapper, .table-container {
   overflow-x: auto;
-  margin-bottom: var(--gap);
 }
-.slots-table {
+.slots-table, .events-table {
   width: 100%;
   border-collapse: collapse;
 }
-.slots-table th,
-.slots-table td {
+.slots-table th, .slots-table td,
+.events-table th, .events-table td {
   padding: 0.75rem 1rem;
-}
-.slots-table th {
-  background: #eceff1;
-  color: var(--brand);
   text-align: left;
+}
+.slots-table th, .events-table th {
+  background: #f1f3f5;
+  color: var(--brand);
   font-weight: 600;
 }
-.slots-table td {
-  background: var(--light);
+.slots-table td, .events-table td {
   border-bottom: 1px solid var(--border);
 }
 .slot-input {
@@ -117,8 +113,6 @@ body, .admin-events {
   border-color: var(--brand);
   outline: none;
 }
-
-/* ─── Delete-slot icon ─── */
 .btn-icon {
   background: none;
   border: none;
@@ -131,121 +125,187 @@ body, .admin-events {
   color: var(--brand);
 }
 
-/* ─── Form buttons ─── */
+/* --- Form Controls & Buttons --- */
 .form-controls {
   display: flex;
-  gap: var(--gap);
+  gap: 1rem;
+  justify-content: flex-end;
   margin-top: var(--gap);
 }
-.btn {
+.btn-primary, .btn-outline {
+  padding: 0.75rem 1.5rem;
   font-weight: 600;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
-  border: none;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid var(--brand);
 }
 .btn-primary {
-  padding: 0.65rem 1.4rem;
   background: var(--brand);
   color: var(--light);
-  box-shadow: 0 2px 6px var(--shadow);
 }
 .btn-primary:hover {
   background: #a31616;
-  box-shadow: 0 4px 10px var(--shadow);
+  border-color: #a31616;
+  transform: translateY(-2px);
 }
 .btn-outline {
-  padding: 0.65rem 1.4rem;
   background: transparent;
   color: var(--brand);
-  border: 2px solid var(--brand);
-  box-shadow: 0 2px 6px var(--shadow);
 }
 .btn-outline:hover {
   background: var(--brand);
   color: var(--light);
+  transform: translateY(-2px);
 }
 
-/* ─── View Toggle ─── */
+/* --- View Toggle --- */
 .toggle-container {
   text-align: center;
-  margin: 2rem 0;
+  margin-bottom: 2rem;
 }
 .toggle-btn {
-  margin: 0 0.5rem;
+  margin: 0 0.25rem;
   padding: 0.6rem 1.4rem;
   font-weight: 600;
-  border: 2px solid var(--brand);
+  border: 2px solid var(--border);
   border-radius: var(--radius);
   background: transparent;
-  color: var(--brand);
+  color: var(--muted);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s;
 }
-.toggle-btn.active,
-.toggle-btn:hover {
+.toggle-btn.active, .toggle-btn:hover {
   background: var(--brand);
   color: var(--light);
+  border-color: var(--brand);
 }
 
-/* ─── Events Table ─── */
+/* --- Events Table Specifics --- */
 .table-container {
   max-height: 400px;
   overflow-y: auto;
   margin-bottom: 2rem;
 }
-.events-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.events-table th,
-.events-table td {
-  padding: 0.75rem 1rem;
-}
-.events-table th {
-  background: #eceff1;
-  color: var(--brand);
-  text-align: left;
-  font-weight: 600;
-}
-.events-table td {
-  border-bottom: 1px solid var(--border);
-}
 .no-data {
   text-align: center;
   color: var(--muted);
-  padding: 1rem;
+  padding: 1.5rem;
+  font-style: italic;
 }
-
-/* ─── Row buttons ─── */
-.btn-edit {
-  margin-right: 0.5rem;
+.btn-edit, .btn-delete {
   padding: 0.5rem 1rem;
-  background: #0277bd;
   color: #fff;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
   transition: background 0.2s;
+  font-weight: 600;
+  margin: 0.25rem;
 }
-.btn-edit:hover {
-  background: #015a9c;
-}
-.btn-delete {
-  padding: 0.5rem 1rem;
-  background: #d32f2f;
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-delete:hover {
-  background: #a62828;
-}
+.btn-edit { background: #0277bd; }
+.btn-edit:hover { background: #015a9c; }
+.btn-delete { background: #d32f2f; }
+.btn-delete:hover { background: #a62828; }
+.sync-sheets { text-align: right; }
 
-/* ─── Sync Sheets ─── */
-.sync-sheets {
-  text-align: right;
-  margin-top: -1rem;
+/*
+ * ================================================================
+ * --- MOBILE RESPONSIVE STYLES ---
+ * ================================================================
+ */
+@media (max-width: 768px) {
+  .admin-events {
+    padding: var(--gap) 1rem; /* Reduce side padding */
+  }
+
+  .page-title {
+    font-size: 1.8rem; /* Smaller title */
+  }
+
+  .form-row {
+    flex-direction: column; /* Stack form inputs vertically */
+  }
+
+  /* --- Responsive Tables (Card View) --- */
+  .slots-table thead,
+  .events-table thead {
+    display: none; /* Hide desktop headers */
+  }
+
+  .slots-table tr,
+  .events-table tr {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  
+  .slots-table tr:last-child,
+  .events-table tr:last-child {
+      margin-bottom: 0;
+  }
+  
+  /* Dont apply card view to the 'no data' row */
+  .events-table .no-data, .slots-table .no-data {
+      display: table-cell;
+      text-align: center;
+      width: 100%;
+  }
+
+  .slots-table td,
+  .events-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .slots-table td:last-child,
+  .events-table td:last-child {
+      border-bottom: none;
+  }
+
+  .slots-table td::before,
+  .events-table td::before {
+    content: attr(data-label); /* Use data-label for mobile headers */
+    font-weight: 600;
+    color: var(--fg);
+    margin-right: 1rem;
+    flex-basis: 50%;
+    text-align: left;
+  }
+  
+  /* Adjustments for specific columns */
+  .slots-table td.col-action {
+      justify-content: flex-end; /* Push trash icon to the right */
+  }
+  .slots-table td.col-action::before {
+      display: none; /* No label for the trash icon */
+  }
+  .events-table td.event-actions {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+  }
+  .events-table td.event-actions::before {
+      align-self: center; /* Center the 'Actions' label */
+  }
+
+  .form-controls {
+    flex-direction: column; /* Stack form buttons */
+    gap: 0.75rem;
+  }
+  .btn-primary, .btn-outline {
+    width: 100%; /* Make buttons full-width */
+  }
+
+  .toggle-container {
+      display: flex;
+  }
+  .toggle-btn {
+      flex: 1; /* Make toggle buttons even width */
+  }
 }
