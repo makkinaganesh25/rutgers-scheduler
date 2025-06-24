@@ -410,30 +410,22 @@ export default function Coverages() {
     loadMy(); loadCov(); loadSwaps();
   }, [loadMy, loadCov, loadSwaps]);
 
-  // Coverage handlers
+  // Handlers... (no changes to functionality)
   const requestCoverage = async id => {
     setErrorMsg('');
     try {
       await api.post('/api/shifts/coverage-request', { shiftId: id });
       addNotification({ title:'Coverage Requested' });
       loadMy(); loadCov();
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) { console.error(e); }
   };
   const acceptCoverage = async id => {
     setErrorMsg('');
     try {
       await api.post('/api/shifts/coverage-accept', { shiftId: id });
       loadMy(); loadCov();
-    } catch (e) {
-      if (e.response?.status===409) {
-        setErrorMsg('⚠️ Overlap detected. Cannot accept.');
-      }
-    }
+    } catch (e) { if (e.response?.status===409) setErrorMsg('⚠️ Overlap detected. Cannot accept.'); }
   };
-
-  // Open swap modal
   const openSwap = async id => {
     setSwapModal({ open:true, requesterShiftId: id });
     setChosenOfficer(''); setTheirShifts([]); setTargetShiftId('');
@@ -441,66 +433,34 @@ export default function Coverages() {
     try {
       const { data } = await api.get(`/api/shifts/swaps/${id}/candidates`);
       setCandidates(data);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) { console.error(e); }
   };
-
-  // When officer chosen
   useEffect(() => {
-    setTheirShifts(
-      chosenOfficer ? candidates[chosenOfficer] || [] : []
-    );
+    setTheirShifts(chosenOfficer ? candidates[chosenOfficer] || [] : []);
   }, [chosenOfficer, candidates]);
-
-  // Pre‐check conflict
   useEffect(() => {
-    if (!targetShiftId) {
-      setConflictPre(null);
-      return;
-    }
+    if (!targetShiftId) { setConflictPre(null); return; }
     const s = theirShifts.find(x => x.shift_id === Number(targetShiftId));
     if (!s) return;
-
-    const conflict = myShifts.find(my =>
-      my.id !== swapModal.requesterShiftId &&
-      my.date === s.date &&
-      !(my.end_time <= s.start_time || my.start_time >= s.end_time)
-    );
+    const conflict = myShifts.find(my => my.id !== swapModal.requesterShiftId && my.date === s.date && !(my.end_time <= s.start_time || my.start_time >= s.end_time));
     setConflictPre(conflict || null);
-  }, [
-    targetShiftId,
-    theirShifts,
-    myShifts,
-    swapModal.requesterShiftId
-  ]);
-
-  // Submit swap
+  }, [targetShiftId, theirShifts, myShifts, swapModal.requesterShiftId]);
   const submitSwap = async () => {
     setErrorMsg('');
-    const payload = {
-      requester_shift_id: swapModal.requesterShiftId,
-      target_shift_id:    Number(targetShiftId)
-    };
+    const payload = { requester_shift_id: swapModal.requesterShiftId, target_shift_id: Number(targetShiftId) };
     try {
       await api.post('/api/shifts/swap-request', payload);
       addNotification({ title:'Swap Requested' });
       setSwapModal({ open:false, requesterShiftId:null });
       loadSwaps();
-    } catch (e) {
-      setErrorMsg(e.response?.data?.error || 'Unexpected error');
-    }
+    } catch (e) { setErrorMsg(e.response?.data?.error || 'Unexpected error'); }
   };
-
-  // Respond to swap
   const respondSwap = async (reqId, action) => {
     setErrorMsg('');
     try {
       await api.post(`/api/shifts/swap-requests/${reqId}/respond`, { action });
       loadSwaps(); loadMy();
-    } catch (e) {
-      setErrorMsg(e.response?.data?.error || 'Swap conflict—cannot accept.');
-    }
+    } catch (e) { setErrorMsg(e.response?.data?.error || 'Swap conflict—cannot accept.'); }
   };
 
   return (
@@ -508,7 +468,6 @@ export default function Coverages() {
       <h1>Coverage & Swap Management</h1>
       {errorMsg && <div className="error-message">{errorMsg}</div>}
 
-      {/* My Shifts */}
       <section className="coverages-section">
         <h2>My Shifts</h2>
         {loading.my
@@ -532,7 +491,7 @@ export default function Coverages() {
                             className="btn-cover"
                             onClick={() => requestCoverage(s.id)}
                           >
-                            Request Coverage
+                            Request {/* <<< TEXT SHORTENED HERE */}
                           </button>}
                       {s.status === 'assigned' && (
                         <button
@@ -549,7 +508,6 @@ export default function Coverages() {
             )}
       </section>
 
-      {/* Pending Coverage */}
       <section className="coverages-section">
         <h2>Pending Coverage Requests</h2>
         {loading.cov
@@ -581,7 +539,6 @@ export default function Coverages() {
             )}
       </section>
 
-      {/* Pending Swaps */}
       <section className="coverages-section">
         <h2>Pending Swap Requests</h2>
         {loading.swaps
@@ -618,59 +575,24 @@ export default function Coverages() {
             )}
       </section>
 
-      {/* Swap Modal */}
       {swapModal.open && (
         <div className="swap-modal">
           <div className="swap-content">
             <h3>Swap Shift</h3>
-
             <label htmlFor="officer-select">Choose officer:</label>
-            <select
-              id="officer-select"
-              value={chosenOfficer}
-              onChange={e => setChosenOfficer(e.target.value)}
-            >
+            <select id="officer-select" value={chosenOfficer} onChange={e => setChosenOfficer(e.target.value)}>
               <option value="">— select person —</option>
-              {Object.keys(candidates).map(off => (
-                <option key={off} value={off}>{off}</option>
-              ))}
+              {Object.keys(candidates).map(off => (<option key={off} value={off}>{off}</option>))}
             </select>
-
             <label htmlFor="shift-select">Select their shift:</label>
-            <select
-              id="shift-select"
-              value={targetShiftId}
-              onChange={e => setTargetShiftId(e.target.value)}
-              disabled={!chosenOfficer}
-            >
+            <select id="shift-select" value={targetShiftId} onChange={e => setTargetShiftId(e.target.value)} disabled={!chosenOfficer}>
               <option value="">— select shift —</option>
-              {theirShifts.map(s => (
-                <option key={s.shift_id} value={s.shift_id}>
-                  {s.shift_type} ({fmtTime(s.start_time)}–{fmtTime(s.end_time)})
-                </option>
-              ))}
+              {theirShifts.map(s => (<option key={s.shift_id} value={s.shift_id}>{s.shift_type} ({fmtTime(s.start_time)}–{fmtTime(s.end_time)})</option>))}
             </select>
-
-            {conflictPre && (
-              <div className="error-message" style={{ marginTop:'0.5rem' }}>
-                ⚠️ Conflict with your “{conflictPre.shift_type}” on {fmtDate(conflictPre.date)}.
-              </div>
-            )}
-
+            {conflictPre && (<div className="error-message" style={{ marginTop:'0.5rem' }}>⚠️ Conflict with your “{conflictPre.shift_type}” on {fmtDate(conflictPre.date)}.</div>)}
             <div className="swap-buttons">
-              <button
-                className="btn-accept"
-                disabled={!targetShiftId || !!conflictPre}
-                onClick={submitSwap}
-              >
-                Submit Swap
-              </button>
-              <button
-                className="btn-decline"
-                onClick={() => setSwapModal({ open:false, requesterShiftId:null })}
-              >
-                Cancel
-              </button>
+              <button className="btn-accept" disabled={!targetShiftId || !!conflictPre} onClick={submitSwap}>Submit Swap</button>
+              <button className="btn-decline" onClick={() => setSwapModal({ open:false, requesterShiftId:null })}>Cancel</button>
             </div>
           </div>
         </div>
