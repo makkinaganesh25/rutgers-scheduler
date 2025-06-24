@@ -1,5 +1,22 @@
-/* src/app.css */
+/* --- Global Hamburger Button Styles --- */
+.global-hamburger-btn {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001; /* On top of everything */
+    background-color: #8e1e1e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
 
+/* --- App Container --- */
 .app-container {
   height: 100vh;
   font-family: Arial, sans-serif;
@@ -14,11 +31,10 @@
   margin-bottom: 20px;
 }
 
+/* --- Login Layout --- */
 .app-container.login-layout {
   display: block;
-  height: 100vh;
 }
-
 .app-container.login-layout .main-content {
   padding: 0;
   background: none;
@@ -27,13 +43,10 @@
   margin-left: 0;
 }
 
-/* --- Overlay to close sidebar on mobile --- */
+/* --- Overlay Styles --- */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999; 
   animation: fadeIn 0.3s ease-in-out;
@@ -44,7 +57,16 @@
   to { opacity: 1; }
 }
 
-@media (min-width: 768px) {
+/* --- Responsive Visibility --- */
+@media (max-width: 768px) {
+    .global-hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 769px) {
     .overlay {
         display: none;
     }
