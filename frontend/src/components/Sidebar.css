@@ -1,3 +1,4 @@
+/* src/components/sidebar.css (FINAL WORKING CODE) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
@@ -173,12 +174,6 @@
   cursor: pointer;
   line-height: 0; /* Helps vertically center the icon */
 }
-
-/* Hide toggle button when the sidebar is open */
-.sidebar-toggle.hide-toggle {
-  display: none;
-}
-
 
 /* --- Main Content Area --- */
 .main-content {
