@@ -452,7 +452,7 @@ export default function Sidebar() {
         <NavLink to="/calendar"      className={linkClass}><FaCalendar/> Calendar</NavLink>
         <NavLink to="/notifications" className={linkClass}><FaBell/> Notifications</NavLink>
         <NavLink to="/media-files"   className={linkClass}><FaFile/> Media Files</NavLink>
-        <NavLink to="/faq"           className={linkClass}><FaQuestionCircle/> FAQ</NavLink>
+        //<NavLink to="/faq"           className={linkClass}><FaQuestionCircle/> FAQ</NavLink>
         <NavLink to="/hierarchy"     className={linkClass}><FaSitemap/> Command Hierarchy</NavLink>
         <NavLink to="/events"        className={linkClass}><FaCalendarAlt/> Special Events</NavLink>
 
