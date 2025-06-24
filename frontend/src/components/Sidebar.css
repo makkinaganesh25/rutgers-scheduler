@@ -1,5 +1,4 @@
 /* src/components/Sidebar.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
@@ -44,10 +43,13 @@
   padding: 1.5rem 1rem;
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
-  transition: transform var(--transition);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
+  
+  /* --- MOBILE FIRST: Hide sidebar by default --- */
   transform: translateX(-100%);
 }
 
+/* --- When sidebar is open on mobile, slide it in --- */
 .sidebar.open {
   transform: translateX(0);
   box-shadow: 3px 0 15px var(--shadow);
@@ -67,6 +69,31 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* --- Hamburger toggle button --- */
+.sidebar-toggle {
+  display: block; /* Show on mobile */
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 1.5rem;
+  right: -45px; /* Position it outside the hidden sidebar */
+  z-index: 1001;
+  background-color: var(--bg);
+  padding: 5px 8px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+}
+
+.sidebar.open .sidebar-toggle {
+    right: 1rem;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+
 .theme-toggle {
   background: transparent;
   border: none;
@@ -74,10 +101,6 @@
   font-size: 1.2rem;
   cursor: pointer;
   transition: transform var(--transition);
-}
-
-.sidebar-header .theme-toggle {
-  margin-left: auto;
 }
 
 .theme-toggle:hover {
@@ -159,26 +182,7 @@
   transform: scale(1.02);
 }
 
-.sidebar-toggle {
-  position: fixed;
-  top: 1.2rem;
-  left: 1rem;
-  z-index: 1001;
-  display: block;
-  background: #8e1e1e;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius);
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  line-height: 0;
-}
-
-.sidebar-toggle.hide-toggle {
-  display: none;
-}
-
+/* --- Main content starts with no margin --- */
 .main-content {
   margin-left: 0;
   padding: 20px;
@@ -188,20 +192,18 @@
   transition: margin-left var(--transition);
 }
 
-@media (min-width: var(--breakpoint-md)) {
+/* --- DESKTOP STYLES --- */
+@media (min-width: 768px) {
   .sidebar {
-    transform: translateX(0);
+    transform: translateX(0); /* Always show sidebar */
+    box-shadow: 3px 0 12px var(--shadow);
   }
 
   .sidebar-toggle {
-    display: none;
-  }
-
-  .sidebar-header .theme-toggle {
-    margin-left: 0;
+    display: none; /* Hide hamburger on desktop */
   }
 
   .main-content {
-    margin-left: var(--sidebar-width);
+    margin-left: var(--sidebar-width); /* Push content on desktop */
   }
 }
