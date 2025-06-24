@@ -1,5 +1,33 @@
 /* src/app.css */
 
+/* --- NEW: Global Hamburger Button Styles --- */
+.global-hamburger-btn {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001; /* Must be on top of everything, even the open sidebar */
+    background-color: #8e1e1e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 768px) {
+    .global-hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+/* --- END NEW --- */
+
+
 /* App container - simplified */
 .app-container {
   height: 100vh;
@@ -29,9 +57,7 @@
   overflow: hidden;
 }
 
-
-/* --- NEW: Overlay Styles --- */
-/* This darkens the main content and captures clicks to close the sidebar */
+/* Overlay Styles */
 .overlay {
   position: fixed;
   top: 0;
@@ -39,11 +65,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  
-  /* The z-index must be lower than the sidebar (1000) but higher than the content */
   z-index: 999; 
-  
-  /* Add a fade-in effect */
   animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -52,7 +74,6 @@
   to { opacity: 1; }
 }
 
-/* On desktop, we don't need the overlay because the sidebar doesn't open/close */
 @media (min-width: 768px) {
     .overlay {
         display: none;
