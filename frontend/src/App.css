@@ -1,52 +1,34 @@
-/* --- Global Hamburger Button Styles --- */
-.global-hamburger-btn {
-    display: none; /* Hidden on desktop */
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1001; /* On top of everything */
-    background-color: #8e1e1e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+/* src/app.css */
+:root {
+  --sidebar-width-open: 260px;
+  --sidebar-width-collapsed: 80px;
+  --transition-speed: 0.3s;
 }
 
-/* --- App Container --- */
 .app-container {
-  height: 100vh;
-  font-family: Arial, sans-serif;
   position: relative;
+  font-family: Arial, sans-serif;
+  transition: padding-left var(--transition-speed) ease-in-out;
 }
 
-.content-section {
+.main-content {
+  transition: margin-left var(--transition-speed) ease-in-out;
   padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
 }
 
-/* --- Login Layout --- */
-.app-container.login-layout {
-  display: block;
-}
+/* --- Login Page specific styles --- */
 .app-container.login-layout .main-content {
   padding: 0;
-  background: none;
-  height: 100vh;
-  overflow: hidden;
-  margin-left: 0;
+  margin-left: 0 !important;
 }
 
-/* --- Overlay Styles --- */
+/* --- Overlay for mobile view --- */
 .overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999; 
   animation: fadeIn 0.3s ease-in-out;
@@ -57,17 +39,23 @@
   to { opacity: 1; }
 }
 
-/* --- Responsive Visibility --- */
-@media (max-width: 768px) {
-    .global-hamburger-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+/* --- DESKTOP LAYOUT --- */
+@media (min-width: 768px) {
+  .app-container.sidebar-open .main-content {
+    margin-left: var(--sidebar-width-open);
+  }
+  .app-container.sidebar-collapsed .main-content {
+    margin-left: var(--sidebar-width-collapsed);
+  }
+  .overlay {
+    display: none;
+  }
 }
 
-@media (min-width: 769px) {
-    .overlay {
-        display: none;
-    }
+/* --- MOBILE LAYOUT --- */
+@media (max-width: 767px) {
+  .main-content {
+    margin-left: 0;
+    padding-top: 60px; /* Add padding to top to avoid content being under the fixed hamburger button */
+  }
 }
