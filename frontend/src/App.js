@@ -197,15 +197,13 @@
 //     </AuthProvider>
 //   );
 // }
-
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
 import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from './config/roles';
 
-// Import all pages and components
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -235,16 +233,12 @@ function AppContent() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-  
-  // We wrap this in useCallback to make it a stable dependency for useEffect
-  const closeSidebar = useCallback(() => {
-    setSidebarOpen(false);
-  }, []);
+  const closeSidebar = () => setSidebarOpen(false);
 
-  // Close sidebar on route change
   useEffect(() => {
+    // Close sidebar when navigating to a new page on mobile
     closeSidebar();
-  }, [pathname, closeSidebar]);
+  }, [pathname]);
 
   if (pathname === '/') {
     return (
@@ -257,13 +251,9 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      {/* Sidebar now gets both isOpen and the toggle function */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      
-      {/* Overlay appears when sidebar is open on mobile, and closes it on click */}
       {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
-      
-      <div className={`main-content ${isSidebarOpen ? 'sidebar-is-open' : ''}`}>
+      <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
             <Route path="/hierarchy" element={<CommandHierarchy />} />
@@ -279,10 +269,7 @@ function AppContent() {
               <Route path=":id" element={<EventSlots />} />
             </Route>
             <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
-            
-            {/* THIS IS THE CORRECTED LINE */}
             <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
-
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/admin/announcements" element={<RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute>} />
             <Route path="/overview" element={<RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute>} />
