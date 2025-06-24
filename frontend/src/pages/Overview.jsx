@@ -342,9 +342,11 @@ export default function Overview() {
 
   // 1) load the org chart
   useEffect(() => {
-    api.get('/api/overview/tree')
-       .then(r => setTree(r.data))
-       .catch(console.error);
+    getOverviewTree()
+       .then(treeData => setTree(treeData))
+       .catch(err => {
+         console.error('Failed to load org chart', err);
+       });
   }, []);
 
   // 2) load all shifts once
