@@ -1,16 +1,10 @@
 /* src/app.css */
-
-/* App container - simplified */
 .app-container {
   height: 100vh;
   font-family: Arial, sans-serif;
   position: relative;
 }
 
-/* Main content and Sidebar styling is now handled by sidebar.css */
-/* You can remove the old .sidebar and .main-content rules from here if any */
-
-/* Optional padding for inner content */
 .content-section {
   padding: 20px;
   background: white;
@@ -19,7 +13,6 @@
   margin-bottom: 20px;
 }
 
-/* Login-specific styles can remain */
 .app-container.login-layout {
   display: block;
   height: 100vh;
@@ -32,18 +25,20 @@
   overflow: hidden;
 }
 
-/* --- ADD THESE STYLES FOR THE NEW BUTTON --- */
-
-/* Style for the mobile menu button */
+/* --- Styles for the mobile toggle button --- */
 .mobile-menu-toggle {
-  display: block; /* Shown on mobile by default */
+  display: block;
   position: fixed;
   top: 15px;
-  right: 20px;
-  z-index: 1001; /* Must be above content but below sidebar overlay */
-  background: #2a2a2a;
+  right: 20px; 
+  z-index: 1001; 
+  /* ======================================= */
+  /* --- COLOR CONTRAST FIX --- */
+  /* This uses the sidebar's red for high visibility and brand consistency. */
+  background: #8e1e1e; 
+  /* ======================================= */
   color: white;
-  border: none;
+  border: 1px solid rgba(0,0,0,0.1); /* Optional: adds a subtle border */
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -60,7 +55,6 @@
     transform: scale(1.1);
 }
 
-/* Hide the button on desktop */
 @media (min-width: 768px) {
   .mobile-menu-toggle {
     display: none;
