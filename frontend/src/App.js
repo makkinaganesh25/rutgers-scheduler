@@ -198,59 +198,36 @@
 //   );
 // }
 
-import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation
-} from 'react-router-dom';
-
+import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
+import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from './config/roles';
 
-import {
-  SUPERVISOR_ROLES,
-  EVENT_CREATOR_ROLES,
-  ADMIN_USER_ROLES,
-  ANNOUNCEMENT_CREATOR_ROLES,
-  CSO_LEAVE_REQUESTER_ROLES,
-  CSO_LEAVE_APPROVER_ROLES,
-  CSO_MANDATE_ROLES,
-  SECURITY_OFFICER_ROLES,
-  SECURITY_LEAVE_APPROVER_ROLES
-} from './config/roles';
-
-import Sidebar          from './components/Sidebar';
-import Login            from './pages/Login';
-import Dashboard        from './pages/Dashboard';
-import Coverages        from './pages/Coverages';
-import Calendar         from './pages/Calendar';
-import Notifications    from './pages/Notifications';
-import MediaFiles       from './pages/MediaFiles';
-import FAQ              from './pages/FAQ';
-import ShiftList        from './pages/ShiftList';
+// Import all pages and components
+import Sidebar from './components/Sidebar';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Coverages from './pages/Coverages';
+import Calendar from './pages/Calendar';
+import Notifications from './pages/Notifications';
+import MediaFiles from './pages/MediaFiles';
+import FAQ from './pages/FAQ';
+import ShiftList from './pages/ShiftList';
 import SpecialEventsList from './pages/SpecialEventsList';
-import EventSlots       from './pages/EventSlots';
-import AdminEvents      from './pages/AdminEvents';
-import AdminUsers       from './pages/AdminUsers';
-import Overview         from './pages/Overview';
+import EventSlots from './pages/EventSlots';
+import AdminEvents from './pages/AdminEvents';
+import AdminUsers from './pages/AdminUsers';
+import Overview from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
-import Chatbot          from './components/Chatbot';
-
-// Announcements pages
-import Announcements      from './pages/Announcements';
+import Chatbot from './components/Chatbot';
+import Announcements from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
-
-// CSO Leave + Mandate pages
-import CsoLeaveRequest    from './pages/CsoLeaveRequest';
-import CsoLeaveApproval   from './pages/CsoLeaveApproval';
-import CsoMandate         from './pages/CsoMandate';
-
-// Security Leave pages
-import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
+import CsoLeaveRequest from './pages/CsoLeaveRequest';
+import CsoLeaveApproval from './pages/CsoLeaveApproval';
+import CsoMandate from './pages/CsoMandate';
+import SecurityLeaveRequest from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
 function AppContent() {
@@ -258,12 +235,16 @@ function AppContent() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setSidebarOpen(false);
+  
+  // We wrap this in useCallback to make it a stable dependency for useEffect
+  const closeSidebar = useCallback(() => {
+    setSidebarOpen(false);
+  }, []);
 
   // Close sidebar on route change
   useEffect(() => {
     closeSidebar();
-  }, [pathname]);
+  }, [pathname, closeSidebar]);
 
   if (pathname === '/') {
     return (
@@ -276,12 +257,13 @@ function AppContent() {
 
   return (
     <div className="app-container">
+      {/* Sidebar now gets both isOpen and the toggle function */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
+      
       {/* Overlay appears when sidebar is open on mobile, and closes it on click */}
       {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
-
-      <div className="main-content">
+      
+      <div className={`main-content ${isSidebarOpen ? 'sidebar-is-open' : ''}`}>
         <Routes>
           <Route element={<AuthenticatedRoute />}>
             <Route path="/hierarchy" element={<CommandHierarchy />} />
@@ -297,4 +279,35 @@ function AppContent() {
               <Route path=":id" element={<EventSlots />} />
             </Route>
             <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
-            <Route path="/admin/users" element={<RoleRoute allowedRoles
+            
+            {/* THIS IS THE CORRECTED LINE */}
+            <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
+
+            <Route path="/announcements" element={<Announcements />} />
+            <Route path="/admin/announcements" element={<RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute>} />
+            <Route path="/overview" element={<RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute>} />
+            <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
+            <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
+            <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
+            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
+            <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Route>
+        </Routes>
+      </div>
+      <Chatbot />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <NotificationsProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </NotificationsProvider>
+    </AuthProvider>
+  );
+}
