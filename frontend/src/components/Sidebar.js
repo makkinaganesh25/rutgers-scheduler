@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   FaHome, FaUserCheck, FaCalendar, FaBell, FaFile, FaCalendarAlt, FaChartBar,
-  FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun, FaAngleLeft, FaAngleRight
+  FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun, FaBars, FaSignOutAlt
 } from 'react-icons/fa';
 import {
   SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES,
@@ -12,8 +12,14 @@ import {
 } from '../config/roles';
 import './Sidebar.css';
 
-// The sidebar now receives a toggle function for the collapse button
-export default function Sidebar({ isOpen, toggleSidebar }) {
+// SVG Logo to avoid broken image links
+const RutgersLogo = () => (
+  <svg className="logo-img" viewBox="0 0 100 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 120.5V0H100V120.5H83.25V17H16.75V120.5H0Z" fill="white"/>
+  </svg>
+);
+
+export default function Sidebar({ isOpen, toggleSidebar, isMobile }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const [dark, setDark] = useState(false);
@@ -27,14 +33,15 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const show = roles => user && roles.includes(user.user_rank);
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${dark ? 'dark' : 'light'}`}>
       <header className="sidebar-header">
         <div className="logo-area">
-          <img src="/rutgers-logo.png" alt="Rutgers Logo" className="logo-img" />
+          <RutgersLogo />
           <h2 className="sidebar-title">CSO Rutgers</h2>
         </div>
+        {/* Universal toggle button, icon changes based on state */}
         <button className="sidebar-toggle" onClick={toggleSidebar} aria-label="Toggle Sidebar">
-          {isOpen ? <FaAngleLeft /> : <FaAngleRight />}
+          {isMobile ? <FaBars /> : (isOpen ? <FaAngleLeft /> : <FaAngleRight />)}
         </button>
       </header>
 
@@ -60,9 +67,10 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
       <div className="sidebar-footer">
         <button className="theme-toggle" onClick={() => setDark(d => !d)}>
-            {dark ? <FaSun /> : <FaMoon />}
+          {dark ? <FaSun /> : <FaMoon />}
         </button>
         <button onClick={onLogout} className="logout-btn">
+          <FaSignOutAlt className="link-icon" />
           <span className="link-text">Logout</span>
         </button>
       </div>
