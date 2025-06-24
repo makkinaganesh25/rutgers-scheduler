@@ -197,7 +197,10 @@
 //     </AuthProvider>
 //   );
 // }
-import React, { useState } from 'react'; // <-- Added useState
+
+
+// The only change is adding 'useEffect' to this import line
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -238,24 +241,29 @@ import AdminUsers       from './pages/AdminUsers';
 import Overview         from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
 import Chatbot          from './components/Chatbot';
+
+// Announcements pages
 import Announcements      from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
+
+// CSO Leave + Mandate pages
 import CsoLeaveRequest    from './pages/CsoLeaveRequest';
 import CsoLeaveApproval   from './pages/CsoLeaveApproval';
 import CsoMandate         from './pages/CsoMandate';
+
+// Security Leave pages
 import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
 function AppContent() {
   const { pathname } = useLocation();
-  
-  // --- This is the new state to control the mobile sidebar ---
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
 
+  // Close sidebar on route change
   useEffect(() => {
-    // Close sidebar when navigating to a new page on mobile
     if (window.innerWidth < 768) {
       closeSidebar();
     }
@@ -276,7 +284,7 @@ function AppContent() {
       {/* Pass the state and toggle function to the Sidebar */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       {/* Overlay for closing the menu on mobile */}
-      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
+      {isSidebarOpen && window.innerWidth < 768 && <div className="overlay" onClick={closeSidebar}></div>}
       <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
