@@ -1,46 +1,58 @@
+/* src/components/Sidebar.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
   --sidebar-width: 250px;
-  --transition: 0.25s ease;
+  --transition: 0.3s ease-in-out;
   --radius: 6px;
-  --shadow: rgba(0,0,0,0.2);
+  --shadow: rgba(0, 0, 0, 0.2);
+  --breakpoint-md: 768px;
 }
 
 .sidebar.light {
-  --bg:       #8e1e1e;
-  --fg:       #fff;
-  --hover:    rgba(255,255,255,0.1);
-  --accent:   #db0a22;
-  --muted:    #ddd;
-  --btn-bg:   #db0a22;
-  --btn-hover:#b10b20;
+  --bg: #8e1e1e;
+  --fg: #fff;
+  --hover: rgba(255, 255, 255, 0.1);
+  --accent: #db0a22;
+  --muted: #ddd;
+  --btn-bg: #db0a22;
+  --btn-hover: #b10b20;
 }
 
 .sidebar.dark {
-  --bg:       #2f2f2f;
-  --fg:       #eee;
-  --hover:    rgba(255,255,255,0.08);
-  --accent:   #ff4757;
-  --muted:    #aaa;
-  --btn-bg:   #ff4757;
-  --btn-hover:#e84118;
+  --bg: #2f2f2f;
+  --fg: #eee;
+  --hover: rgba(255, 255, 255, 0.08);
+  --accent: #ff4757;
+  --muted: #aaa;
+  --btn-bg: #ff4757;
+  --btn-hover: #e84118;
 }
 
 .sidebar {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: var(--sidebar-width);
   height: 100vh;
+  z-index: 1000;
   background: var(--bg);
   color: var(--fg);
   display: flex;
   flex-direction: column;
   padding: 1.5rem 1rem;
-  box-shadow: 3px 0 12px var(--shadow);
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
-  transition: background var(--transition), color var(--transition);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
+  
+  /* --- MOBILE FIRST: Hide sidebar by default --- */
+  transform: translateX(-100%);
+}
+
+/* --- When sidebar is open on mobile, slide it in --- */
+.sidebar.open {
+  transform: translateX(0);
+  box-shadow: 3px 0 15px var(--shadow);
 }
 
 .sidebar-header {
@@ -54,8 +66,33 @@
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 1.1;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
+
+/* --- Hamburger toggle button --- */
+.sidebar-toggle {
+  display: block; /* Show on mobile */
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 1.5rem;
+  right: -45px; /* Position it outside the hidden sidebar */
+  z-index: 1001;
+  background-color: var(--bg);
+  padding: 5px 8px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+}
+
+.sidebar.open .sidebar-toggle {
+    right: 1rem;
+    background-color: transparent;
+    box-shadow: none;
+}
+
 
 .theme-toggle {
   background: transparent;
@@ -65,6 +102,7 @@
   cursor: pointer;
   transition: transform var(--transition);
 }
+
 .theme-toggle:hover {
   transform: rotate(20deg) scale(1.1);
 }
@@ -85,6 +123,7 @@
   position: relative;
   transition: background var(--transition), color var(--transition);
 }
+
 .sidebar-link svg {
   transition: transform var(--transition), color var(--transition);
 }
@@ -93,6 +132,7 @@
   background: var(--hover);
   color: var(--fg);
 }
+
 .sidebar-link:hover svg {
   transform: scale(1.1);
   color: var(--accent);
@@ -102,11 +142,14 @@
   background: var(--hover);
   color: var(--fg);
 }
+
 .sidebar-link.active::before {
   content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 4px; height: 100%;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
   background: var(--accent);
   border-top-right-radius: var(--radius);
   border-bottom-right-radius: var(--radius);
@@ -133,12 +176,34 @@
   box-shadow: 0 2px 8px var(--shadow);
   transition: background var(--transition), transform var(--transition);
 }
+
 .logout-btn:hover {
   background: var(--btn-hover);
   transform: scale(1.02);
 }
 
+/* --- Main content starts with no margin --- */
 .main-content {
-  margin-left: var(--sidebar-width);
+  margin-left: 0;
+  padding: 20px;
+  width: 100%;
+  background-color: #f4f4f9;
+  overflow-y: auto;
   transition: margin-left var(--transition);
+}
+
+/* --- DESKTOP STYLES --- */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0); /* Always show sidebar */
+    box-shadow: 3px 0 12px var(--shadow);
+  }
+
+  .sidebar-toggle {
+    display: none; /* Hide hamburger on desktop */
+  }
+
+  .main-content {
+    margin-left: var(--sidebar-width); /* Push content on desktop */
+  }
 }
