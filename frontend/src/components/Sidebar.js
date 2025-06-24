@@ -328,42 +328,14 @@
 //   );
 // }
 
-// src/components/Sidebar.jsx
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { listAnnouncements } from '../api';
-import {
-  SUPERVISOR_ROLES,
-  EVENT_CREATOR_ROLES,
-  ADMIN_USER_ROLES,
-  // ... (keep all your role imports)
-  ANNOUNCEMENT_CREATOR_ROLES,
-  CSO_LEAVE_REQUESTER_ROLES,
-  CSO_LEAVE_APPROVER_ROLES,
-  CSO_MANDATE_ROLES,
-  SECURITY_DIVISION,
-  SECURITY_OFFICER_ROLES,
-  SECURITY_LEAVE_APPROVER_ROLES
-} from '../config/roles';
-import {
-  FaHome,
-  FaUserCheck,
-  FaCalendar,
-  // ... (keep all your icon imports EXCEPT FaBars)
-  FaBell,
-  FaFile,
-  FaCalendarAlt,
-  FaChartBar,
-  FaSitemap,
-  FaUsers,
-  FaBullhorn,
-  FaMoon,
-  FaSun
-} from 'react-icons/fa';
+import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_DIVISION, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from '../config/roles';
+import { FaHome, FaUserCheck, FaCalendar, FaBell, FaFile, FaCalendarAlt, FaChartBar, FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun } from 'react-icons/fa';
 import './Sidebar.css';
 
-// The toggleSidebar prop is no longer needed
 export default function Sidebar({ isOpen }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
@@ -381,18 +353,12 @@ export default function Sidebar({ isOpen }) {
     nav('/');
   };
 
-  const linkClass = ({ isActive }) =>
-    `sidebar-link${isActive ? ' active' : ''}`;
-    
-  // We no longer need handleLinkClick to toggle the sidebar,
-  // as the overlay in App.js now handles closing.
-
+  const linkClass = ({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`;
   const show = roles => user && roles.includes(user.user_rank);
 
   return (
     <aside className={`sidebar ${dark ? 'dark' : 'light'} ${isOpen ? 'open' : ''}`}>
       <header className="sidebar-header">
-        {/* The old hamburger button has been REMOVED from here */}
         <h2 className="sidebar-title">CSO Rutgers</h2>
         <button
           className="theme-toggle"
@@ -403,18 +369,14 @@ export default function Sidebar({ isOpen }) {
         </button>
       </header>
 
-      {/* The Nav is unchanged */}
       <nav className="sidebar-nav">
-        {/* All your NavLink elements remain here... */}
         <NavLink to="/dashboard" className={linkClass}><FaHome /> Dashboard</NavLink>
         <NavLink to="/coverages" className={linkClass}><FaUserCheck /> Coverage Requests</NavLink>
-        {/* ... etc ... */}
         <NavLink to="/calendar" className={linkClass}><FaCalendar /> Calendar</NavLink>
         <NavLink to="/notifications" className={linkClass}><FaBell /> Notifications</NavLink>
         <NavLink to="/media-files" className={linkClass}><FaFile /> Media Files</NavLink>
         <NavLink to="/hierarchy" className={linkClass}><FaSitemap /> Command Hierarchy</NavLink>
         <NavLink to="/events" className={linkClass}><FaCalendarAlt /> Special Events</NavLink>
-
         {show(EVENT_CREATOR_ROLES) && ( <NavLink to="/admin/events" className={linkClass}><FaCalendarAlt /> Admin Events</NavLink> )}
         {show(ADMIN_USER_ROLES) && ( <NavLink to="/admin/users" className={linkClass}><FaUsers /> User Management</NavLink> )}
         <NavLink to="/announcements" className={linkClass}> <FaBullhorn /> Announcements {annCount > 0 && <span className="badge">{annCount}</span>} </NavLink>
