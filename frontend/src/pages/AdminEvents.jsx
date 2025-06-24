@@ -544,7 +544,6 @@ export default function AdminEvents() {
               <tbody>
                 {slots.map((s,i) => (
                   <tr key={i}>
-                    {/* ADDED data-label ATTRIBUTES TO THIS TABLE ONLY */}
                     <td data-label="Officer">
                       {s.filled_name
                         ? `${s.filled_name} (${s.filled_rank})`
@@ -642,10 +641,11 @@ export default function AdminEvents() {
           <tbody>
             {filtered.map(ev => (
               <tr key={ev.id}>
-                <td>{ev.name}</td>
-                <td>{formatDate(ev.date)}</td>
-                <td>{ev.capacity}</td>
-                <td>
+                {/* ADDED data-label ATTRIBUTES TO THIS TABLE */}
+                <td data-label="Name">{ev.name}</td>
+                <td data-label="Date">{formatDate(ev.date)}</td>
+                <td data-label="Capacity">{ev.capacity}</td>
+                <td data-label="Actions" className="event-actions">
                   <button
                     className="btn-edit"
                     onClick={()=>startEdit(ev)}
