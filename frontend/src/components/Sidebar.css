@@ -1,3 +1,4 @@
+/* src/components/sidebar.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .sidebar {
@@ -51,15 +52,15 @@
 .logout-btn { margin: 1rem; padding: 0.8rem; font-weight: 600; background: var(--btn-bg); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .logout-btn:hover { background: var(--btn-hover); }
 
-/* Hamburger button is hidden on desktop by default */
-.sidebar-toggle-button {
-  display: none;
+/* The hamburger button that toggles the menu */
+.sidebar-toggle {
+  display: none; /* Hidden on desktop */
 }
 
 /* --- MOBILE STYLES --- */
 @media (max-width: 767px) {
   /* Make the hamburger button visible */
-  .sidebar-toggle-button {
+  .sidebar-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,20 +88,4 @@
   .sidebar.is-open {
     transform: translateX(0);
   }
-  
-  /* The main content should not have a margin on mobile */
-  .main-content {
-    margin-left: 0;
-  }
-
-  /* Hide the overlay on desktop */
-  .overlay {
-    display: block;
-  }
-}
-
-@media (min-width: 768px) {
-    .overlay {
-        display: none;
-    }
 }
