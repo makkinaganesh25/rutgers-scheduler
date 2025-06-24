@@ -26,9 +26,9 @@ import {
   FaSitemap,
   FaUsers,
   FaBullhorn,
-  FaBars,
   FaMoon,
-  FaSun
+  FaSun,
+  FaBars // Import hamburger icon
 } from 'react-icons/fa';
 import './Sidebar.css';
 
@@ -51,12 +51,13 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
   const linkClass = ({ isActive }) =>
     `sidebar-link${isActive ? ' active' : ''}`;
-
+    
+  // When a link is clicked on mobile, close the sidebar
   const handleLinkClick = () => {
-    if (window.innerWidth < 768) {
-      toggleSidebar();
+    if (window.innerWidth < 768) { // Same breakpoint as in CSS
+        toggleSidebar();
     }
-  };
+  }
 
   const show = roles => user && roles.includes(user.user_rank);
 
@@ -64,10 +65,13 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     <aside className={`sidebar ${dark ? 'dark' : 'light'} ${isOpen ? 'open' : ''}`}>
       <header className="sidebar-header">
         <h2 className="sidebar-title">
-          CSO<br />Rutgers
+          CSO
+          <br />
+          Rutgers
         </h2>
+        {/* Mobile-only Hamburger Menu Button */}
         <button className="sidebar-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
-          <FaBars />
+            <FaBars />
         </button>
         <button
           className="theme-toggle"
@@ -154,17 +158,19 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           </NavLink>
         )}
 
-        {user?.division === SECURITY_DIVISION && show(SECURITY_OFFICER_ROLES) && (
-          <NavLink to="/security/leave" className={linkClass}>
-            Request Security Leave
-          </NavLink>
-        )}
+        {user?.division === SECURITY_DIVISION &&
+          show(SECURITY_OFFICER_ROLES) && (
+            <NavLink to="/security/leave" className={linkClass}>
+              Request Security Leave
+            </NavLink>
+          )}
 
-        {user?.division === SECURITY_DIVISION && show(SECURITY_LEAVE_APPROVER_ROLES) && (
-          <NavLink to="/security/leave/approve" className={linkClass}>
-            Approve Security Leave
-          </NavLink>
-        )}
+        {user?.division === SECURITY_DIVISION &&
+          show(SECURITY_LEAVE_APPROVER_ROLES) && (
+            <NavLink to="/security/leave/approve" className={linkClass}>
+              Approve Security Leave
+            </NavLink>
+          )}
       </nav>
 
       <button onClick={onLogout} className="logout-btn">
