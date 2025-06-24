@@ -275,7 +275,6 @@ body, .admin-events {
     padding: 1rem;
   }
   
-  /* Don't apply card styles to the 'no data' row */
   .events-table .no-data {
       display: table-cell;
   }
@@ -311,20 +310,13 @@ body, .admin-events {
   }
   
   /* --- Events Table Specifics --- */
-  .events-table .event-actions {
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.5rem;
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem; /* This creates space between the side-by-side buttons */
   }
-  .events-table .event-actions::before {
-      /* Make label take up space to align with other labels */
-      flex-grow: 1;
-      text-align: left;
-  }
+  
   .events-table .btn-edit,
   .events-table .btn-delete {
-      width: 100px;
-      text-align: center;
       margin-right: 0;
   }
 }
