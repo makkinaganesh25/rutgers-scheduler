@@ -8,7 +8,7 @@
 }
 
 /* Main content and Sidebar styling is now handled by sidebar.css */
-/* You can remove the old .sidebar and .main-content rules from here */
+/* You can remove the old .sidebar and .main-content rules from here if any */
 
 /* Optional padding for inner content */
 .content-section {
@@ -30,4 +30,39 @@
   background: none;
   height: 100vh;
   overflow: hidden;
+}
+
+/* --- ADD THESE STYLES FOR THE NEW BUTTON --- */
+
+/* Style for the mobile menu button */
+.mobile-menu-toggle {
+  display: block; /* Shown on mobile by default */
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  z-index: 900; /* Must be above content but below sidebar overlay */
+  background: #2a2a2a;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.mobile-menu-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Hide the button on desktop */
+@media (min-width: 768px) {
+  .mobile-menu-toggle {
+    display: none;
+  }
 }
