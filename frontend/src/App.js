@@ -199,14 +199,15 @@
 // }
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { FaBars } from 'react-icons/fa';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
 import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from './config/roles';
 
-// Import all your pages and components
+// Import all pages and components
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -233,35 +234,33 @@ import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
 function AppContent() {
   const { pathname } = useLocation();
-  const [isSidebarOpen, setSidebarOpen] = useState(true); // Default to open on desktop
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setSidebarOpen(false);
+  const checkIsMobile = useCallback(() => {
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    setSidebarOpen(!mobile); // Default to open on desktop, closed on mobile
+  }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      // On desktop, keep it open. On mobile, keep it closed.
-      setSidebarOpen(!mobile);
-    };
+    window.addEventListener('resize', checkIsMobile);
+    checkIsMobile(); // Initial check
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, [checkIsMobile]);
 
-    window.addEventListener('resize', handleResize);
-    // Initial check
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  const closeSidebar = () => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
   
   // Close sidebar on route change on mobile
   useEffect(() => {
-    if (isMobile) {
-      closeSidebar();
-    }
-  }, [pathname, isMobile]);
+    closeSidebar();
+  }, [pathname]);
 
-  // Special layout for the login page
   if (pathname === '/') {
     return (
       <Routes>
@@ -271,13 +270,11 @@ function AppContent() {
     );
   }
 
-  // The main authenticated app layout
   return (
     <div className={`app-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isMobile={isMobile} />
       
-      {/* Overlay for closing sidebar on mobile */}
-      {(isMobile && isSidebarOpen) && <div className="overlay" onClick={closeSidebar}></div>}
+      {(isMobile && isSidebarOpen) && <div className="overlay" onClick={closeSidebar} />}
       
       <div className="main-content">
         <Routes>
