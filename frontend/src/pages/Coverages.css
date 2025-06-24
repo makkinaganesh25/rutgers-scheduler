@@ -147,7 +147,7 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === NO-FAIL FINAL VERSION */
+/* === Responsive Styles (for Mobile) === 50/50 Side-by-Side Buttons */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
@@ -156,36 +156,48 @@ button:active:not(:disabled) { transform: scale(0.97); }
   .coverages-container h1 { font-size: 1.5rem; margin: var(--spacing-md) 0; }
   .coverages-section { margin-top: var(--spacing-md); }
   .coverages-list { padding: var(--spacing-sm); gap: var(--spacing-sm); }
-
-  /* --- THE CORE FIX --- */
   
-  /* 1. Make each list item a simple vertical stack. */
+  /* Make each list item a simple vertical stack */
   .coverages-list li {
-    display: block; /* Ignore flexbox completely. Be a simple block. */
+    display: block;
     padding: var(--spacing-md);
   }
 
-  /* 2. Give the text block space below it. */
   .info {
     margin-bottom: var(--spacing-md);
   }
 
-  /* 3. The actions container is now also a simple block. */
+  /* --- THIS IS THE NEW 50/50 BUTTON LOGIC --- */
+
+  /* 1. The actions container is a flex row */
   .actions {
-    display: block; /* Ignore flexbox. */
+    display: flex;
+    flex-direction: row; /* Arrange children side-by-side */
+    justify-content: space-between; /* Put space between them if needed */
+    gap: var(--spacing-sm); /* This creates the gutter between buttons */
+    width: 100%;
   }
 
-  /* 4. Style EVERY direct child of .actions for perfect consistency. */
+  /* 2. Target EVERY direct child of .actions for consistency */
   .actions > * {
-    display: block; /* Each button or badge is its own block. */
-    width: 100%; /* Take up the full width. */
-    text-align: center; /* Center the text. */
+    flex: 1; /* CRITICAL: This makes each child take up equal (50%) space */
+    
+    /* Text behavior */
+    white-space: nowrap; /* Keep text on one line */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add '...' if text is still too long */
+    
+    /* Sizing & Alignment */
+    display: flex; /* Use flex to perfectly center text */
+    align-items: center;
+    justify-content: center;
     padding: 0.75rem var(--spacing-sm);
     box-sizing: border-box;
   }
 
-  /* 5. If there are multiple buttons/badges, add space between them. */
-  .actions > * + * {
-    margin-top: var(--spacing-sm); /* Add margin to the top of every item except the first. */
+  /* 3. Handle the case of a single button/badge */
+  .actions > :only-child {
+    flex: auto; /* Let a single item take its natural width */
+    width: 100%; /* Make a single item full-width */
   }
 }
