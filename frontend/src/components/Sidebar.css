@@ -1,4 +1,3 @@
-/* src/components/sidebar.css (FINAL WORKING CODE) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
@@ -40,11 +39,13 @@
   color: var(--fg);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1rem;
+  padding: 1rem;
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
-  transition: transform var(--transition);
-  transform: translateX(-100%); /* Hidden by default on mobile */
+  transition: transform var(--transition), background var(--transition), color var(--transition);
+  
+  /* Mobile First: Hide sidebar by default */
+  transform: translateX(-100%);
 }
 
 .sidebar.open {
@@ -52,36 +53,51 @@
   box-shadow: 3px 0 15px var(--shadow);
 }
 
+/* --- REFINED HEADER STYLES --- */
 .sidebar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align items to the start */
+  gap: 0.75rem;
+  padding: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .sidebar-title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1.1;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1;
+  margin: 0;
+  /* Allow title to take up remaining space */
+  flex-grow: 1; 
 }
 
-.theme-toggle {
+/* --- REFINED TOGGLE BUTTON STYLES --- */
+.sidebar-toggle, .theme-toggle {
   background: transparent;
   border: none;
   color: var(--fg);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Only show sidebar toggle on mobile */
+.sidebar-toggle {
+  display: block;
+}
+
+.theme-toggle {
+  font-size: 1.2rem;
   transition: transform var(--transition);
 }
-
-.sidebar-header .theme-toggle {
-  margin-left: auto;
-}
-
 .theme-toggle:hover {
   transform: rotate(20deg) scale(1.1);
 }
+/* --- END REFINEMENT --- */
 
 .sidebar-nav {
   flex: 1;
@@ -99,34 +115,13 @@
   position: relative;
   transition: background var(--transition), color var(--transition);
 }
-
-.sidebar-link svg {
-  transition: transform var(--transition), color var(--transition);
-}
-
-.sidebar-link:hover {
-  background: var(--hover);
-  color: var(--fg);
-}
-
-.sidebar-link:hover svg {
-  transform: scale(1.1);
-  color: var(--accent);
-}
-
-.sidebar-link.active {
-  background: var(--hover);
-  color: var(--fg);
-}
-
+.sidebar-link svg { transition: transform var(--transition), color var(--transition); }
+.sidebar-link:hover { background: var(--hover); color: var(--fg); }
+.sidebar-link:hover svg { transform: scale(1.1); color: var(--accent); }
+.sidebar-link.active { background: var(--hover); color: var(--fg); }
 .sidebar-link.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--accent);
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%; background: var(--accent);
   border-top-right-radius: var(--radius);
   border-bottom-right-radius: var(--radius);
 }
@@ -152,54 +147,34 @@
   box-shadow: 0 2px 8px var(--shadow);
   transition: background var(--transition), transform var(--transition);
 }
-
 .logout-btn:hover {
   background: var(--btn-hover);
   transform: scale(1.02);
 }
 
-/* --- Toggle Button (Now outside the sidebar) --- */
-.sidebar-toggle {
-  position: fixed;
-  top: 1.2rem;
-  left: 1rem;
-  z-index: 1001;
-  display: block; /* Show by default for mobile-first */
-  background: #8e1e1e;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius);
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  line-height: 0; /* Helps vertically center the icon */
-}
-
-/* --- Main Content Area --- */
 .main-content {
   margin-left: 0;
-  padding: 20px;
-  width: 100%;
-  background-color: #f4f4f9;
-  overflow-y: auto;
   transition: margin-left var(--transition);
 }
 
 /* --- DESKTOP STYLES --- */
 @media (min-width: 768px) {
   .sidebar {
-    transform: translateX(0); /* Always show sidebar on desktop */
+    transform: translateX(0);
+    box-shadow: 3px 0 12px var(--shadow);
   }
 
+  /* Hide hamburger on desktop */
   .sidebar-toggle {
-    display: none; /* Hide hamburger on desktop */
+    display: none;
   }
   
-  .sidebar-header .theme-toggle {
-     margin-left: 0; /* Reset margin for desktop layout */
+  /* On desktop, push title left and theme toggle right */
+  .sidebar-header {
+      justify-content: space-between;
   }
 
   .main-content {
-    margin-left: var(--sidebar-width); /* Push content on desktop */
+    margin-left: var(--sidebar-width);
   }
 }
