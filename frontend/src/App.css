@@ -1,44 +1,53 @@
-:root {
-  --sidebar-width: 250px;
-}
-
 .app-container {
-  position: relative;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
 }
 
 .main-content {
-  padding: 20px;
-  transition: margin-left 0.3s ease-in-out;
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f9;
+    overflow-y: auto;
 }
 
+.content-section {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.app-container.login-layout {
+    display: block;
+    height: 100vh;
+}
+
+.app-container.login-layout .main-content {
+    padding: 0;
+    background: none;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- Overlay for closing mobile menu --- */
 .overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-  animation: fadeIn 0.3s;
+    display: none; /* Hidden on desktop */
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* --- DESKTOP LAYOUT --- */
-@media (min-width: 768px) {
-  /* THIS IS THE KEY FIX: The main content will always have a left margin
-     to make space for the fixed sidebar. */
-  .main-content {
-    margin-left: var(--sidebar-width);
-  }
-}
-
-/* --- MOBILE LAYOUT --- */
 @media (max-width: 767px) {
-  /* On mobile, the main content takes up the full screen */
-  .main-content {
-    margin-left: 0;
-  }
+    .overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 }
