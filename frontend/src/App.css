@@ -1,64 +1,13 @@
-/* App container to hold sidebar and main content */
+/* App container - simplified */
 .app-container {
-    display: flex;
     height: 100vh;
     font-family: Arial, sans-serif;
+    position: relative;
   }
   
-  /* Sidebar styling */
-  .sidebar {
-    width: 220px;
-    background-color: #7d0000;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  /* Main content styling */
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f4f4f9;
-    overflow-y: auto;
-  }
-  
-  /* Sidebar link styling */
-  .sidebar a {
-    color: white;
-    text-decoration: none;
-    margin: 15px 0;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-  }
-  
-  .sidebar a:hover {
-    background-color: #8e0000;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .sidebar a i {
-    margin-right: 10px;
-  }
-  
-  /* Logout button styling */
-  .logout-button {
-    background-color: #b20000;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    margin-top: auto;
-    border-radius: 5px;
-  }
-  
-  .logout-button:hover {
-    background-color: #d50000;
-  }
+  /* Main content styling is now in sidebar.css */
+  /* Sidebar styling is now in sidebar.css */
+  /* You can remove the old .sidebar and .main-content rules from here */
   
   /* Optional padding for inner content */
   .content-section {
@@ -69,8 +18,7 @@
     margin-bottom: 20px;
   }
   
-  /* ─────────────────────────────── */
-  /* App layout override for login screen */
+  /* Login-specific styles can remain */
   .app-container.login-layout {
     display: block;
     height: 100vh;
@@ -82,4 +30,3 @@
     height: 100vh;
     overflow: hidden;
   }
-  
