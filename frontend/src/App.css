@@ -1,53 +1,38 @@
+/* App container uses Flexbox for the desktop layout */
 .app-container {
-    display: flex;
-    height: 100vh;
-    font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
 .main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f4f4f9;
-    overflow-y: auto;
+  flex: 1; /* Takes up the remaining space */
+  padding: 20px;
+  background-color: #f4f4f9;
+  overflow-y: auto;
 }
 
-.content-section {
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.app-container.login-layout {
+/* This class is added by App.js to show the overlay on mobile */
+.sidebar-mobile-open .overlay {
     display: block;
-    height: 100vh;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    animation: fadeIn 0.3s;
 }
 
-.app-container.login-layout .main-content {
-    padding: 0;
-    background: none;
-    height: 100vh;
-    overflow: hidden;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* --- Overlay for closing mobile menu --- */
-.overlay {
-    display: none; /* Hidden on desktop */
-}
-
+/* On mobile, we change the layout */
 @media (max-width: 767px) {
-    .overlay {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 999;
-        animation: fadeIn 0.3s;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+  .app-container {
+    display: block; /* Turn off flexbox */
+  }
+  .main-content {
+    /* The sidebar is now position:fixed, so no margin is needed */
+  }
 }
