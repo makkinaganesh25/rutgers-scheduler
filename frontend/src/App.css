@@ -1,38 +1,33 @@
-/* App container uses Flexbox for the desktop layout */
+/* src/app.css */
+
+/* App container - simplified */
 .app-container {
-  display: flex;
   height: 100vh;
   font-family: Arial, sans-serif;
+  position: relative;
 }
 
-.main-content {
-  flex: 1; /* Takes up the remaining space */
+/* Main content and Sidebar styling is now handled by sidebar.css */
+/* You can remove the old .sidebar and .main-content rules from here */
+
+/* Optional padding for inner content */
+.content-section {
   padding: 20px;
-  background-color: #f4f4f9;
-  overflow-y: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-/* This class is added by App.js to show the overlay on mobile */
-.sidebar-mobile-open .overlay {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 999;
-    animation: fadeIn 0.3s;
+/* Login-specific styles can remain */
+.app-container.login-layout {
+  display: block;
+  height: 100vh;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* On mobile, we change the layout */
-@media (max-width: 767px) {
-  .app-container {
-    display: block; /* Turn off flexbox */
-  }
-  .main-content {
-    /* The sidebar is now position:fixed, so no margin is needed */
-  }
+.app-container.login-layout .main-content {
+  padding: 0;
+  background: none;
+  height: 100vh;
+  overflow: hidden;
 }
