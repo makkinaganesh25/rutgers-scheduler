@@ -331,9 +331,36 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { listAnnouncements } from '../api';
-import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_DIVISION, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from '../config/roles';
-import { FaHome, FaUserCheck, FaCalendar, FaBell, FaFile, FaCalendarAlt, FaChartBar, FaSitemap, FaUsers, FaBullhorn, FaMoon, FaSun } from 'react-icons/fa';
+// --- THIS IS THE MAIN CHANGE ---
+// We are now importing all exports from 'api.js' into a single 'api' object
+import * as api from '../api';
+// --- END CHANGE ---
+import {
+  SUPERVISOR_ROLES,
+  EVENT_CREATOR_ROLES,
+  ADMIN_USER_ROLES,
+  ANNOUNCEMENT_CREATOR_ROLES,
+  CSO_LEAVE_REQUESTER_ROLES,
+  CSO_LEAVE_APPROVER_ROLES,
+  CSO_MANDATE_ROLES,
+  SECURITY_DIVISION,
+  SECURITY_OFFICER_ROLES,
+  SECURITY_LEAVE_APPROVER_ROLES
+} from '../config/roles';
+import {
+  FaHome,
+  FaUserCheck,
+  FaCalendar,
+  FaBell,
+  FaFile,
+  FaCalendarAlt,
+  FaChartBar,
+  FaSitemap,
+  FaUsers,
+  FaBullhorn,
+  FaMoon,
+  FaSun
+} from 'react-icons/fa';
 import './Sidebar.css';
 
 export default function Sidebar({ isOpen }) {
@@ -343,7 +370,9 @@ export default function Sidebar({ isOpen }) {
   const [annCount, setAnnCount] = useState(0);
 
   useEffect(() => {
-    listAnnouncements()
+    // --- THIS IS THE OTHER CHANGE ---
+    // We now call the function as a method of the 'api' object
+    api.listAnnouncements()
       .then(list => setAnnCount(list.length))
       .catch(() => {});
   }, []);
