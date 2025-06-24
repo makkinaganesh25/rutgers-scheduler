@@ -322,8 +322,8 @@ function CalendarView({ events, windowWidth }) {
             }}
             buttonText={{ today:'Today', week:'Week', day:'Day' }}
             events={events}
-            slotMinTime="06:00:00"
-            slotMaxTime="23:00:00"
+            slotMinTime="00:00:00"  /* <<< CORRECTED */
+            slotMaxTime="24:00:00"  /* <<< CORRECTED */
             scrollTime={scrollTime}
             allDaySlot={false}
             nowIndicator
