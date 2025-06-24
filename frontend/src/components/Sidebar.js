@@ -328,6 +328,7 @@
 //   );
 // }
 
+// src/components/Sidebar.jsx
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -336,6 +337,7 @@ import {
   SUPERVISOR_ROLES,
   EVENT_CREATOR_ROLES,
   ADMIN_USER_ROLES,
+  // ... (keep all your role imports)
   ANNOUNCEMENT_CREATOR_ROLES,
   CSO_LEAVE_REQUESTER_ROLES,
   CSO_LEAVE_APPROVER_ROLES,
@@ -348,6 +350,7 @@ import {
   FaHome,
   FaUserCheck,
   FaCalendar,
+  // ... (keep all your icon imports EXCEPT FaBars)
   FaBell,
   FaFile,
   FaCalendarAlt,
@@ -356,12 +359,12 @@ import {
   FaUsers,
   FaBullhorn,
   FaMoon,
-  FaSun,
-  FaBars 
+  FaSun
 } from 'react-icons/fa';
 import './Sidebar.css';
 
-export default function Sidebar({ isOpen, toggleSidebar }) {
+// The toggleSidebar prop is no longer needed
+export default function Sidebar({ isOpen }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const [dark, setDark] = useState(false);
@@ -381,24 +384,16 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const linkClass = ({ isActive }) =>
     `sidebar-link${isActive ? ' active' : ''}`;
     
-  const handleLinkClick = () => {
-    if (window.innerWidth < 768) {
-        toggleSidebar();
-    }
-  }
+  // We no longer need handleLinkClick to toggle the sidebar,
+  // as the overlay in App.js now handles closing.
 
   const show = roles => user && roles.includes(user.user_rank);
 
   return (
     <aside className={`sidebar ${dark ? 'dark' : 'light'} ${isOpen ? 'open' : ''}`}>
       <header className="sidebar-header">
-        {/* Hamburger icon is now part of the normal layout flow on mobile */}
-        <button className="sidebar-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
-            <FaBars />
-        </button>
-        
+        {/* The old hamburger button has been REMOVED from here */}
         <h2 className="sidebar-title">CSO Rutgers</h2>
-        
         <button
           className="theme-toggle"
           onClick={() => setDark(d => !d)}
@@ -408,78 +403,28 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         </button>
       </header>
 
-      <nav className="sidebar-nav" onClick={handleLinkClick}>
-        <NavLink to="/dashboard" className={linkClass}>
-          <FaHome /> Dashboard
-        </NavLink>
-        <NavLink to="/coverages" className={linkClass}>
-          <FaUserCheck /> Coverage Requests
-        </NavLink>
-        <NavLink to="/calendar" className={linkClass}>
-          <FaCalendar /> Calendar
-        </NavLink>
-        <NavLink to="/notifications" className={linkClass}>
-          <FaBell /> Notifications
-        </NavLink>
-        <NavLink to="/media-files" className={linkClass}>
-          <FaFile /> Media Files
-        </NavLink>
-        <NavLink to="/hierarchy" className={linkClass}>
-          <FaSitemap /> Command Hierarchy
-        </NavLink>
-        <NavLink to="/events" className={linkClass}>
-          <FaCalendarAlt /> Special Events
-        </NavLink>
+      {/* The Nav is unchanged */}
+      <nav className="sidebar-nav">
+        {/* All your NavLink elements remain here... */}
+        <NavLink to="/dashboard" className={linkClass}><FaHome /> Dashboard</NavLink>
+        <NavLink to="/coverages" className={linkClass}><FaUserCheck /> Coverage Requests</NavLink>
+        {/* ... etc ... */}
+        <NavLink to="/calendar" className={linkClass}><FaCalendar /> Calendar</NavLink>
+        <NavLink to="/notifications" className={linkClass}><FaBell /> Notifications</NavLink>
+        <NavLink to="/media-files" className={linkClass}><FaFile /> Media Files</NavLink>
+        <NavLink to="/hierarchy" className={linkClass}><FaSitemap /> Command Hierarchy</NavLink>
+        <NavLink to="/events" className={linkClass}><FaCalendarAlt /> Special Events</NavLink>
 
-        {show(EVENT_CREATOR_ROLES) && (
-          <NavLink to="/admin/events" className={linkClass}>
-            <FaCalendarAlt /> Admin Events
-          </NavLink>
-        )}
-        {show(ADMIN_USER_ROLES) && (
-          <NavLink to="/admin/users" className={linkClass}>
-            <FaUsers /> User Management
-          </NavLink>
-        )}
-        <NavLink to="/announcements" className={linkClass}>
-          <FaBullhorn /> Announcements
-          {annCount > 0 && <span className="badge">{annCount}</span>}
-        </NavLink>
-        {show(ANNOUNCEMENT_CREATOR_ROLES) && (
-          <NavLink to="/admin/announcements" className={linkClass}>
-            <FaBullhorn /> Manage Announcements
-          </NavLink>
-        )}
-        {show(SUPERVISOR_ROLES) && (
-          <NavLink to="/overview" className={linkClass}>
-            <FaChartBar /> Overview
-          </NavLink>
-        )}
-        {show(CSO_LEAVE_REQUESTER_ROLES) && (
-          <NavLink to="/cso/leave" className={linkClass}>
-            Request CSO Leave
-          </NavLink>
-        )}
-        {show(CSO_LEAVE_APPROVER_ROLES) && (
-          <NavLink to="/cso/leave/approve" className={linkClass}>
-            Approve CSO Leave
-          </NavLink>
-        )}
-        {show(CSO_MANDATE_ROLES) && (
-          <NavLink to="/cso/mandate" className={linkClass}>
-            Mandate CSO Shift
-          </NavLink>
-        )}
-        {user?.division === SECURITY_DIVISION && show(SECURITY_OFFICER_ROLES) && (
-            <NavLink to="/security/leave" className={linkClass}>
-              Request Security Leave
-            </NavLink>
-        )}
-        {user?.division === SECURITY_DIVISION && show(SECURITY_LEAVE_APPROVER_ROLES) && (
-            <NavLink to="/security/leave/approve" className={linkClass}>
-              Approve Security Leave
-            </NavLink>
-        )}
+        {show(EVENT_CREATOR_ROLES) && ( <NavLink to="/admin/events" className={linkClass}><FaCalendarAlt /> Admin Events</NavLink> )}
+        {show(ADMIN_USER_ROLES) && ( <NavLink to="/admin/users" className={linkClass}><FaUsers /> User Management</NavLink> )}
+        <NavLink to="/announcements" className={linkClass}> <FaBullhorn /> Announcements {annCount > 0 && <span className="badge">{annCount}</span>} </NavLink>
+        {show(ANNOUNCEMENT_CREATOR_ROLES) && ( <NavLink to="/admin/announcements" className={linkClass}><FaBullhorn /> Manage Announcements</NavLink> )}
+        {show(SUPERVISOR_ROLES) && ( <NavLink to="/overview" className={linkClass}><FaChartBar /> Overview</NavLink> )}
+        {show(CSO_LEAVE_REQUESTER_ROLES) && ( <NavLink to="/cso/leave" className={linkClass}> Request CSO Leave</NavLink> )}
+        {show(CSO_LEAVE_APPROVER_ROLES) && ( <NavLink to="/cso/leave/approve" className={linkClass}> Approve CSO Leave</NavLink> )}
+        {show(CSO_MANDATE_ROLES) && ( <NavLink to="/cso/mandate" className={linkClass}> Mandate CSO Shift</NavLink> )}
+        {user?.division === SECURITY_DIVISION && show(SECURITY_OFFICER_ROLES) && ( <NavLink to="/security/leave" className={linkClass}> Request Security Leave</NavLink> )}
+        {user?.division === SECURITY_DIVISION && show(SECURITY_LEAVE_APPROVER_ROLES) && ( <NavLink to="/security/leave/approve" className={linkClass}> Approve Security Leave</NavLink> )}
       </nav>
 
       <button onClick={onLogout} className="logout-btn">
