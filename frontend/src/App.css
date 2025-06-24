@@ -1,23 +1,20 @@
-/* src/app.css */
 :root {
   --sidebar-width-open: 260px;
-  --sidebar-width-collapsed: 80px;
-  --transition-speed: 0.3s;
+  --sidebar-width-collapsed: 88px;
+  --transition-speed: 0.3s ease-in-out;
 }
 
 .app-container {
-  position: relative;
   font-family: Arial, sans-serif;
-  transition: padding-left var(--transition-speed) ease-in-out;
 }
 
 .main-content {
-  transition: margin-left var(--transition-speed) ease-in-out;
+  transition: margin-left var(--transition-speed);
   padding: 20px;
 }
 
 /* --- Login Page specific styles --- */
-.app-container.login-layout .main-content {
+.login-layout .main-content {
   padding: 0;
   margin-left: 0 !important;
 }
@@ -29,8 +26,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999; 
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
   animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -56,6 +53,5 @@
 @media (max-width: 767px) {
   .main-content {
     margin-left: 0;
-    padding-top: 60px; /* Add padding to top to avoid content being under the fixed hamburger button */
   }
 }
