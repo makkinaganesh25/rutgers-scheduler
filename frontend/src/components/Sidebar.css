@@ -72,22 +72,7 @@
   color: var(--fg);
   font-size: 1.5rem;
   cursor: pointer;
-  position: absolute;
-  top: 1.5rem;
-  right: -45px;
-  z-index: 1001;
-  background-color: var(--bg);
-  padding: 5px 8px;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
 }
-
-.sidebar.open .sidebar-toggle {
-    right: 1rem;
-    background-color: transparent;
-    box-shadow: none;
-}
-
 
 .theme-toggle {
   background: transparent;
@@ -119,18 +104,9 @@
   transition: background var(--transition), color var(--transition);
 }
 
-.sidebar-link svg {
-  transition: transform var(--transition), color var(--transition);
-}
-
 .sidebar-link:hover {
   background: var(--hover);
   color: var(--fg);
-}
-
-.sidebar-link:hover svg {
-  transform: scale(1.1);
-  color: var(--accent);
 }
 
 .sidebar-link.active {
@@ -181,6 +157,7 @@
   margin-left: 0;
   padding: 20px;
   width: 100%;
+  box-sizing: border-box;
   background-color: #f4f4f9;
   overflow-y: auto;
   transition: margin-left var(--transition);
