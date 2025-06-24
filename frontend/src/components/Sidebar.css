@@ -28,8 +28,6 @@
 }
 
 .sidebar {
-  position: fixed;
-  top: 0; left: 0;
   width: var(--sidebar-width);
   height: 100vh;
   background: var(--bg);
@@ -41,7 +39,7 @@
   font-family: 'Inter', sans-serif;
   overflow-y: auto;
   transition: transform var(--transition);
-  z-index: 1000;
+  flex-shrink: 0; /* Prevents the sidebar from shrinking */
 }
 
 .sidebar-header {
@@ -66,83 +64,50 @@
   cursor: pointer;
 }
 
-.sidebar-nav {
-  flex: 1;
-}
+.sidebar-nav { flex: 1; }
+.sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.8rem; margin: 0.2rem 0; border-radius: var(--radius); color: var(--muted); text-decoration: none; }
+.sidebar-link:hover { background: var(--hover); color: var(--fg); }
+.sidebar-link.active { background: var(--hover); color: var(--fg); }
+.badge { background: var(--accent); color: #fff; border-radius: 999px; padding: 0 6px; margin-left: auto; font-size: 0.75rem; }
+.logout-btn { margin-top: 1rem; padding: 0.7rem 1rem; font-weight: 600; background: var(--btn-bg); color: #fff; border: none; border-radius: var(--radius); cursor: pointer; }
+.logout-btn:hover { background: var(--btn-hover); }
 
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.8rem;
-  margin: 0.2rem 0;
-  border-radius: var(--radius);
-  color: var(--muted);
-  text-decoration: none;
-}
-.sidebar-link:hover {
-  background: var(--hover);
-  color: var(--fg);
-}
-.sidebar-link.active {
-  background: var(--hover);
-  color: var(--fg);
-}
-
-.badge {
-  background: var(--accent);
-  color: #fff;
-  border-radius: 999px;
-  padding: 0 6px;
-  margin-left: auto;
-  font-size: 0.75rem;
-}
-
-.logout-btn {
-  margin-top: 1rem;
-  padding: 0.7rem 1rem;
-  font-weight: 600;
-  background: var(--btn-bg);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-}
-.logout-btn:hover {
-  background: var(--btn-hover);
-}
-
-/* --- The hamburger button is hidden on desktop --- */
-.sidebar-toggle {
-  display: none;
+/* The hamburger button is hidden by default (for desktop) */
+.sidebar-toggle-btn {
+    display: none;
 }
 
 
-/* ===================================================================== */
-/* === MOBILE RESPONSIVE STYLES === */
-/* ===================================================================== */
+/* ================================================= */
+/* === MOBILE RESPONSIVE STYLES (The Only Change) === */
+/* ================================================= */
 @media (max-width: 767px) {
-  /* Hide the sidebar off-screen by default */
-  .sidebar {
-    transform: translateX(-100%);
-  }
-  
-  /* When .is-open is added by React, slide it into view */
-  .sidebar.is-open {
-    transform: translateX(0);
-  }
+    /* On mobile, the sidebar is positioned absolutely and hidden off-screen */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        transform: translateX(-100%);
+    }
 
-  /* Show the hamburger button */
-  .sidebar-toggle {
-    display: block;
-    z-index: 1001; /* Make sure it's on top */
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem; /* Position inside the header */
-  }
+    /* The .is-open class (from App.js) slides it into view */
+    .sidebar.is-open {
+        transform: translateX(0);
+    }
+    
+    /* Show the hamburger button on mobile */
+    .sidebar-toggle-btn {
+        display: block;
+        color: var(--fg);
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
 
-  /* Hide the theme toggle on mobile to make space for the hamburger */
-  .theme-toggle {
-      display: none;
-  }
+    /* Hide the theme toggle on mobile to make space */
+    .theme-toggle {
+        display: none;
+    }
 }
