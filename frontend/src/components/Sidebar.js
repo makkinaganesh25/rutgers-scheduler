@@ -328,10 +328,11 @@
 //   );
 // }
 
-import React, { useState, useEffect } from 'react';
+// src/components/Sidebar.js
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { listAnnouncements } from '../api';
+// The problematic import has been REMOVED.
 import {
   SUPERVISOR_ROLES,
   EVENT_CREATOR_ROLES,
@@ -357,7 +358,7 @@ import {
   FaBullhorn,
   FaMoon,
   FaSun,
-  FaBars // Import hamburger icon
+  FaBars
 } from 'react-icons/fa';
 import './Sidebar.css';
 
@@ -365,13 +366,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const [dark, setDark] = useState(false);
-  const [annCount, setAnnCount] = useState(0);
-
-  useEffect(() => {
-    listAnnouncements()
-      .then(list => setAnnCount(list.length))
-      .catch(() => {});
-  }, []);
+  // The annCount state and useEffect have been REMOVED.
 
   const onLogout = () => {
     logout();
@@ -382,7 +377,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     `sidebar-link${isActive ? ' active' : ''}`;
     
   const handleLinkClick = () => {
-    if (window.innerWidth < 768) { // Same breakpoint as in CSS
+    if (window.innerWidth < 768) {
         toggleSidebar();
     }
   }
@@ -441,10 +436,12 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             <FaUsers /> User Management
           </NavLink>
         )}
+
+        {/* The count badge has been REMOVED from this NavLink */}
         <NavLink to="/announcements" className={linkClass}>
           <FaBullhorn /> Announcements
-          {annCount > 0 && <span className="badge">{annCount}</span>}
         </NavLink>
+
         {show(ANNOUNCEMENT_CREATOR_ROLES) && (
           <NavLink to="/admin/announcements" className={linkClass}>
             <FaBullhorn /> Manage Announcements
