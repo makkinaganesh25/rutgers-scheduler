@@ -197,48 +197,70 @@
 //     </AuthProvider>
 //   );
 // }
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import React, { useState } from 'react'; // <-- Added useState
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation
+} from 'react-router-dom';
+
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
-import { SUPERVISOR_ROLES, EVENT_CREATOR_ROLES, ADMIN_USER_ROLES, ANNOUNCEMENT_CREATOR_ROLES, CSO_LEAVE_REQUESTER_ROLES, CSO_LEAVE_APPROVER_ROLES, CSO_MANDATE_ROLES, SECURITY_OFFICER_ROLES, SECURITY_LEAVE_APPROVER_ROLES } from './config/roles';
 
-import Sidebar from './components/Sidebar';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Coverages from './pages/Coverages';
-import Calendar from './pages/Calendar';
-import Notifications from './pages/Notifications';
-import MediaFiles from './pages/MediaFiles';
-import FAQ from './pages/FAQ';
-import ShiftList from './pages/ShiftList';
+import {
+  SUPERVISOR_ROLES,
+  EVENT_CREATOR_ROLES,
+  ADMIN_USER_ROLES,
+  ANNOUNCEMENT_CREATOR_ROLES,
+  CSO_LEAVE_REQUESTER_ROLES,
+  CSO_LEAVE_APPROVER_ROLES,
+  CSO_MANDATE_ROLES,
+  SECURITY_OFFICER_ROLES,
+  SECURITY_LEAVE_APPROVER_ROLES
+} from './config/roles';
+
+import Sidebar          from './components/Sidebar';
+import Login            from './pages/Login';
+import Dashboard        from './pages/Dashboard';
+import Coverages        from './pages/Coverages';
+import Calendar         from './pages/Calendar';
+import Notifications    from './pages/Notifications';
+import MediaFiles       from './pages/MediaFiles';
+import FAQ              from './pages/FAQ';
+import ShiftList        from './pages/ShiftList';
 import SpecialEventsList from './pages/SpecialEventsList';
-import EventSlots from './pages/EventSlots';
-import AdminEvents from './pages/AdminEvents';
-import AdminUsers from './pages/AdminUsers';
-import Overview from './pages/Overview';
+import EventSlots       from './pages/EventSlots';
+import AdminEvents      from './pages/AdminEvents';
+import AdminUsers       from './pages/AdminUsers';
+import Overview         from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
-import Chatbot from './components/Chatbot';
-import Announcements from './pages/Announcements';
+import Chatbot          from './components/Chatbot';
+import Announcements      from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
-import CsoLeaveRequest from './pages/CsoLeaveRequest';
-import CsoLeaveApproval from './pages/CsoLeaveApproval';
-import CsoMandate from './pages/CsoMandate';
-import SecurityLeaveRequest from './pages/SecurityLeaveRequest';
+import CsoLeaveRequest    from './pages/CsoLeaveRequest';
+import CsoLeaveApproval   from './pages/CsoLeaveApproval';
+import CsoMandate         from './pages/CsoMandate';
+import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
 function AppContent() {
   const { pathname } = useLocation();
+  
+  // --- This is the new state to control the mobile sidebar ---
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
 
   useEffect(() => {
     // Close sidebar when navigating to a new page on mobile
-    closeSidebar();
+    if (window.innerWidth < 768) {
+      closeSidebar();
+    }
   }, [pathname]);
+
 
   if (pathname === '/') {
     return (
@@ -251,7 +273,9 @@ function AppContent() {
 
   return (
     <div className="app-container">
+      {/* Pass the state and toggle function to the Sidebar */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      {/* Overlay for closing the menu on mobile */}
       {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
       <div className="main-content">
         <Routes>
