@@ -199,7 +199,6 @@
 // }
 
 
-// The only change is adding 'useEffect' to this import line
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
@@ -241,17 +240,11 @@ import AdminUsers       from './pages/AdminUsers';
 import Overview         from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
 import Chatbot          from './components/Chatbot';
-
-// Announcements pages
 import Announcements      from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
-
-// CSO Leave + Mandate pages
 import CsoLeaveRequest    from './pages/CsoLeaveRequest';
 import CsoLeaveApproval   from './pages/CsoLeaveApproval';
 import CsoMandate         from './pages/CsoMandate';
-
-// Security Leave pages
 import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 
@@ -261,14 +254,10 @@ function AppContent() {
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
-
-  // Close sidebar on route change
+  
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      closeSidebar();
-    }
+    closeSidebar();
   }, [pathname]);
-
 
   if (pathname === '/') {
     return (
@@ -279,12 +268,11 @@ function AppContent() {
     );
   }
 
+  // We add a class to the container when the sidebar is open for mobile styles
   return (
-    <div className="app-container">
-      {/* Pass the state and toggle function to the Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      {/* Overlay for closing the menu on mobile */}
-      {isSidebarOpen && window.innerWidth < 768 && <div className="overlay" onClick={closeSidebar}></div>}
+    <div className={`app-container ${isSidebarOpen ? 'sidebar-mobile-open' : ''}`}>
+      <Sidebar toggleSidebar={toggleSidebar} />
+      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
       <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
