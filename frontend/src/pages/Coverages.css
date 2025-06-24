@@ -106,7 +106,7 @@ body {
   line-height: 1.4;
 }
 .actions {
-  flex: 0 1 auto; /* Let it shrink but not grow */
+  flex: 0 1 auto;
   display: flex;
   gap: var(--spacing-sm);
   justify-content: flex-end;
@@ -139,6 +139,7 @@ button {
   cursor: pointer;
   color: var(--text-light);
   transition: background-color 0.2s, transform 0.1s;
+  text-align: center;
 }
 button:disabled {
   background-color: #ccc;
@@ -163,13 +164,14 @@ button:active:not(:disabled) {
 
 /* Badge */
 .badge {
-  background: #757575; /* Muted gray for status */
+  background: #757575;
   color: white;
-  padding: 0.4rem 0.8rem;
+  padding: 0.6rem 0.8rem;
   border-radius: var(--radius);
   font-weight: 600;
   font-size: 0.9rem;
   text-align: center;
+  display: block;
 }
 
 /* Error Message */
@@ -233,35 +235,43 @@ button:active:not(:disabled) {
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === */
+/* === Responsive Styles (for Mobile) === REFINED */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
   .coverages-container {
-    margin: var(--spacing-md) auto;
+    margin: var(--spacing-sm) auto;
+    padding: var(--spacing-sm);
   }
   .coverages-container h1 {
     font-size: 1.5rem;
   }
 
-  /* Stack list items vertically */
+  /* Make list items stack vertically */
   .coverages-list li {
     flex-direction: column;
-    align-items: stretch; /* Make children full width */
-    padding: var(--spacing-sm);
+    align-items: stretch; /* Make children take up full width */
+    gap: 0; /* Control gap inside children instead */
   }
+  
+  /* Add more space between lines of text in the info block */
   .info {
     margin-bottom: var(--spacing-md); /* Space between info and actions */
+    gap: 0.5rem;
   }
+
+  /* --- KEY CHANGE FOR REFINEMENT --- */
+  /* Make the action buttons stack vertically on top of each other */
   .actions {
-    justify-content: flex-start; /* Align buttons to the left */
-    gap: var(--spacing-md);
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: stretch;  /* Make buttons full-width */
+    justify-content: flex-start;
+    gap: var(--spacing-sm); /* Space between stacked buttons */
   }
-  .actions button {
-    flex-grow: 1; /* Allow buttons to grow and fill space */
-    text-align: center;
-  }
-  .actions button:first-child:last-child {
-    flex-grow: 0; /* Don't let a single button stretch fully */
+
+  /* When a badge is the only item in actions, it should look good */
+  .actions .badge {
+    width: 100%;
+    box-sizing: border-box;
   }
 }
