@@ -1,112 +1,219 @@
+/* ===================================================================== */
+/* File: src/pages/CsoLeaveApproval.css                                  */
+/* ===================================================================== */
+
 :root {
-    --page-bg: #f4f7fa;
-    --card-bg: #fff;
-    --border: #e0e0e0;
-    --text: #333;
-    --primary: #d32f2f;
-    --success: #2e7d32;
-    --error: #c62828;
-    --radius: 8px;
-    --shadow: 0 2px 12px rgba(0,0,0,0.05);
-  }
-  
-  body {
-    background: var(--page-bg);
-    font-family: sans-serif;
-    color: var(--text);
-  }
-  
-  .approval-page {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
+  --page-bg: #f4f7fa;
+  --card-bg: #fff;
+  --border: #e0e0e0;
+  --text: #333;
+  --primary: #d32f2f;
+  --success: #2e7d32;
+  --success-dark: #1b5e20;
+  --error: #c62828;
+  --error-dark: #a62828;
+  --radius: 8px;
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+body {
+  background: var(--page-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+}
+
+.approval-page {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  overflow: hidden; /* Prevent table from breaking card radius */
+}
+
+h2 {
+  margin-top: 0;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+.alert.error {
+  background: #ffebee;
+  color: var(--error);
+}
+
+/* --- DESKTOP TABLE STYLES --- */
+.table-wrapper {
+  overflow-x: auto; /* Allows horizontal scrolling on desktop if needed */
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap; /* Prevent text from wrapping on desktop */
+}
+
+.data-table th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+.data-table tr:hover {
+  background: #fcfcfc;
+}
+
+.status {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.status.approved {
+  color: var(--success);
+}
+.status.denied {
+  color: var(--error);
+}
+.status.pending {
+  color: #f57c00; /* amber */
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #fff;
+}
+
+.btn-accept {
+  background: var(--success);
+}
+.btn-accept:hover {
+  background: var(--success-dark);
+}
+
+.btn-deny {
+  background: var(--error);
+}
+.btn-deny:hover {
+  background: var(--error-dark);
+}
+
+/* ===================================================================== */
+/* === Responsive Styles (for Mobile) === */
+/* ===================================================================== */
+
+@media (max-width: 768px) {
   .card {
-    background: var(--card-bg);
+    padding: 1rem; /* Less padding on mobile */
+  }
+
+  /* 1. Hide the original table header */
+  .data-table thead {
+    display: none;
+  }
+
+  /* 2. Remove table behavior and make elements blocks */
+  .data-table,
+  .data-table tbody,
+  .data-table tr,
+  .data-table td {
+    display: block;
+    width: 100%;
+  }
+
+  /* 3. Style each row like a card */
+  .data-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 2rem;
-    box-shadow: var(--shadow);
+    padding: 1rem;
+  }
+  .data-table tr:last-child {
+    margin-bottom: 0;
   }
   
-  h2 {
-    margin-top: 0;
+  /* 4. Style each data cell */
+  .data-table td {
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border);
+    display: flex;
+    justify-content: space-between; /* Align label and value */
+    align-items: center;
+    text-align: right; /* Align value to the right */
+    white-space: normal;
+  }
+  .data-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* 5. The Magic: Add data labels using pseudo-elements */
+  .data-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    text-align: left;
+    margin-right: 1rem;
     color: var(--primary);
   }
-  
-  .alert {
-    padding: 1rem;
-    border-radius: var(--radius);
-    margin-bottom: 1.5rem;
-  }
-  .alert.error {
-    background: #ffebee;
-    color: var(--error);
-  }
-  
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-  }
-  
-  .data-table th,
-  .data-table td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-  }
-  
-  .data-table th {
-    background: #fafafa;
-    font-weight: 600;
-  }
-  
-  .data-table tr:nth-child(even) {
-    background: #fcfcfc;
-  }
-  
-  .status {
-    text-transform: capitalize;
-    font-weight: 500;
-  }
-  .status.approved {
-    color: var(--success);
-  }
-  .status.denied {
-    color: var(--error);
-  }
-  .status.pending {
-    color: #f57c00; /* amber */
-  }
-  
+
+  /* 6. Specifically target each cell to assign its label */
+  .data-table td:nth-of-type(1)::before { content: "Officer"; }
+  .data-table td:nth-of-type(2)::before { content: "From"; }
+  .data-table td:nth-of-type(3)::before { content: "To"; }
+  .data-table td:nth-of-type(4)::before { content: "Status"; }
+  .data-table td:nth-of-type(5)::before { content: "Action"; }
+
+  /* 7. Style the action buttons for mobile */
   .actions {
-    display: flex;
-    gap: 0.5rem;
+    justify-content: flex-end; /* Align buttons to the right */
   }
-  
+
+  /* If there are two buttons, make them share the space */
   .actions button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background 0.2s;
+    flex-grow: 1;
   }
-  
-  .btn-accept {
-    background: var(--success);
-    color: #fff;
-  }
-  .btn-accept:hover {
-    background: #276c27;
-  }
-  
-  .btn-deny {
-    background: var(--error);
-    color: #fff;
-  }
-  .btn-deny:hover {
-    background: #a62828;
-  }
-  
+}
+
+@media (max-width: 400px) {
+    /* For very small screens, stack the action buttons */
+    .data-table td:nth-of-type(5) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+    .data-table td:nth-of-type(5)::before {
+        margin-bottom: 0.5rem;
+        text-align: center;
+        width: 100%;
+    }
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+}
