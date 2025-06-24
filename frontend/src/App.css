@@ -1,32 +1,60 @@
+/* src/app.css */
+
 /* App container - simplified */
 .app-container {
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    position: relative;
-  }
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+/* Optional padding for inner content */
+.content-section {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Login-specific styles can remain */
+.app-container.login-layout {
+  display: block;
+  height: 100vh;
+}
+
+.app-container.login-layout .main-content {
+  padding: 0;
+  background: none;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+/* --- NEW: Overlay Styles --- */
+/* This darkens the main content and captures clicks to close the sidebar */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   
-  /* Main content styling is now in sidebar.css */
-  /* Sidebar styling is now in sidebar.css */
-  /* You can remove the old .sidebar and .main-content rules from here */
+  /* The z-index must be lower than the sidebar (1000) but higher than the content */
+  z-index: 999; 
   
-  /* Optional padding for inner content */
-  .content-section {
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  /* Login-specific styles can remain */
-  .app-container.login-layout {
-    display: block;
-    height: 100vh;
-  }
-  
-  .app-container.login-layout .main-content {
-    padding: 0;
-    background: none;
-    height: 100vh;
-    overflow: hidden;
-  }
+  /* Add a fade-in effect */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* On desktop, we don't need the overlay because the sidebar doesn't open/close */
+@media (min-width: 768px) {
+    .overlay {
+        display: none;
+    }
+}
