@@ -1,17 +1,24 @@
+/* src/app.css */
+
 :root {
   --sidebar-width: 250px;
   --transition-speed: 0.3s ease-in-out;
 }
 
+/* --- Main Layout --- */
 .app-container {
   position: relative;
   font-family: Arial, sans-serif;
 }
 
 .main-content {
+  /* This margin is the key fix for the desktop layout */
+  margin-left: var(--sidebar-width);
+  padding: 20px;
   transition: margin-left var(--transition-speed);
 }
 
+/* --- Overlay for Mobile --- */
 .overlay {
   position: fixed;
   inset: 0;
@@ -25,8 +32,20 @@
   to { opacity: 1; }
 }
 
-@media (min-width: 768px) {
+
+/* --- Mobile Responsive Overrides --- */
+@media (max-width: 767px) {
+  /* On mobile, the main content takes up the full screen */
   .main-content {
-    margin-left: var(--sidebar-width);
+    margin-left: 0;
   }
+  
+  /* The overlay should only be visible on mobile when the sidebar is open */
+  /* This is handled by the conditional rendering in App.js */
+}
+
+/* --- Login Page specific styles --- */
+.login-layout .main-content {
+  padding: 0;
+  margin-left: 0 !important;
 }
