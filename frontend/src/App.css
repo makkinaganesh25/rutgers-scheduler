@@ -25,15 +25,17 @@
   overflow: hidden;
 }
 
-/* Styles for the mobile toggle button */
+/* NEW/RESTORED STYLES FOR THE HAMBURGER BUTTON 
+*/
+
+/* Default styles for the button (Mobile First) */
 .mobile-menu-toggle {
-  display: none; /* Hidden by default */
   position: fixed;
   bottom: 20px;
   left: 20px;
   z-index: 1001;
-  background: #8e1e1e !important;
-  color: white !important;
+  background: #8e1e1e; /* The red color */
+  color: white; /* The white icon color */
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -41,19 +43,14 @@
   font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease-in-out;
 }
 
-.mobile-menu-toggle:hover {
-    transform: scale(1.1);
-}
-
-
-/* This rule shows the button ONLY on mobile screens (less than 768px wide) */
-@media (max-width: 767px) {
+/* On screens 768px and wider (tablets/desktops), hide the button */
+@media (min-width: 768px) {
   .mobile-menu-toggle {
-    display: flex;
+    display: none;
   }
 }
