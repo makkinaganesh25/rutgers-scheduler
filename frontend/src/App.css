@@ -25,15 +25,15 @@
   overflow: hidden;
 }
 
-/* Styles for the mobile toggle button are now back in the CSS file */
+/* Styles for the mobile toggle button */
 .mobile-menu-toggle {
-  display: flex;
+  display: none; /* Hidden by default */
   position: fixed;
   bottom: 20px;
   left: 20px;
   z-index: 1001;
-  background: #8e1e1e !important; /* Force red color */
-  color: white !important;      /* Force white icon */
+  background: #8e1e1e !important;
+  color: white !important;
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -51,9 +51,9 @@
 }
 
 
-@media (min-width: 768px) {
-  /* This rule correctly hides the button on desktop */
+/* This rule shows the button ONLY on mobile screens (less than 768px wide) */
+@media (max-width: 767px) {
   .mobile-menu-toggle {
-    display: none;
+    display: flex;
   }
 }
