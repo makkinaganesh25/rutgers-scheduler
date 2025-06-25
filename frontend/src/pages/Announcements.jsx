@@ -197,7 +197,7 @@ export default function Announcements() {
           onClick={() => setFilterStarred(!filterStarred)}
         >
           {filterStarred ? <FaStar /> : <FaRegStar />}
-          <span className="filter-text">{filterStarred ? 'All' : 'Starred'}</span>
+          <span className="filter-text">{filterStarred ? 'Show All' : 'Starred Only'}</span>
         </button>
       </header>
 
@@ -206,28 +206,73 @@ export default function Announcements() {
         : anns.length === 0
           ? <p className="ann-empty">No announcements found.</p>
           : (
-            <div className="ann-list-container">
-              {anns.map(a => (
-                <div key={a.id} className="ann-card" onClick={() => setSelected(a)}>
-                  <div className="ann-card-header">
-                    <h2 className="ann-card-title">{a.title}</h2>
-                    <button
-                      className="star-btn"
-                      onClick={e => { e.stopPropagation(); toggleStar(a); }}
-                    >
-                      {a.starred
-                        ? <FaStar className="star-icon starred" />
-                        : <FaRegStar className="star-icon" />}
-                    </button>
+            <>
+              {/* --- Desktop Table (Hidden on Mobile) --- */}
+              <div className="ann-table-wrapper">
+                <table className="ann-table">
+                  <thead>
+                    <tr>
+                      <th className="star-col"></th>
+                      <th>Title</th>
+                      <th>Posted</th>
+                      <th>Preview</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {anns.map(a => (
+                      <tr
+                        key={a.id}
+                        className="ann-row"
+                        onClick={() => setSelected(a)}
+                      >
+                        <td
+                          className="star-col"
+                          onClick={e => { e.stopPropagation(); toggleStar(a); }}
+                        >
+                          {a.starred
+                            ? <FaStar className="star-icon starred" />
+                            : <FaRegStar className="star-icon" />}
+                        </td>
+                        <td className="title-cell">{a.title}</td>
+                        <td className="date-cell">
+                          <FaCalendarAlt className="icon" />
+                          {new Date(a.created_at).toLocaleString()}
+                        </td>
+                        <td className="preview-cell">
+                          {a.body.length > 80
+                            ? a.body.slice(0, 77) + '…'
+                            : a.body}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* --- Mobile Card List (Hidden on Desktop) --- */}
+              <div className="ann-list-container">
+                {anns.map(a => (
+                  <div key={a.id} className="ann-card" onClick={() => setSelected(a)}>
+                    <div className="ann-card-header">
+                      <h2 className="ann-card-title">{a.title}</h2>
+                      <button
+                        className="star-btn"
+                        onClick={e => { e.stopPropagation(); toggleStar(a); }}
+                      >
+                        {a.starred
+                          ? <FaStar className="star-icon starred" />
+                          : <FaRegStar className="star-icon" />}
+                      </button>
+                    </div>
+                    <p className="ann-card-preview">{a.body}</p>
+                    <div className="ann-card-footer">
+                      <FaCalendarAlt className="icon" />
+                      <span>{new Date(a.created_at).toLocaleString()}</span>
+                    </div>
                   </div>
-                  <p className="ann-card-preview">{a.body}</p>
-                  <div className="ann-card-footer">
-                    <FaCalendarAlt className="icon" />
-                    <span>{new Date(a.created_at).toLocaleString()}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           )
       }
 
