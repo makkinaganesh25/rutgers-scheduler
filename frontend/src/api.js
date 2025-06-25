@@ -194,9 +194,10 @@
 
 import axios from 'axios';
 
-// 1) Base URL from your .env (fallback to Render URL in production)
-const API_BASE = process.env.REACT_APP_API_BASE_URL;  
-// e.g. "https://rutgers-scheduler-backend.onrender.com"
+// 1) Base URL from your .env, with local fallback
+const API_BASE =
+  process.env.REACT_APP_API_BASE_URL ||
+  'http://localhost:5001';
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -212,14 +213,12 @@ api.interceptors.request.use(cfg => {
 
 // ────────────────────────────────────────────────────────────────
 // Overview (org-chart) tree
-// GET /api/overview/tree
 export function getOverviewTree() {
   return api.get('/api/overview/tree').then(r => r.data);
 }
 
 // ────────────────────────────────────────────────────────────────
 // Media Files (file-tree)
-// GET /api/media-files
 export function fetchMediaTree() {
   return api.get('/api/media-files').then(r => r.data);
 }
@@ -238,12 +237,6 @@ export function acceptCoverage(id) {
 
 // ────────────────────────────────────────────────────────────────
 // Permanent Assignments (NEW)
-// GET  /api/permanent-assignments
-// POST /api/permanent-assignments
-// PUT  /api/permanent-assignments/:id
-// DELETE /api/permanent-assignments/:id
-// POST /api/shifts/generate-from-permanent
-// PUT  /api/permanent-assignments/:id/reassign
 export function listPermanentAssignments() {
   return api.get('/api/permanent-assignments').then(r => r.data);
 }
@@ -303,6 +296,12 @@ export function updateUser(id, upd) {
 }
 export function deleteUser(id) {
   return api.delete(`/api/hierarchy/${id}`).then(r => r.data);
+}
+
+// ────────────────────────────────────────────────────────────────
+// List all active users (for PermanentShifts dropdown)
+export function listOfficers() {
+  return api.get('/api/users').then(r => r.data);
 }
 
 // ────────────────────────────────────────────────────────────────
@@ -399,5 +398,5 @@ export function unstarAnnouncement(id) {
 }
 
 // ────────────────────────────────────────────────────────────────
-// Export the raw axios instance (if ever needed)
+// Export the raw axios instance (if ever needed directly)
 export default api;
