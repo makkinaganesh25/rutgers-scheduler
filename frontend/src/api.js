@@ -192,6 +192,7 @@
 // // ────────────────────────────────────────────────────────────────
 // export default api;
 
+
 import axios from 'axios';
 
 // 1) Base URL from your .env, with local fallback
@@ -249,8 +250,11 @@ export function updatePermanentAssignment(id, data) {
 export function deletePermanentAssignment(id) {
   return api.delete(`/api/permanent-assignments/${id}`).then(r => r.data);
 }
+// FIXED: correct path to generate-from-permanent
 export function generateShiftsFromPermanent(dateRange) {
-  return api.post('/api/shifts/generate-from-permanent', dateRange).then(r => r.data);
+  return api
+    .post('/api/permanent-assignments/shifts/generate-from-permanent', dateRange)
+    .then(r => r.data);
 }
 export function reassignPermanentShift(id, details) {
   return api.put(`/api/permanent-assignments/${id}/reassign`, details).then(r => r.data);
