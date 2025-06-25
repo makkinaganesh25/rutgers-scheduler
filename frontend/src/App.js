@@ -478,11 +478,9 @@ function AppContent() {
     );
   }
 
-  // ================================================================
-  // --- INLINE STYLES FOR GUARANTEED FIX ---
   // Define the styles for our button right here in the component
   const buttonStyle = {
-    display: 'block',
+    // The first 'display: block' has been removed to fix the error.
     position: 'fixed',
     top: '15px',
     right: '20px',
@@ -496,11 +494,10 @@ function AppContent() {
     fontSize: '1.4rem',
     cursor: 'pointer',
     boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
-    display: 'flex',
+    display: 'flex',     // This correctly centers the icon.
     alignItems: 'center',
     justifyContent: 'center',
   };
-  // ================================================================
 
 
   // authenticated app
