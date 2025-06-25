@@ -1,5 +1,5 @@
 // // src/App.js
-// import React, { useState } from 'react';
+// import React, { useState, useEffect } from 'react'; // <-- Make sure useEffect is imported
 // import {
 //   BrowserRouter,
 //   Routes,
@@ -11,7 +11,9 @@
 // import { AuthProvider } from './contexts/AuthContext';
 // import { NotificationsProvider } from './contexts/NotificationsContext';
 // import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
+// import { FaBars } from 'react-icons/fa';
 
+// // --- Role Imports ---
 // import {
 //   SUPERVISOR_ROLES,
 //   EVENT_CREATOR_ROLES,
@@ -24,419 +26,7 @@
 //   SECURITY_LEAVE_APPROVER_ROLES
 // } from './config/roles';
 
-// import Sidebar          from './components/Sidebar';
-// import Login            from './pages/Login';
-// import Dashboard        from './pages/Dashboard';
-// import Coverages        from './pages/Coverages';
-// import Calendar         from './pages/Calendar';
-// import Notifications    from './pages/Notifications';
-// import MediaFiles       from './pages/MediaFiles';
-// import FAQ              from './pages/FAQ';
-// import ShiftList        from './pages/ShiftList';
-// import SpecialEventsList from './pages/SpecialEventsList';
-// import EventSlots       from './pages/EventSlots';
-// import AdminEvents      from './pages/AdminEvents';
-// import AdminUsers       from './pages/AdminUsers';
-// import Overview         from './pages/Overview';
-// import CommandHierarchy from './pages/CommandHierarchy';
-// import Chatbot          from './components/Chatbot';
-
-// // Announcements pages
-// import Announcements      from './pages/Announcements';
-// import AdminAnnouncements from './pages/AdminAnnouncements';
-
-// // CSO Leave + Mandate pages
-// import CsoLeaveRequest    from './pages/CsoLeaveRequest';
-// import CsoLeaveApproval   from './pages/CsoLeaveApproval';
-// import CsoMandate         from './pages/CsoMandate';
-
-// // Security Leave pages
-// import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
-// import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
-
-// function AppContent() {
-//   const { pathname } = useLocation();
-//   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-//   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-
-//   // public login-only routes
-//   if (pathname === '/') {
-//     return (
-//       <Routes>
-//         <Route path="/" element={<Login />} />
-//         <Route path="*" element={<Navigate to="/" replace />} />
-//       </Routes>
-//     );
-//   }
-
-//   // authenticated app
-//   return (
-//     <div className="app-container">
-//       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-//       <div className={`main-content ${isSidebarOpen ? 'sidebar-is-open' : ''}`}>
-//         <Routes>
-//           <Route element={<AuthenticatedRoute />}>
-//             {/* Core pages */}
-//             <Route path="/hierarchy" element={<CommandHierarchy />} />
-//             <Route path="/dashboard" element={<Dashboard />} />
-//             <Route path="/coverages" element={<Coverages />} />
-//             <Route path="/calendar" element={<Calendar />} />
-//             <Route path="/notifications" element={<Notifications />} />
-//             <Route path="/media-files" element={<MediaFiles />} />
-//             <Route path="/faq" element={<FAQ />} />
-//             <Route path="/shifts" element={<ShiftList />} />
-
-//             {/* Special Events */}
-//             <Route path="/events">
-//               <Route index element={<SpecialEventsList />} />
-//               <Route path=":id" element={<EventSlots />} />
-//             </Route>
-//             <Route
-//               path="/admin/events"
-//               element={
-//                 <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
-//                   <AdminEvents />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Admin Users */}
-//             <Route
-//               path="/admin/users"
-//               element={
-//                 <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
-//                   <AdminUsers />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Announcements */}
-//             <Route path="/announcements" element={<Announcements />} />
-//             <Route
-//               path="/admin/announcements"
-//               element={
-//                 <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
-//                   <AdminAnnouncements />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Overview */}
-//             <Route
-//               path="/overview"
-//               element={
-//                 <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
-//                   <Overview />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* CSO Leave & Mandates */}
-//             <Route
-//               path="/cso/leave"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
-//                   <CsoLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
-//                   <CsoLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/mandate"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
-//                   <CsoMandate />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Security Leave */}
-//             <Route
-//               path="/security/leave"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
-//                   <SecurityLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/security/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
-//                   <SecurityLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Catch-all: redirect to dashboard */}
-//             <Route path="*" element={<Navigate to="/dashboard" replace />} />
-//           </Route>
-//         </Routes>
-//       </div>
-//       <Chatbot />
-//     </div>
-//   );
-// }
-
-// export default function App() {
-//   return (
-//     <AuthProvider>
-//       <NotificationsProvider>
-//         <BrowserRouter>
-//           <AppContent />
-//         </BrowserRouter>
-//       </NotificationsProvider>
-//     </AuthProvider>
-//   );
-// }
-
-//--------------------------------------------------------------------------------
-//working
-// src/App.js
-// import React, { useState } from 'react';
-// import {
-//   BrowserRouter,
-//   Routes,
-//   Route,
-//   Navigate,
-//   useLocation
-// } from 'react-router-dom';
-
-// import { AuthProvider } from './contexts/AuthContext';
-// import { NotificationsProvider } from './contexts/NotificationsContext';
-// import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
-// import { FaBars } from 'react-icons/fa'; // <-- IMPORT THE ICON
-
-// import {
-//   SUPERVISOR_ROLES,
-//   EVENT_CREATOR_ROLES,
-//   ADMIN_USER_ROLES,
-//   ANNOUNCEMENT_CREATOR_ROLES,
-//   CSO_LEAVE_REQUESTER_ROLES,
-//   CSO_LEAVE_APPROVER_ROLES,
-//   CSO_MANDATE_ROLES,
-//   SECURITY_OFFICER_ROLES,
-//   SECURITY_LEAVE_APPROVER_ROLES
-// } from './config/roles';
-
-// import Sidebar          from './components/Sidebar';
-// import Login            from './pages/Login';
-// import Dashboard        from './pages/Dashboard';
-// import Coverages        from './pages/Coverages';
-// import Calendar         from './pages/Calendar';
-// import Notifications    from './pages/Notifications';
-// import MediaFiles       from './pages/MediaFiles';
-// import FAQ              from './pages/FAQ';
-// import ShiftList        from './pages/ShiftList';
-// import SpecialEventsList from './pages/SpecialEventsList';
-// import EventSlots       from './pages/EventSlots';
-// import AdminEvents      from './pages/AdminEvents';
-// import AdminUsers       from './pages/AdminUsers';
-// import Overview         from './pages/Overview';
-// import CommandHierarchy from './pages/CommandHierarchy';
-// import Chatbot          from './components/Chatbot';
-
-// // Announcements pages
-// import Announcements      from './pages/Announcements';
-// import AdminAnnouncements from './pages/AdminAnnouncements';
-
-// // CSO Leave + Mandate pages
-// import CsoLeaveRequest    from './pages/CsoLeaveRequest';
-// import CsoLeaveApproval   from './pages/CsoLeaveApproval';
-// import CsoMandate         from './pages/CsoMandate';
-
-// // Security Leave pages
-// import SecurityLeaveRequest  from './pages/SecurityLeaveRequest';
-// import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
-
-// function AppContent() {
-//   const { pathname } = useLocation();
-//   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-//   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-
-//   // public login-only routes
-//   if (pathname === '/') {
-//     return (
-//       <Routes>
-//         <Route path="/" element={<Login />} />
-//         <Route path="*" element={<Navigate to="/" replace />} />
-//       </Routes>
-//     );
-//   }
-
-//   // authenticated app
-//   return (
-//     <div className="app-container">
-//       {/* --- ADD THIS BUTTON --- */}
-//       <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Open menu">
-//         <FaBars />
-//       </button>
-
-//       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
-//       {/* Note: The main-content class is now in sidebar.css for proper layout handling */}
-//       <div className="main-content">
-//         <Routes>
-//           <Route element={<AuthenticatedRoute />}>
-//             {/* Core pages */}
-//             <Route path="/hierarchy" element={<CommandHierarchy />} />
-//             <Route path="/dashboard" element={<Dashboard />} />
-//             <Route path="/coverages" element={<Coverages />} />
-//             <Route path="/calendar" element={<Calendar />} />
-//             <Route path="/notifications" element={<Notifications />} />
-//             <Route path="/media-files" element={<MediaFiles />} />
-//             <Route path="/faq" element={<FAQ />} />
-//             <Route path="/shifts" element={<ShiftList />} />
-
-//             {/* Special Events */}
-//             <Route path="/events">
-//               <Route index element={<SpecialEventsList />} />
-//               <Route path=":id" element={<EventSlots />} />
-//             </Route>
-//             <Route
-//               path="/admin/events"
-//               element={
-//                 <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
-//                   <AdminEvents />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Admin Users */}
-//             <Route
-//               path="/admin/users"
-//               element={
-//                 <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
-//                   <AdminUsers />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Announcements */}
-//             <Route path="/announcements" element={<Announcements />} />
-//             <Route
-//               path="/admin/announcements"
-//               element={
-//                 <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
-//                   <AdminAnnouncements />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Overview */}
-//             <Route
-//               path="/overview"
-//               element={
-//                 <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
-//                   <Overview />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* CSO Leave & Mandates */}
-//             <Route
-//               path="/cso/leave"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
-//                   <CsoLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
-//                   <CsoLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/mandate"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
-//                   <CsoMandate />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Security Leave */}
-//             <Route
-//               path="/security/leave"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
-//                   <SecurityLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/security/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
-//                   <SecurityLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Catch-all: redirect to dashboard */}
-//             <Route path="*" element={<Navigate to="/dashboard" replace />} />
-//           </Route>
-//         </Routes>
-//       </div>
-//       <Chatbot />
-//     </div>
-//   );
-// }
-
-// export default function App() {
-//   return (
-//     <AuthProvider>
-//       <NotificationsProvider>
-//         <BrowserRouter>
-//           <AppContent />
-//         </BrowserRouter>
-//       </NotificationsProvider>
-//     </AuthProvider>
-//   );
-// }
-
-//-----------------------------------------------------------------------------------------------
-// src/App.js
-// import React, { useState } from 'react';
-// import {
-//   BrowserRouter,
-//   Routes,
-//   Route,
-//   Navigate,
-//   useLocation
-// } from 'react-router-dom';
-
-// import { AuthProvider } from './contexts/AuthContext';
-// import { NotificationsProvider } from './contexts/NotificationsContext';
-// import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
-// import { FaBars } from 'react-icons/fa'; // Make sure this import is here
-
-// import {
-//   SUPERVISOR_ROLES,
-//   EVENT_CREATOR_ROLES,
-//   ADMIN_USER_ROLES,
-//   ANNOUNCEMENT_CREATOR_ROLES,
-//   CSO_LEAVE_REQUESTER_ROLES,
-//   CSO_LEAVE_APPROVER_ROLES,
-//   CSO_MANDATE_ROLES,
-//   SECURITY_OFFICER_ROLES,
-//   SECURITY_LEAVE_APPROVER_ROLES
-// } from './config/roles';
-
-// // --- All your page/component imports ---
+// // --- Page/Component Imports ---
 // import Sidebar from './components/Sidebar';
 // import Login from './pages/Login';
 // import Dashboard from './pages/Dashboard';
@@ -461,14 +51,49 @@
 // import Announcements from './pages/Announcements';
 // import AdminAnnouncements from './pages/AdminAnnouncements';
 
+// /**
+//  * A custom hook to check if a media query matches.
+//  * This is how we will detect if the user is on a desktop or mobile screen.
+//  * @param {string} query The media query string (e.g., '(min-width: 768px)')
+//  * @returns {boolean} True if the media query matches, false otherwise.
+//  */
+// const useMediaQuery = (query) => {
+//   const [matches, setMatches] = useState(window.matchMedia(query).matches);
+
+//   useEffect(() => {
+//     const media = window.matchMedia(query);
+//     const listener = () => setMatches(media.matches);
+    
+//     // Support for modern browsers
+//     if (media.addEventListener) {
+//       media.addEventListener('change', listener);
+//     } else {
+//       // Fallback for older browsers
+//       media.addListener(listener);
+//     }
+
+//     return () => {
+//       if (media.removeEventListener) {
+//         media.removeEventListener('change', listener);
+//       } else {
+//         media.removeListener(listener);
+//       }
+//     };
+//   }, [query]);
+
+//   return matches;
+// };
+
 
 // function AppContent() {
 //   const { pathname } = useLocation();
 //   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  
+//   // This hook will return `true` if the screen width is 768px or greater.
+//   const isDesktop = useMediaQuery('(min-width: 768px)');
 
 //   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-//   // public login-only routes
 //   if (pathname === '/') {
 //     return (
 //       <Routes>
@@ -478,247 +103,20 @@
 //     );
 //   }
 
-//   // Define the styles for our button right here in the component
-//   const buttonStyle = {
-//     // The first 'display: block' has been removed to fix the error.
+//   // Define the style for the button directly here.
+//   // This style will only be applied to the button when it's rendered on mobile.
+//   const mobileButtonStyle = {
 //     position: 'fixed',
-//     top: '15px',
-//     right: '20px',
+//     bottom: '20px',
+//     left: '20px',
 //     zIndex: 1001,
-//     background: '#8e1e1e', // The red color
-//     color: 'white',      // The white icon color
-//     border: '1px solid rgba(0,0,0,0.1)',
-//     borderRadius: '50%',
-//     width: '50px',
-//     height: '50px',
-//     fontSize: '1.4rem',
-//     cursor: 'pointer',
-//     boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
-//     display: 'flex',     // This correctly centers the icon.
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   };
-
-
-//   // authenticated app
-//   return (
-//     <div className="app-container">
-//       {/* Apply the inline styles directly to the button */}
-//       <button style={buttonStyle} onClick={toggleSidebar} aria-label="Open menu">
-//         <FaBars />
-//       </button>
-
-//       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
-//       <div className="main-content">
-//         <Routes>
-//           <Route element={<AuthenticatedRoute />}>
-//             {/* Core pages */}
-//             <Route path="/hierarchy" element={<CommandHierarchy />} />
-//             <Route path="/dashboard" element={<Dashboard />} />
-//             <Route path="/coverages" element={<Coverages />} />
-//             <Route path="/calendar" element={<Calendar />} />
-//             <Route path="/notifications" element={<Notifications />} />
-//             <Route path="/media-files" element={<MediaFiles />} />
-//             <Route path="/faq" element={<FAQ />} />
-//             <Route path="/shifts" element={<ShiftList />} />
-
-//             {/* Special Events */}
-//             <Route path="/events">
-//               <Route index element={<SpecialEventsList />} />
-//               <Route path=":id" element={<EventSlots />} />
-//             </Route>
-//             <Route
-//               path="/admin/events"
-//               element={
-//                 <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
-//                   <AdminEvents />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Admin Users */}
-//             <Route
-//               path="/admin/users"
-//               element={
-//                 <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
-//                   <AdminUsers />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Announcements */}
-//             <Route path="/announcements" element={<Announcements />} />
-//             <Route
-//               path="/admin/announcements"
-//               element={
-//                 <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
-//                   <AdminAnnouncements />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Overview */}
-//             <Route
-//               path="/overview"
-//               element={
-//                 <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
-//                   <Overview />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* CSO Leave & Mandates */}
-//             <Route
-//               path="/cso/leave"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
-//                   <CsoLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
-//                   <CsoLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/mandate"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
-//                   <CsoMandate />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Security Leave */}
-//             <Route
-//               path="/security/leave"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
-//                   <SecurityLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/security/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
-//                   <SecurityLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Catch-all: redirect to dashboard */}
-//             <Route path="*" element={<Navigate to="/dashboard" replace />} />
-//           </Route>
-//         </Routes>
-//       </div>
-//       <Chatbot />
-//     </div>
-//   );
-// }
-
-// export default function App() {
-//   return (
-//     <AuthProvider>
-//       <NotificationsProvider>
-//         <BrowserRouter>
-//           <AppContent />
-//         </BrowserRouter>
-//       </NotificationsProvider>
-//     </AuthProvider>
-//   );
-// }
-
-//------------------------------------
-
-// src/App.js
-// // src/App.js
-// import React, { useState } from 'react';
-// import {
-//   BrowserRouter,
-//   Routes,
-//   Route,
-//   Navigate,
-//   useLocation
-// } from 'react-router-dom';
-
-// import { AuthProvider } from './contexts/AuthContext';
-// import { NotificationsProvider } from './contexts/NotificationsContext';
-// import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
-// import { FaBars } from 'react-icons/fa'; // Make sure this import is here
-
-// import {
-//   SUPERVISOR_ROLES,
-//   EVENT_CREATOR_ROLES,
-//   ADMIN_USER_ROLES,
-//   ANNOUNCEMENT_CREATOR_ROLES,
-//   CSO_LEAVE_REQUESTER_ROLES,
-//   CSO_LEAVE_APPROVER_ROLES,
-//   CSO_MANDATE_ROLES,
-//   SECURITY_OFFICER_ROLES,
-//   SECURITY_LEAVE_APPROVER_ROLES
-// } from './config/roles';
-
-// // --- All your page/component imports ---
-// import Sidebar from './components/Sidebar';
-// import Login from './pages/Login';
-// import Dashboard from './pages/Dashboard';
-// import Coverages from './pages/Coverages';
-// import Calendar from './pages/Calendar';
-// import Notifications from './pages/Notifications';
-// import MediaFiles from './pages/MediaFiles';
-// import FAQ from './pages/FAQ';
-// import ShiftList from './pages/ShiftList';
-// import SpecialEventsList from './pages/SpecialEventsList';
-// import EventSlots from './pages/EventSlots';
-// import AdminEvents from './pages/AdminEvents';
-// import AdminUsers from './pages/AdminUsers';
-// import Overview from './pages/Overview';
-// import CommandHierarchy from './pages/CommandHierarchy';
-// import Chatbot from './components/Chatbot';
-// import CsoLeaveRequest from './pages/CsoLeaveRequest';
-// import CsoLeaveApproval from './pages/CsoLeaveApproval';
-// import CsoMandate from './pages/CsoMandate';
-// import SecurityLeaveRequest from './pages/SecurityLeaveRequest';
-// import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
-// import Announcements from './pages/Announcements';
-// import AdminAnnouncements from './pages/AdminAnnouncements';
-
-
-// function AppContent() {
-//   const { pathname } = useLocation();
-//   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-//   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-
-//   // public login-only routes
-//   if (pathname === '/') {
-//     return (
-//       <Routes>
-//         <Route path="/" element={<Login />} />
-//         <Route path="*" element={<Navigate to="/" replace />} />
-//       </Routes>
-//     );
-//   }
-
-//   // Define the styles for our button right here in the component
-//   const buttonStyle = {
-//     position: 'fixed',
-//     bottom: '20px',      // Moved to bottom
-//     left: '20px',        // Moved to left
-//     zIndex: 1001,
-//     background: '#8e1e1e', // The red color
-//     color: 'white',      // The white icon color
+//     background: '#8e1e1e',
+//     color: 'white',
 //     border: 'none',
 //     borderRadius: '50%',
-//     width: '40px',       // Made the button smaller
-//     height: '40px',      // Made the button smaller
-//     fontSize: '1rem',    // Made the icon smaller
+//     width: '40px',
+//     height: '40px',
+//     fontSize: '1rem',
 //     cursor: 'pointer',
 //     boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
 //     display: 'flex',
@@ -726,21 +124,24 @@
 //     justifyContent: 'center',
 //   };
 
-
-//   // authenticated app
 //   return (
 //     <div className="app-container">
-//       {/* Apply the inline styles directly to the button */}
-//       <button style={buttonStyle} onClick={toggleSidebar} aria-label="Open menu">
-//         <FaBars />
-//       </button>
+//       {/* CONDITIONAL RENDERING:
+//         The button is now only rendered if `isDesktop` is false.
+//         This completely prevents it from appearing on larger screens.
+//       */}
+//       {!isDesktop && (
+//         <button style={mobileButtonStyle} onClick={toggleSidebar} aria-label="Open menu">
+//           <FaBars />
+//         </button>
+//       )}
 
 //       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
 //       <div className="main-content">
 //         <Routes>
+//           {/* All your routes remain exactly the same */}
 //           <Route element={<AuthenticatedRoute />}>
-//             {/* Core pages */}
 //             <Route path="/hierarchy" element={<CommandHierarchy />} />
 //             <Route path="/dashboard" element={<Dashboard />} />
 //             <Route path="/coverages" element={<Coverages />} />
@@ -749,97 +150,20 @@
 //             <Route path="/media-files" element={<MediaFiles />} />
 //             <Route path="/faq" element={<FAQ />} />
 //             <Route path="/shifts" element={<ShiftList />} />
-
-//             {/* Special Events */}
 //             <Route path="/events">
 //               <Route index element={<SpecialEventsList />} />
 //               <Route path=":id" element={<EventSlots />} />
 //             </Route>
-//             <Route
-//               path="/admin/events"
-//               element={
-//                 <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
-//                   <AdminEvents />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Admin Users */}
-//             <Route
-//               path="/admin/users"
-//               element={
-//                 <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
-//                   <AdminUsers />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Announcements */}
+//             <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
+//             <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
 //             <Route path="/announcements" element={<Announcements />} />
-//             <Route
-//               path="/admin/announcements"
-//               element={
-//                 <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
-//                   <AdminAnnouncements />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Overview */}
-//             <Route
-//               path="/overview"
-//               element={
-//                 <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
-//                   <Overview />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* CSO Leave & Mandates */}
-//             <Route
-//               path="/cso/leave"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
-//                   <CsoLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
-//                   <CsoLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/cso/mandate"
-//               element={
-//                 <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
-//                   <CsoMandate />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Security Leave */}
-//             <Route
-//               path="/security/leave"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
-//                   <SecurityLeaveRequest />
-//                 </RoleRoute>
-//               }
-//             />
-//             <Route
-//               path="/security/leave/approve"
-//               element={
-//                 <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
-//                   <SecurityLeaveApproval />
-//                 </RoleRoute>
-//               }
-//             />
-
-//             {/* Catch-all: redirect to dashboard */}
+//             <Route path="/admin/announcements" element={<RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute>} />
+//             <Route path="/overview" element={<RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute>} />
+//             <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
+//             <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
+//             <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
+//             <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
+//             <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
 //             <Route path="*" element={<Navigate to="/dashboard" replace />} />
 //           </Route>
 //         </Routes>
@@ -861,9 +185,10 @@
 //   );
 // }
 
-//------------------------------------------------------------------------
+//-----------------------------------------
 // src/App.js
-import React, { useState, useEffect } from 'react'; // <-- Make sure useEffect is imported
+
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -907,19 +232,22 @@ import AdminUsers from './pages/AdminUsers';
 import Overview from './pages/Overview';
 import CommandHierarchy from './pages/CommandHierarchy';
 import Chatbot from './components/Chatbot';
+import Announcements from './pages/Announcements';
+import AdminAnnouncements from './pages/AdminAnnouncements';
 import CsoLeaveRequest from './pages/CsoLeaveRequest';
 import CsoLeaveApproval from './pages/CsoLeaveApproval';
 import CsoMandate from './pages/CsoMandate';
 import SecurityLeaveRequest from './pages/SecurityLeaveRequest';
 import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
-import Announcements from './pages/Announcements';
-import AdminAnnouncements from './pages/AdminAnnouncements';
+
+// --- Local PermanentShifts Integration ---
+import PermanentShifts from './pages/PermanentShifts';
+const PERMANENT_SHIFT_ROLES = ADMIN_USER_ROLES;
 
 /**
  * A custom hook to check if a media query matches.
- * This is how we will detect if the user is on a desktop or mobile screen.
  * @param {string} query The media query string (e.g., '(min-width: 768px)')
- * @returns {boolean} True if the media query matches, false otherwise.
+ * @returns {boolean}
  */
 const useMediaQuery = (query) => {
   const [matches, setMatches] = useState(window.matchMedia(query).matches);
@@ -927,15 +255,12 @@ const useMediaQuery = (query) => {
   useEffect(() => {
     const media = window.matchMedia(query);
     const listener = () => setMatches(media.matches);
-    
-    // Support for modern browsers
+
     if (media.addEventListener) {
       media.addEventListener('change', listener);
     } else {
-      // Fallback for older browsers
       media.addListener(listener);
     }
-
     return () => {
       if (media.removeEventListener) {
         media.removeEventListener('change', listener);
@@ -948,16 +273,15 @@ const useMediaQuery = (query) => {
   return matches;
 };
 
-
 function AppContent() {
   const { pathname } = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  
-  // This hook will return `true` if the screen width is 768px or greater.
-  const isDesktop = useMediaQuery('(min-width: 768px)');
 
+  // Desktop detection
+  const isDesktop = useMediaQuery('(min-width: 768px)');
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
+  // Public login route
   if (pathname === '/') {
     return (
       <Routes>
@@ -967,8 +291,7 @@ function AppContent() {
     );
   }
 
-  // Define the style for the button directly here.
-  // This style will only be applied to the button when it's rendered on mobile.
+  // Mobile toggle button style
   const mobileButtonStyle = {
     position: 'fixed',
     bottom: '20px',
@@ -990,10 +313,6 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      {/* CONDITIONAL RENDERING:
-        The button is now only rendered if `isDesktop` is false.
-        This completely prevents it from appearing on larger screens.
-      */}
       {!isDesktop && (
         <button style={mobileButtonStyle} onClick={toggleSidebar} aria-label="Open menu">
           <FaBars />
@@ -1004,7 +323,6 @@ function AppContent() {
 
       <div className="main-content">
         <Routes>
-          {/* All your routes remain exactly the same */}
           <Route element={<AuthenticatedRoute />}>
             <Route path="/hierarchy" element={<CommandHierarchy />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -1014,24 +332,112 @@ function AppContent() {
             <Route path="/media-files" element={<MediaFiles />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shifts" element={<ShiftList />} />
+
+            {/* Permanent Shifts */}
+            <Route
+              path="/admin/permanent-shifts"
+              element={
+                <RoleRoute allowedRoles={PERMANENT_SHIFT_ROLES}>
+                  <PermanentShifts />
+                </RoleRoute>
+              }
+            />
+
+            {/* Special Events */}
             <Route path="/events">
               <Route index element={<SpecialEventsList />} />
               <Route path=":id" element={<EventSlots />} />
             </Route>
-            <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
-            <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
+            <Route
+              path="/admin/events"
+              element={
+                <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
+                  <AdminEvents />
+                </RoleRoute>
+              }
+            />
+
+            {/* Admin Users */}
+            <Route
+              path="/admin/users"
+              element={
+                <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
+                  <AdminUsers />
+                </RoleRoute>
+              }
+            />
+
+            {/* Announcements */}
             <Route path="/announcements" element={<Announcements />} />
-            <Route path="/admin/announcements" element={<RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute>} />
-            <Route path="/overview" element={<RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute>} />
-            <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
-            <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
-            <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
-            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
-            <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
+            <Route
+              path="/admin/announcements"
+              element={
+                <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
+                  <AdminAnnouncements />
+                </RoleRoute>
+              }
+            />
+
+            {/* Overview */}
+            <Route
+              path="/overview"
+              element={
+                <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
+                  <Overview />
+                </RoleRoute>
+              }
+            />
+
+            {/* CSO Leave & Mandates */}
+            <Route
+              path="/cso/leave"
+              element={
+                <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
+                  <CsoLeaveRequest />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/cso/leave/approve"
+              element={
+                <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
+                  <CsoLeaveApproval />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/cso/mandate"
+              element={
+                <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
+                  <CsoMandate />
+                </RoleRoute>
+              }
+            />
+
+            {/* Security Leave */}
+            <Route
+              path="/security/leave"
+              element={
+                <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
+                  <SecurityLeaveRequest />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/security/leave/approve"
+              element={
+                <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
+                  <SecurityLeaveApproval />
+                </RoleRoute>
+              }
+            />
+
+            {/* Fallback */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
       </div>
+
       <Chatbot />
     </div>
   );
