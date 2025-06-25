@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
   --brand:  #c62828;
@@ -9,14 +9,16 @@
   --radius: 8px;
   --gap:    1rem;
   --shadow: rgba(0,0,0,0.08);
-  --border: #ddd;
+  --border: #e0e0e0;
+  --star-yellow: #f5c518;
 }
 
 .announcements-page {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
-  padding: 1.5rem 2rem;
+  padding: 1rem;
   color: var(--fg);
+  min-height: 100vh;
 }
 
 /* Header bar with title + filter */
@@ -24,87 +26,185 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 .ann-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: var(--brand);
   margin: 0;
+  font-weight: 700;
 }
 .ann-filter-btn {
   background: var(--light);
-  border: 2px solid var(--brand);
-  color: var(--brand);
+  border: 1px solid var(--border);
+  color: var(--muted);
   padding: 0.5rem 1rem;
   border-radius: var(--radius);
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ann-filter-btn .filter-text {
+  display: none; /* Hide text on mobile by default */
 }
 .ann-filter-btn:hover {
-  background: var(--brand);
-  color: var(--light);
+  border-color: var(--brand);
+  color: var(--brand);
 }
 .ann-filter-btn.active {
   background: var(--brand);
   color: var(--light);
+  border-color: var(--brand);
+}
+.ann-filter-btn.active .star-icon {
+  color: var(--star-yellow);
 }
 
-/* Table container */
-.ann-table-wrapper {
+
+/* --- MOBILE FIRST: Card Layout --- */
+.ann-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ann-card {
   background: var(--light);
   border-radius: var(--radius);
+  padding: 1rem;
   box-shadow: 0 4px 12px var(--shadow);
-  overflow-x: auto;
-  max-height: 400px;
-}
-.ann-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.ann-table th,
-.ann-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  vertical-align: middle;
-}
-.ann-table th {
-  position: sticky;
-  top: 0;
-  background: var(--light);
-  color: var(--brand);
-  font-weight: 600;
-}
-.star-col {
-  width: 3rem;
-  text-align: center;
-}
-.star-icon {
-  font-size: 1.2rem;
-  color: var(--muted);
-}
-.star-icon.starred {
-  color: #f5c518;
-}
-.ann-row:hover {
-  background: #fafafa;
+  border-left: 4px solid var(--border);
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
-.title-cell {
-  font-weight: 500;
+.ann-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
-.date-cell .icon {
-  margin-right: 0.4rem;
+
+.ann-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ann-card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.star-icon {
+  font-size: 1.3rem;
   color: var(--muted);
 }
-.preview-cell {
-  max-width: 250px;
-  white-space: nowrap;
+
+.star-icon.starred {
+  color: var(--star-yellow);
+}
+
+.ann-card-preview {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0 0 1rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.ann-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
   color: var(--muted);
 }
+.ann-card-footer .icon {
+  font-size: 0.8rem;
+}
+
+
+/* --- DESKTOP: Table Layout --- */
+@media (min-width: 768px) {
+  .announcements-page {
+    padding: 1.5rem 2rem;
+  }
+  .ann-title {
+    font-size: 2rem;
+  }
+  .ann-filter-btn .filter-text {
+    display: inline; /* Show filter text on desktop */
+  }
+
+  /* Hide mobile card container and show table wrapper */
+  .ann-list-container {
+      display: none;
+  }
+  .ann-table-wrapper {
+    display: block;
+    background: var(--light);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px var(--shadow);
+    overflow: hidden; /* Use hidden instead of auto */
+  }
+  .ann-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .ann-table th,
+  .ann-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: middle;
+  }
+  .ann-table tr:last-child td {
+      border-bottom: none;
+  }
+  .ann-table th {
+    background: #f8f9fa;
+    color: var(--brand);
+    font-weight: 600;
+  }
+  .star-col {
+    width: 3rem;
+    text-align: center;
+  }
+  .ann-row:hover {
+    background: #fafafa;
+    cursor: pointer;
+  }
+  .title-cell {
+    font-weight: 500;
+  }
+  .date-cell .icon {
+    margin-right: 0.4rem;
+    color: var(--muted);
+  }
+  .preview-cell {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--muted);
+  }
+}
+
 
 /* Loading & empty states */
 .ann-loading,
@@ -120,21 +220,23 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 4rem;
+  padding: 1rem;
   z-index: 1000;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
 /* Modal Panel */
 .modal-panel {
   background: var(--light);
   border-radius: var(--radius);
-  width: 90%;
+  width: 100%;
   max-width: 600px;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
   padding: 1.5rem;
   position: relative;
@@ -145,12 +247,13 @@
   top: 0.5rem; right: 0.5rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--muted);
   cursor: pointer;
+  line-height: 1;
 }
 .modal-title {
-  margin-top: 0;
+  margin: 0 1.5rem 0.5rem 0;
   color: var(--brand);
   font-size: 1.75rem;
 }
@@ -158,6 +261,9 @@
   font-size: 0.9rem;
   color: var(--muted);
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .modal-body p {
   line-height: 1.6;
@@ -165,6 +271,8 @@
 }
 .modal-files {
   margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
 }
 .modal-files h3 {
   margin-bottom: 0.5rem;
