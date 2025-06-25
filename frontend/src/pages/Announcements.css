@@ -27,6 +27,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
 }
 .ann-title {
   font-size: 1.8rem;
@@ -65,6 +66,10 @@
 
 
 /* --- MOBILE FIRST: Card Layout --- */
+.ann-table-wrapper {
+  display: none; /* HIDE DESKTOP TABLE ON MOBILE */
+}
+
 .ann-list-container {
   display: flex;
   flex-direction: column;
@@ -105,6 +110,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .star-icon {
@@ -160,7 +166,7 @@
     background: var(--light);
     border-radius: var(--radius);
     box-shadow: 0 4px 12px var(--shadow);
-    overflow: hidden; /* Use hidden instead of auto */
+    overflow: hidden;
   }
   .ann-table {
     width: 100%;
