@@ -930,11 +930,13 @@ function AppContent() {
       </Routes>
     );
   }
-
+  
   // authenticated app
   return (
     <div className="app-container">
-      {/* Reverted to using a className so it can be controlled by CSS */}
+      {/* CHANGE IS HERE: 
+        We removed the inline `style` object and are now using a `className`.
+      */}
       <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Open menu">
         <FaBars />
       </button>
