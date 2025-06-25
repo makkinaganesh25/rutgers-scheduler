@@ -27,23 +27,23 @@
 
 /*
  * Styles for the mobile-only sidebar toggle button.
- * This button will be visible by default.
+ * Using !important to ensure these styles override any conflicting rules.
 */
 .mobile-menu-toggle {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 1001; /* High z-index to stay on top */
+  position: fixed !important;
+  bottom: 20px !important; /* Forcing position to the bottom */
+  left: 20px !important;   /* Forcing position to the left */
+  z-index: 1001;
   background: #8e1e1e;
   color: white;
   border: none;
-  border-radius: 50%; /* Circular shape */
+  border-radius: 50%;
   width: 40px;
   height: 40px;
-  font-size: 1rem; /* Icon size */
+  font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  display: flex;
+  display: flex !important; /* Ensuring flex display properties are applied */
   align-items: center;
   justify-content: center;
 }
@@ -51,10 +51,9 @@
 /*
  * Media Query for desktop screens.
  * When the screen width is 768px or wider, the mobile menu button will be hidden.
- * This prevents it from appearing on tablets and desktops.
 */
 @media (min-width: 768px) {
   .mobile-menu-toggle {
-    display: none;
+    display: none !important;
   }
 }
