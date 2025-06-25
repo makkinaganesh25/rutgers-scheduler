@@ -1,6 +1,4 @@
 /* src/app.css */
-
-/* --- General App Layout --- */
 .app-container {
   height: 100vh;
   font-family: Arial, sans-serif;
@@ -15,7 +13,6 @@
   margin-bottom: 20px;
 }
 
-/* --- Styles for Login Page Layout --- */
 .app-container.login-layout {
   display: block;
   height: 100vh;
@@ -28,42 +25,36 @@
   overflow: hidden;
 }
 
-
-/* --- Mobile-Only Sidebar Toggle Button --- */
-
-/* * Default styles for the button (Mobile First).
- * The !important keyword is used to ensure these styles override
- * any other conflicting button styles in your project.
- */
+/*
+ * Styles for the mobile-only sidebar toggle button.
+ * This button will be visible by default.
+*/
 .mobile-menu-toggle {
-  /* Positioning */
-  position: fixed !important;
-  bottom: 20px !important;
-  left: 20px !important;
-  z-index: 1001;
-
-  /* Appearance */
-  background: #8e1e1e !important; /* Force the red background */
-  color: white !important;
-  border: none !important;
-  border-radius: 50% !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
-  
-  /* Sizing and Content Alignment */
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1001; /* High z-index to stay on top */
+  background: #8e1e1e;
+  color: white;
+  border: none;
+  border-radius: 50%; /* Circular shape */
   width: 40px;
   height: 40px;
-  font-size: 1rem;
+  font-size: 1rem; /* Icon size */
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 
-/* * On screens 768px and wider (tablets/desktops), hide the button.
- * The !important here ensures it stays hidden.
- */
+/*
+ * Media Query for desktop screens.
+ * When the screen width is 768px or wider, the mobile menu button will be hidden.
+ * This prevents it from appearing on tablets and desktops.
+*/
 @media (min-width: 768px) {
   .mobile-menu-toggle {
-    display: none !important;
+    display: none;
   }
 }
