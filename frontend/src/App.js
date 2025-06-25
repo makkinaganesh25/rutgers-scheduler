@@ -877,6 +877,7 @@ import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
 import { FaBars } from 'react-icons/fa'; // Make sure this import is here
 
+// --- Role Imports ---
 import {
   SUPERVISOR_ROLES,
   EVENT_CREATOR_ROLES,
@@ -889,7 +890,7 @@ import {
   SECURITY_LEAVE_APPROVER_ROLES
 } from './config/roles';
 
-// --- All your page/component imports ---
+// --- Page/Component Imports ---
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -914,14 +915,14 @@ import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 import Announcements from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
 
-
+// This component contains the main application layout and routing logic.
 function AppContent() {
   const { pathname } = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  // public login-only routes
+  // If the user is on the login page, render only the Login component.
   if (pathname === '/') {
     return (
       <Routes>
@@ -930,12 +931,13 @@ function AppContent() {
       </Routes>
     );
   }
-  
-  // authenticated app
+
+  // Render the main authenticated application layout.
   return (
     <div className="app-container">
-      {/* CHANGE IS HERE: 
-        We removed the inline `style` object and are now using a `className`.
+      {/* This button toggles the sidebar. It now uses a CSS class 
+        `.mobile-menu-toggle` instead of inline styles. The CSS file 
+        will handle hiding it on desktop.
       */}
       <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Open menu">
         <FaBars />
@@ -1045,7 +1047,7 @@ function AppContent() {
               }
             />
 
-            {/* Catch-all: redirect to dashboard */}
+            {/* Catch-all: redirect any unknown paths to the dashboard */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
@@ -1055,6 +1057,7 @@ function AppContent() {
   );
 }
 
+// The main App component wraps the application with context providers and the router.
 export default function App() {
   return (
     <AuthProvider>
