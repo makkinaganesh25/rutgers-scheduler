@@ -1,5 +1,5 @@
 /* ----------------------------
-  Coverages.css
+   Coverages.css - Revamped
 ---------------------------- */
 
 :root {
@@ -13,42 +13,49 @@
   --brand-green-dark: #1b5e20;
   --bg-page:          #f0f2f5;
   --bg-card:          #ffffff;
+  --bg-list-item:     #f8f9fa;
   --text-dark:        #212121;
   --text-light:       #ffffff;
-  --text-muted:       #555;
- 
-  /* Spacing & shadows */
-  --radius:     8px;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --shadow-sm:  0 2px 6px rgba(0,0,0,0.08);
-  --shadow-md:  0 4px 12px rgba(0,0,0,0.12);
+  --text-muted:       #6c757d;
+  --border-color:     #dee2e6;
+  
+  /* Spacing & Shadows */
+  --radius:      8px;
+  --spacing-xs:  0.25rem;
+  --spacing-sm:  0.5rem;
+  --spacing-md:  1rem;
+  --spacing-lg:  1.5rem;
+  --spacing-xl:  2rem;
+  --shadow-sm:   0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.1);
 }
 
 body {
   background: var(--bg-page);
   color: var(--text-dark);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .coverages-container {
   max-width: 900px;
-  margin: var(--spacing-lg) auto;
-  padding: var(--spacing-md);
+  margin: var(--spacing-xl) auto;
+  padding: 0 var(--spacing-md);
 }
 
 .coverages-container h1 {
   text-align: center;
   color: var(--brand-red);
-  font-size: 2rem;
+  font-size: 2.25rem;
+  font-weight: 700;
   margin-bottom: var(--spacing-lg);
   position: relative;
 }
 .coverages-container h1::after {
   content: "";
   display: block;
-  width: 50px;
+  width: 60px;
   height: 4px;
   background: var(--brand-red);
   margin: 0.5rem auto 0;
@@ -59,10 +66,10 @@ body {
 .coverages-section {
   background: var(--bg-card);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  margin-top: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  margin-top: var(--spacing-xl);
   overflow: hidden;
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
 }
 
 .section-header {
@@ -71,22 +78,34 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
-    border-bottom: 2px solid var(--bg-page);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.coverages-section h2 {
+/* Centralize title if no filters */
+.section-header:has(:not(h2)) {
+    justify-content: center;
+}
+.section-header:only-child {
+    justify-content: center;
+}
+.section-header h2 {
     color: var(--brand-red);
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    flex-shrink: 0;
 }
 
+
+/* Date Filters */
 .date-filters {
     display: flex;
     gap: var(--spacing-md);
     align-items: center;
     flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .filter-group {
@@ -102,54 +121,94 @@ body {
 
 .filter-group input[type="date"] {
     padding: var(--spacing-sm);
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: var(--radius);
     font-size: 0.9rem;
+    background-color: #fff;
 }
-
 
 .loading-text {
-  padding: var(--spacing-md);
+  padding: var(--spacing-xl);
   color: var(--text-muted);
+  text-align: center;
+  font-size: 1.1rem;
 }
+
+.error-message {
+    background-color: #fff5f5;
+    color: #c53030;
+    border: 1px solid #fc8181;
+    border-radius: var(--radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+
+/* --- NEW: List Wrapper & Scrolling Logic --- */
+.list-wrapper {
+    margin: 0;
+    padding: 0;
+}
+
+/* This class is applied conditionally via JS */
+.list-wrapper.scrollable {
+    /* Height of ~3.5 items to hint at scrollability */
+    max-height: 290px; 
+    overflow-y: auto;
+    /* Custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-red-dark) var(--bg-page);
+    padding-right: var(--spacing-sm); /* space for scrollbar */
+}
+
+.list-wrapper.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+.list-wrapper.scrollable::-webkit-scrollbar-track {
+  background: var(--bg-page);
+  border-radius: var(--radius);
+}
+.list-wrapper.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--brand-red-dark);
+  border-radius: var(--radius);
+  border: 2px solid var(--bg-page);
+}
+
 
 /* List Items */
 .coverages-list {
   list-style: none;
   margin: 0;
-  padding: 0; 
+  padding: 0;  
   display: grid;
   gap: var(--spacing-md);
 }
 
-/* --- NEW: Scrollable list container --- */
-.scrollable-list {
-    max-height: 50vh; /* Set a max height (e.g., 50% of viewport height) */
-    overflow-y: auto; /* Add a scrollbar only when content overflows */
-    padding: var(--spacing-sm); /* Add some internal padding */
-    margin: 0 -var(--spacing-sm); /* Counteract padding to align with header */
-    border-top: 1px solid var(--bg-page);
-}
-
-/* Default Desktop List Item Layout */
 .coverages-list li {
-  background: var(--bg-page);
+  background: var(--bg-list-item);
   border-radius: var(--radius);
-  border-left: 4px solid var(--brand-red);
+  border-left: 5px solid var(--brand-red);
   padding: var(--spacing-md);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-md);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.coverages-list li:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
 }
 
+
 .info {
-  flex: 1 1 55%;
+  flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  line-height: 1.4;
+  gap: var(--spacing-xs);
+  line-height: 1.5;
 }
 
 .actions {
@@ -161,57 +220,77 @@ body {
 }
 
 /* Info text parts */
-.shift-title { font-weight: bold; font-size: 1.05rem; }
-.shift-details { font-size: 0.9rem; color: var(--text-muted); }
-.shift-requester { font-size: 0.85rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
+.shift-title { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); }
+.shift-details { font-size: 0.95rem; color: var(--text-muted); }
+.shift-requester { font-size: 0.9rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
 
 /* General Button Styles */
-button { border: none; border-radius: var(--radius); padding: var(--spacing-sm) var(--spacing-md); font-size: 0.9rem; font-weight: 600; cursor: pointer; color: var(--text-light); transition: background-color 0.2s, transform 0.1s; text-align: center; }
-button:disabled { background-color: #ccc; cursor: not-allowed; }
+button { 
+    border: none; 
+    border-radius: var(--radius); 
+    padding: 0.6rem 1.2rem; 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    cursor: pointer; 
+    color: var(--text-light); 
+    transition: all 0.2s ease;
+    text-align: center; 
+    letter-spacing: 0.5px;
+}
+button:disabled { background-color: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
 button:active:not(:disabled) { transform: scale(0.97); }
 
 /* Button variants */
-.btn-cover { background: var(--brand-blue); }
-.btn-cover:hover:not(:disabled) { background: var(--brand-blue-dark); }
-.btn-swap { background: var(--brand-accent); }
-.btn-swap:hover:not(:disabled) { background: var(--brand-red-dark); }
+.btn-cover  { background: var(--brand-blue); }
+.btn-cover:hover:not(:disabled)  { background: var(--brand-blue-dark); box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3); }
+.btn-swap   { background: var(--brand-accent); }
+.btn-swap:hover:not(:disabled)   { background: var(--brand-red-dark); box-shadow: 0 4px 8px rgba(204, 0, 51, 0.3); }
 .btn-accept { background: var(--brand-green); }
-.btn-accept:hover:not(:disabled) { background: var(--brand-green-dark); }
-.btn-decline { background: var(--text-muted); }
-.btn-decline:hover:not(:disabled) { background: var(--text-dark); }
+.btn-accept:hover:not(:disabled) { background: var(--brand-green-dark); box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3); }
+.btn-decline{ background: var(--text-muted); }
+.btn-decline:hover:not(:disabled){ background: var(--text-dark); }
 
 /* Badge */
-.badge { background: #757575; color: white; padding: 0.6rem 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; text-align: center; display: block; }
+.badge { 
+    background: #e9ecef; 
+    color: var(--text-muted); 
+    padding: 0.6rem 1.2rem; 
+    border-radius: var(--radius); 
+    font-weight: 600; 
+    font-size: 0.9rem; 
+    text-align: center; 
+    display: inline-block;
+    border: 1px solid var(--border-color);
+}
 
-/* Swap Modal (No changes needed) */
-.swap-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: var(--spacing-md); z-index: 1000; }
-.swap-content { background: var(--bg-card); border-radius: var(--radius); padding: var(--spacing-lg); width: 100%; max-width: 450px; box-shadow: var(--shadow-md); }
-.swap-content h3 { margin-top: 0; color: var(--brand-red); }
+/* Swap Modal */
+.swap-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; padding: var(--spacing-md); z-index: 1000; backdrop-filter: blur(4px); }
+.swap-content { background: var(--bg-card); border-radius: var(--radius); padding: var(--spacing-xl); width: 100%; max-width: 500px; box-shadow: var(--shadow-md); }
+.swap-content h3 { margin-top: 0; margin-bottom: var(--spacing-sm); color: var(--brand-red); font-size: 1.5rem;}
+.swap-content p { color: var(--text-muted); margin-top: 0; margin-bottom: var(--spacing-lg); }
 .swap-content label { display: block; margin-top: var(--spacing-md); margin-bottom: var(--spacing-sm); font-weight: 600; }
-.swap-content select { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: var(--radius); font-size: 1rem; }
-.swap-buttons { display: flex; justify-content: flex-end; gap: var(--spacing-sm); margin-top: var(--spacing-lg); }
+.swap-content select { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: var(--radius); font-size: 1rem; background-color: #fff; }
+.swap-buttons { display: flex; justify-content: flex-end; gap: var(--spacing-sm); margin-top: var(--spacing-xl); }
 
 
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === 50/50 Side-by-Side Buttons */
+/* === Responsive Styles (for Mobile)                                === */
 /* ===================================================================== */
 
 @media (max-width: 620px) {
-  /* Basic mobile page layout */
   .coverages-container { margin: 0; padding: var(--spacing-sm); }
-  .coverages-container h1 { font-size: 1.5rem; margin: var(--spacing-md) 0; }
-  .coverages-section { margin-top: var(--spacing-md); padding: var(--spacing-sm); }
-  .coverages-list { padding: 0; gap: var(--spacing-sm); }
+  .coverages-container h1 { font-size: 1.8rem; margin: var(--spacing-md) 0; }
+  .coverages-section { margin-top: var(--spacing-lg); padding: var(--spacing-md); }
+  .coverages-list { gap: var(--spacing-sm); }
 
-  /* --- NEW: Ensure filters stack nicely --- */
-  .section-header, .date-filters, .filter-group {
+  .section-header, .date-filters {
       flex-direction: column;
       align-items: stretch;
+      text-align: center;
   }
- 
-  /* Make each list item a simple vertical stack */
+  
   .coverages-list li {
-    display: block;
+    display: block; /* Stack info and actions vertically */
     padding: var(--spacing-md);
   }
 
@@ -219,37 +298,24 @@ button:active:not(:disabled) { transform: scale(0.97); }
     margin-bottom: var(--spacing-md);
   }
 
-  /* --- THIS IS THE NEW 50/50 BUTTON LOGIC --- */
-
-  /* 1. The actions container is a flex row */
   .actions {
-    display: flex;
-    flex-direction: row; /* Arrange children side-by-side */
-    justify-content: space-between; /* Put space between them if needed */
-    gap: var(--spacing-sm); /* This creates the gutter between buttons */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Create a 2-column grid */
+    gap: var(--spacing-sm);
     width: 100%;
   }
 
-  /* 2. Target EVERY direct child of .actions for consistency */
+  /* Target buttons and badges inside actions */
   .actions > * {
-    flex: 1; /* CRITICAL: This makes each child take up equal (50%) space */
-   
-    /* Text behavior */
-    white-space: nowrap; /* Keep text on one line */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add '...' if text is still too long */
-   
-    /* Sizing & Alignment */
-    display: flex; /* Use flex to perfectly center text */
+    width: 100%; /* Make each item fill its grid cell */
+    padding: 0.75rem var(--spacing-xs);
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem var(--spacing-sm);
-    box-sizing: border-box;
   }
 
-  /* 3. Handle the case of a single button/badge */
+  /* If there's only one child in the actions grid, make it span both columns */
   .actions > :only-child {
-    flex: auto; /* Let a single item take its natural width */
-    width: 100%; /* Make a single item full-width */
+    grid-column: 1 / -1;
   }
 }
