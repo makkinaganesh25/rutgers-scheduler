@@ -67,11 +67,7 @@
   border-top-right-radius: 16px;
   box-shadow: 0 -5px 20px var(--shadow);
   max-height: 85vh;
-  /* ======================================= */
-  /* --- MOBILE SCROLLING FIX --- */
-  /* This makes the entire bottom sheet scrollable if its content is too tall. */
   overflow-y: auto;
-  /* ======================================= */
 }
 
 .sidebar.open {
@@ -87,14 +83,17 @@
   flex-shrink: 0;
 }
 
+/* --- CHANGE: Converted header to a grid for centering --- */
 .sidebar-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* 3 columns for layout */
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 0.5rem;
 }
 
 .sidebar-title {
+  grid-column: 2 / 3; /* Place title in the center column */
+  text-align: center;
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 1.1;
@@ -102,6 +101,8 @@
 }
 
 .theme-toggle {
+  grid-column: 3 / 4; /* Place button in the right column */
+  justify-self: end; /* Align button to the right edge */
   background: transparent;
   border: none;
   color: var(--fg);
@@ -210,11 +211,7 @@
   }
 
   .logout-btn {
-    /* ======================================= */
-    /* --- DESKTOP GAP FIX --- */
-    /* This pushes the logout button to the absolute bottom of the sidebar. */
     margin-top: auto;
-    /* ======================================= */
   }
 
   .logout-btn:hover {
