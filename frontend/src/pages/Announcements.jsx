@@ -207,7 +207,7 @@ export default function Announcements() {
           ? <p className="ann-empty">No announcements found.</p>
           : (
             <>
-              {/* --- Desktop Table (Hidden on Mobile) --- */}
+              {/* --- Desktop Table (Will be hidden on mobile by CSS) --- */}
               <div className="ann-table-wrapper">
                 <table className="ann-table">
                   <thead>
@@ -249,7 +249,7 @@ export default function Announcements() {
                 </table>
               </div>
 
-              {/* --- Mobile Card List (Hidden on Desktop) --- */}
+              {/* --- Mobile Card List (Will be hidden on desktop by CSS) --- */}
               <div className="ann-list-container">
                 {anns.map(a => (
                   <div key={a.id} className="ann-card" onClick={() => setSelected(a)}>
