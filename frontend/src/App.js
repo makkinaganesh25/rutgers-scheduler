@@ -637,6 +637,7 @@
 //------------------------------------
 
 // src/App.js
+// src/App.js
 import React, { useState } from 'react';
 import {
   BrowserRouter,
@@ -708,18 +709,18 @@ function AppContent() {
   // Define the styles for our button right here in the component
   const buttonStyle = {
     position: 'fixed',
-    top: '16px',          // Adjusted for better vertical alignment
-    right: '16px',        // Adjusted for better horizontal alignment
+    bottom: '20px',      // Moved to bottom
+    left: '20px',        // Moved to left
     zIndex: 1001,
     background: '#8e1e1e', // The red color
     color: 'white',      // The white icon color
-    border: 'none',      // Removed border for a cleaner look
+    border: 'none',
     borderRadius: '50%',
-    width: '44px',       // Made the button smaller
-    height: '44px',      // Made the button smaller
-    fontSize: '1.1rem',    // Made the icon smaller
+    width: '40px',       // Made the button smaller
+    height: '40px',      // Made the button smaller
+    fontSize: '1rem',    // Made the icon smaller
     cursor: 'pointer',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.2)', // More subtle shadow
+    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
