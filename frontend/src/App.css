@@ -25,12 +25,35 @@
   overflow: hidden;
 }
 
-/* The .mobile-menu-toggle styles have been moved directly into App.js
-  to guarantee they are applied and to avoid browser caching issues.
-  The old CSS rule can be safely removed from here.
-*/
+/* Styles for the mobile toggle button are now back in the CSS file */
+.mobile-menu-toggle {
+  display: flex;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: #8e1e1e !important; /* Force red color */
+  color: white !important;      /* Force white icon */
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.mobile-menu-toggle:hover {
+    transform: scale(1.1);
+}
+
 
 @media (min-width: 768px) {
-  /* You can keep this block if you have other mobile-only styles,
-     but the .mobile-menu-toggle rule inside it is no longer needed. */
+  /* This rule correctly hides the button on desktop */
+  .mobile-menu-toggle {
+    display: none;
+  }
 }
