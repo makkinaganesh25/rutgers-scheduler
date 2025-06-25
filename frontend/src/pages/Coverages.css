@@ -1,117 +1,156 @@
 /* ----------------------------
-  Coverages.css
+  Coverages.css
 ---------------------------- */
 
 :root {
-  /* Colors */
-  --brand-red:        #990000;
-  --brand-red-dark:   #770000;
-  --brand-accent:     #cc0033;
-  --brand-blue:       #1976d2;
-  --brand-blue-dark:  #115293;
-  --brand-green:      #2e7d32;
-  --brand-green-dark: #1b5e20;
-  --bg-page:          #f0f2f5;
-  --bg-card:          #ffffff;
-  --text-dark:        #212121;
-  --text-light:       #ffffff;
-  --text-muted:       #555;
-  
-  /* Spacing & shadows */
-  --radius:      8px;
-  --spacing-sm:  0.5rem;
-  --spacing-md:  1rem;
-  --spacing-lg:  1.5rem;
-  --shadow-sm:   0 2px 6px rgba(0,0,0,0.08);
-  --shadow-md:   0 4px 12px rgba(0,0,0,0.12);
+  /* Colors */
+  --brand-red:        #990000;
+  --brand-red-dark:   #770000;
+  --brand-accent:     #cc0033;
+  --brand-blue:       #1976d2;
+  --brand-blue-dark:  #115293;
+  --brand-green:      #2e7d32;
+  --brand-green-dark: #1b5e20;
+  --bg-page:          #f0f2f5;
+  --bg-card:          #ffffff;
+  --text-dark:        #212121;
+  --text-light:       #ffffff;
+  --text-muted:       #555;
+  
+  /* Spacing & shadows */
+  --radius:      8px;
+  --spacing-sm:  0.5rem;
+  --spacing-md:  1rem;
+  --spacing-lg:  1.5rem;
+  --shadow-sm:   0 2px 6px rgba(0,0,0,0.08);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.12);
 }
 
 body {
-  background: var(--bg-page);
-  color: var(--text-dark);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg-page);
+  color: var(--text-dark);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .coverages-container {
-  max-width: 900px;
-  margin: var(--spacing-lg) auto;
-  padding: var(--spacing-md);
+  max-width: 900px;
+  margin: var(--spacing-lg) auto;
+  padding: var(--spacing-md);
 }
 
 .coverages-container h1 {
-  text-align: center;
-  color: var(--brand-red);
-  font-size: 2rem;
-  margin-bottom: var(--spacing-lg);
-  position: relative;
+  text-align: center;
+  color: var(--brand-red);
+  font-size: 2rem;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
 }
 .coverages-container h1::after {
-  content: "";
-  display: block;
-  width: 50px;
-  height: 4px;
-  background: var(--brand-red);
-  margin: 0.5rem auto 0;
-  border-radius: 2px;
+  content: "";
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: var(--brand-red);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
 }
 
 /* Sections */
 .coverages-section {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  margin-top: var(--spacing-lg);
-  overflow: hidden;
-}
-.coverages-section h2 {
-  background: var(--brand-red);
-  color: white;
-  margin: 0;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--spacing-lg);
+  overflow: hidden;
   padding: var(--spacing-md);
-  font-size: 1.3rem;
 }
 
+/* --- UPDATED: Section Header Styling --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--bg-page);
+}
+
+.coverages-section h2 {
+    color: var(--brand-red);
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+/* --- NEW: Date Filter Styling --- */
+.date-filters {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.filter-group input[type="date"] {
+    padding: var(--spacing-sm);
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+}
+
+
 .loading-text {
-  padding: var(--spacing-md);
-  color: var(--text-muted);
+  padding: var(--spacing-md);
+  color: var(--text-muted);
 }
 
 /* List Items */
 .coverages-list {
-  list-style: none;
-  margin: 0;
-  padding: var(--spacing-md);
-  display: grid;
-  gap: var(--spacing-md);
+  list-style: none;
+  margin: 0;
+  padding: 0; /* Removed padding to align with section padding */
+  display: grid;
+  gap: var(--spacing-md);
 }
 
 /* Default Desktop List Item Layout */
 .coverages-list li {
-  background: var(--bg-page);
-  border-radius: var(--radius);
-  border-left: 4px solid var(--brand-red);
-  padding: var(--spacing-md);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-md);
+  background: var(--bg-page);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--brand-red);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
 }
 
 .info {
-  flex: 1 1 55%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  line-height: 1.4;
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  line-height: 1.4;
 }
 
 .actions {
-  flex: 0 1 auto;
-  display: flex;
-  gap: var(--spacing-sm);
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  flex: 0 1 auto;
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 /* Info text parts */
@@ -151,53 +190,59 @@ button:active:not(:disabled) { transform: scale(0.97); }
 /* ===================================================================== */
 
 @media (max-width: 620px) {
-  /* Basic mobile page layout */
-  .coverages-container { margin: 0; padding: var(--spacing-sm); }
-  .coverages-container h1 { font-size: 1.5rem; margin: var(--spacing-md) 0; }
-  .coverages-section { margin-top: var(--spacing-md); }
-  .coverages-list { padding: var(--spacing-sm); gap: var(--spacing-sm); }
-  
-  /* Make each list item a simple vertical stack */
-  .coverages-list li {
-    display: block;
-    padding: var(--spacing-md);
-  }
+  /* Basic mobile page layout */
+  .coverages-container { margin: 0; padding: var(--spacing-sm); }
+  .coverages-container h1 { font-size: 1.5rem; margin: var(--spacing-md) 0; }
+  .coverages-section { margin-top: var(--spacing-md); padding: var(--spacing-sm); }
+  .coverages-list { padding: 0; gap: var(--spacing-sm); }
 
-  .info {
-    margin-bottom: var(--spacing-md);
+  /* --- NEW: Ensure filters stack nicely --- */
+  .section-header, .date-filters, .filter-group {
+      flex-direction: column;
+      align-items: stretch;
   }
+  
+  /* Make each list item a simple vertical stack */
+  .coverages-list li {
+    display: block;
+    padding: var(--spacing-md);
+  }
 
-  /* --- THIS IS THE NEW 50/50 BUTTON LOGIC --- */
+  .info {
+    margin-bottom: var(--spacing-md);
+  }
 
-  /* 1. The actions container is a flex row */
-  .actions {
-    display: flex;
-    flex-direction: row; /* Arrange children side-by-side */
-    justify-content: space-between; /* Put space between them if needed */
-    gap: var(--spacing-sm); /* This creates the gutter between buttons */
-    width: 100%;
-  }
+  /* --- THIS IS THE NEW 50/50 BUTTON LOGIC --- */
 
-  /* 2. Target EVERY direct child of .actions for consistency */
-  .actions > * {
-    flex: 1; /* CRITICAL: This makes each child take up equal (50%) space */
-    
-    /* Text behavior */
-    white-space: nowrap; /* Keep text on one line */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add '...' if text is still too long */
-    
-    /* Sizing & Alignment */
-    display: flex; /* Use flex to perfectly center text */
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem var(--spacing-sm);
-    box-sizing: border-box;
-  }
+  /* 1. The actions container is a flex row */
+  .actions {
+    display: flex;
+    flex-direction: row; /* Arrange children side-by-side */
+    justify-content: space-between; /* Put space between them if needed */
+    gap: var(--spacing-sm); /* This creates the gutter between buttons */
+    width: 100%;
+  }
 
-  /* 3. Handle the case of a single button/badge */
-  .actions > :only-child {
-    flex: auto; /* Let a single item take its natural width */
-    width: 100%; /* Make a single item full-width */
-  }
+  /* 2. Target EVERY direct child of .actions for consistency */
+  .actions > * {
+    flex: 1; /* CRITICAL: This makes each child take up equal (50%) space */
+    
+    /* Text behavior */
+    white-space: nowrap; /* Keep text on one line */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add '...' if text is still too long */
+    
+    /* Sizing & Alignment */
+    display: flex; /* Use flex to perfectly center text */
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem var(--spacing-sm);
+    box-sizing: border-box;
+  }
+
+  /* 3. Handle the case of a single button/badge */
+  .actions > :only-child {
+    flex: auto; /* Let a single item take its natural width */
+    width: 100%; /* Make a single item full-width */
+  }
 }
