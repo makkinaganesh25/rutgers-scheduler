@@ -863,7 +863,7 @@
 
 //------------------------------------------------------------------------
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- Make sure useEffect is imported
 import {
   BrowserRouter,
   Routes,
@@ -875,7 +875,7 @@ import {
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import AuthenticatedRoute, { RoleRoute } from './components/AuthenticatedRoute';
-import { FaBars } from 'react-icons/fa'; // Make sure this import is here
+import { FaBars } from 'react-icons/fa';
 
 // --- Role Imports ---
 import {
@@ -915,14 +915,49 @@ import SecurityLeaveApproval from './pages/SecurityLeaveApproval';
 import Announcements from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
 
-// This component contains the main application layout and routing logic.
+/**
+ * A custom hook to check if a media query matches.
+ * This is how we will detect if the user is on a desktop or mobile screen.
+ * @param {string} query The media query string (e.g., '(min-width: 768px)')
+ * @returns {boolean} True if the media query matches, false otherwise.
+ */
+const useMediaQuery = (query) => {
+  const [matches, setMatches] = useState(window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const listener = () => setMatches(media.matches);
+    
+    // Support for modern browsers
+    if (media.addEventListener) {
+      media.addEventListener('change', listener);
+    } else {
+      // Fallback for older browsers
+      media.addListener(listener);
+    }
+
+    return () => {
+      if (media.removeEventListener) {
+        media.removeEventListener('change', listener);
+      } else {
+        media.removeListener(listener);
+      }
+    };
+  }, [query]);
+
+  return matches;
+};
+
+
 function AppContent() {
   const { pathname } = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  
+  // This hook will return `true` if the screen width is 768px or greater.
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  // If the user is on the login page, render only the Login component.
   if (pathname === '/') {
     return (
       <Routes>
@@ -932,23 +967,45 @@ function AppContent() {
     );
   }
 
-  // Render the main authenticated application layout.
+  // Define the style for the button directly here.
+  // This style will only be applied to the button when it's rendered on mobile.
+  const mobileButtonStyle = {
+    position: 'fixed',
+    bottom: '20px',
+    left: '20px',
+    zIndex: 1001,
+    background: '#8e1e1e',
+    color: 'white',
+    border: 'none',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
   return (
     <div className="app-container">
-      {/* This button toggles the sidebar. It now uses a CSS class 
-        `.mobile-menu-toggle` instead of inline styles. The CSS file 
-        will handle hiding it on desktop.
+      {/* CONDITIONAL RENDERING:
+        The button is now only rendered if `isDesktop` is false.
+        This completely prevents it from appearing on larger screens.
       */}
-      <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Open menu">
-        <FaBars />
-      </button>
+      {!isDesktop && (
+        <button style={mobileButtonStyle} onClick={toggleSidebar} aria-label="Open menu">
+          <FaBars />
+        </button>
+      )}
 
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="main-content">
         <Routes>
+          {/* All your routes remain exactly the same */}
           <Route element={<AuthenticatedRoute />}>
-            {/* Core pages */}
             <Route path="/hierarchy" element={<CommandHierarchy />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/coverages" element={<Coverages />} />
@@ -957,97 +1014,20 @@ function AppContent() {
             <Route path="/media-files" element={<MediaFiles />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shifts" element={<ShiftList />} />
-
-            {/* Special Events */}
             <Route path="/events">
               <Route index element={<SpecialEventsList />} />
               <Route path=":id" element={<EventSlots />} />
             </Route>
-            <Route
-              path="/admin/events"
-              element={
-                <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
-                  <AdminEvents />
-                </RoleRoute>
-              }
-            />
-
-            {/* Admin Users */}
-            <Route
-              path="/admin/users"
-              element={
-                <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
-                  <AdminUsers />
-                </RoleRoute>
-              }
-            />
-
-            {/* Announcements */}
+            <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
+            <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
             <Route path="/announcements" element={<Announcements />} />
-            <Route
-              path="/admin/announcements"
-              element={
-                <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
-                  <AdminAnnouncements />
-                </RoleRoute>
-              }
-            />
-
-            {/* Overview */}
-            <Route
-              path="/overview"
-              element={
-                <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
-                  <Overview />
-                </RoleRoute>
-              }
-            />
-
-            {/* CSO Leave & Mandates */}
-            <Route
-              path="/cso/leave"
-              element={
-                <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
-                  <CsoLeaveRequest />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/cso/leave/approve"
-              element={
-                <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
-                  <CsoLeaveApproval />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/cso/mandate"
-              element={
-                <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
-                  <CsoMandate />
-                </RoleRoute>
-              }
-            />
-
-            {/* Security Leave */}
-            <Route
-              path="/security/leave"
-              element={
-                <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
-                  <SecurityLeaveRequest />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/security/leave/approve"
-              element={
-                <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
-                  <SecurityLeaveApproval />
-                </RoleRoute>
-              }
-            />
-
-            {/* Catch-all: redirect any unknown paths to the dashboard */}
+            <Route path="/admin/announcements" element={<RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute>} />
+            <Route path="/overview" element={<RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute>} />
+            <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
+            <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
+            <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
+            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
+            <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
@@ -1057,7 +1037,6 @@ function AppContent() {
   );
 }
 
-// The main App component wraps the application with context providers and the router.
 export default function App() {
   return (
     <AuthProvider>
