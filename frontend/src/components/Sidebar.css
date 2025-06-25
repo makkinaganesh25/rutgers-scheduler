@@ -169,6 +169,12 @@
     display: none;
   }
   
+  /* THIS IS THE FIX: This rule hides the external hamburger button, which has the
+     class .mobile-menu-toggle, on desktop screens. */
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
