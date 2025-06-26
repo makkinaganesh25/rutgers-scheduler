@@ -1,75 +1,62 @@
 /* src/app.css */
 
 /* --- Global Styles & Resets --- */
-/* CRITICAL FIX: This prevents the main browser window from ever showing a scrollbar. */
 html, body {
-  overflow: hidden;
+  overflow: hidden; /* Prevents the main browser scrollbar */
   height: 100%;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9; /* A single background for the whole page */
+  background-color: #f4f4f9;
 }
 
-/* --- Default Mobile-First Styles --- */
+/* --- Mobile-First Default Styles (No 'desktop-layout' class) --- */
 .app-container {
   height: 100vh;
   position: relative;
-  /* On mobile, the entire app container is scrollable, which is the expected behavior. */
-  overflow-y: auto; 
+  overflow-y: auto; /* The entire container is scrollable on mobile */
 }
 
 .main-content {
-    /* On mobile, padding is needed, but height is determined by the natural flow of content. */
-    padding: 20px;
+  padding: 20px;
+  /* Height is determined by content flow on mobile */
 }
 
+/* --- Login Page Specific Layout --- */
+.app-container.login-layout {
+  display: block;
+  overflow: hidden; /* No scrolling on login page */
+}
+.app-container.login-layout .main-content {
+  padding: 0;
+  height: 100vh;
+  background: none;
+}
+
+
+/* --- Desktop Layout Styles --- */
+/* These rules ONLY apply when the 'desktop-layout' class is present */
+
+/* Make the container a flexbox but prevent it from scrolling */
+.app-container.desktop-layout {
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Make the main content area take up the remaining space and handle its own scrolling */
+.app-container.desktop-layout .main-content {
+  flex: 1; 
+  height: 100%;
+  overflow-y: auto; /* Enable vertical scrolling ONLY for this element */
+  margin-left: 250px; /* This value MUST match your sidebar's width */
+  padding: 20px;
+}
+
+
+/* --- Shared Styles --- */
 .content-section {
   padding: 20px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-}
-
-/* Special layout for the login page to override the app layout */
-.app-container.login-layout {
-  display: block;
-  height: 100vh;
-  overflow: hidden; /* No scrolling on the login page */
-}
-
-.app-container.login-layout .main-content {
-  padding: 0;
-  background: none;
-  height: 100vh;
-}
-
-
-/* --- Desktop Layout Styles --- */
-/* These styles apply only on screens 768px and wider */
-@media (min-width: 768px) {
-  
-  /* On desktop, the container itself should NOT scroll. It just acts as a flex container. */
-  .app-container {
-    display: flex;
-    overflow: hidden; /* Important: Prevents this container from having a scrollbar */
-    height: 100vh;
-  }
-
-  .main-content {
-    /* This tells the content area to grow and fill all available space next to the sidebar */
-    flex: 1; 
-    
-    /* This margin MUST match the width of your sidebar (from sidebar.css) */
-    margin-left: 250px; 
-    
-    /* CRITICAL FIX:
-       - The height is 100% of its parent (the app-container), not the whole viewport.
-       - overflow-y: auto enables scrolling ONLY within this main content area if needed.
-    */
-    height: 100%;
-    overflow-y: auto;
-    
-    /* Re-apply padding for desktop view */
-    padding: 20px;
-  }
 }
