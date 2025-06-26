@@ -1,113 +1,92 @@
 /* src/components/ChatbotIcon.css */
 
-/* --- KEYFRAME ANIMATIONS --- */
-
-/* Initial jump animation */
-@keyframes jump {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+/* Keyframe animation for the 3D spin */
+@keyframes spin-transform {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
-/* Shadow for the jump animation */
-@keyframes shadow-jump {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(0.7); opacity: 0.3; }
-}
-
-/* A fun little dance animation */
-@keyframes dance {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  25% { transform: rotate(10deg) translateY(-10px); }
-  75% { transform: rotate(-10deg) translateY(-10px); }
-}
-
-/* Shadow for the dance animation */
-@keyframes shadow-dance {
-  0%, 100% { transform: scale(1); }
-  25%, 75% { transform: scale(0.8); }
-}
-
-/* Fade-in for the accessories */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-
-/* --- BASE STYLES --- */
-
+/* Base button styles */
 .chatbot-icon-button {
   position: fixed;
   bottom: 25px;
   right: 25px;
-  width: 80px; /* Slightly wider to accommodate radio */
-  height: 90px;
+  width: 90px; 
+  height: 110px;
   background: transparent;
   border: none;
   cursor: pointer;
   z-index: 1000;
   padding: 0;
+  /* This is needed for the 3D perspective */
+  perspective: 1000px; 
 }
 
-.icon-container {
+/* The flipper container handles the 3D space and animation */
+.icon-flipper {
+  position: relative;
   width: 100%;
-  height: 70px;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+/* Apply the animation when the 'spinning' class is active */
+.icon-flipper.spinning {
+  animation: spin-transform 1.5s ease-in-out;
+}
+
+/* After spinning, settle into the transformed state */
+.icon-flipper.transformed {
+  transform: rotateY(360deg);
+}
+
+/* Shared styles for both front and back faces */
+.icon-front,
+.icon-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden; /* Hides the back side of an element when it's rotated */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-front img,
+.icon-back img {
+  width: 85px; /* Adjust size as needed */
   transition: transform 0.3s ease;
 }
 
+/* The back face starts off rotated and hidden */
+.icon-back {
+  transform: rotateY(180deg);
+}
+
+/* The shadow element */
 .icon-shadow {
-  width: 50px;
+  width: 60px;
   height: 10px;
   background-color: #000;
+  opacity: 0.3;
   border-radius: 50%;
-  margin: 10px auto 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Hide accessories by default */
-.accessory {
-  opacity: 0;
-}
-
-/* --- ANIMATION STATE STYLES --- */
-
-/* State 1: Initial Jumping */
-.chatbot-icon-button.initial .icon-container {
-  animation: jump 1.8s infinite ease-in-out;
-}
-.chatbot-icon-button.initial .icon-shadow {
-  animation: shadow-jump 1.8s infinite ease-in-out;
-}
-
-/* State 2: Dancing */
-.chatbot-icon-button.dancing .icon-container {
-  animation: dance 1s infinite ease-in-out;
-}
-.chatbot-icon-button.dancing .icon-shadow {
-  animation: shadow-dance 1s infinite ease-in-out;
-}
-
-/* State 3: Final "Cop" Form */
-.chatbot-icon-button.final .icon-container {
-  transform: translateY(-5px); /* A cool, steady pose */
-}
-.chatbot-icon-button.final .icon-shadow {
-  transform: scale(0.9);
-  opacity: 0.4;
-}
-/* Make accessories appear in the final state */
-.chatbot-icon-button.final .accessory {
-  opacity: 1;
-  animation: fadeIn 0.5s ease-in;
+  margin: -5px auto 0; /* Position shadow correctly */
+  transition: all 0.3s ease;
 }
 
 
-/* --- HOVER EFFECT (applies to all states) --- */
-.chatbot-icon-button:hover .icon-container {
-  animation-play-state: paused; /* Pause any animation on hover */
-  transform: translateY(-15px) scale(1.1); /* Lift and enlarge */
+/* --- HOVER EFFECT --- */
+.chatbot-icon-button:hover .icon-flipper img {
+   transform: scale(1.1);
 }
+
 .chatbot-icon-button:hover .icon-shadow {
-  animation-play-state: paused;
-  transform: scale(0.6);
+  transform: scale(0.8);
+  opacity: 0.2;
 }
