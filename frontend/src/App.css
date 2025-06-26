@@ -1,8 +1,20 @@
 /* src/app.css */
+
+/* --- Default Mobile-First Styles --- */
+/* These styles apply to all screen sizes by default */
+
 .app-container {
   height: 100vh;
   font-family: Arial, sans-serif;
   position: relative;
+  background-color: #f4f4f9; /* A base background for the entire app viewport */
+}
+
+.main-content {
+    /* On mobile, main-content is the primary view */
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .content-section {
@@ -13,6 +25,7 @@
   margin-bottom: 20px;
 }
 
+/* Special layout for the login page to override app layout */
 .app-container.login-layout {
   display: block;
   height: 100vh;
@@ -25,6 +38,26 @@
   overflow: hidden;
 }
 
-/* The .mobile-menu-toggle rules have been removed from here because
-  the logic is now handled directly in App.js.
-*/
+
+/* --- Desktop Layout Styles --- */
+/* Applied only on screens 768px and wider */
+@media (min-width: 768px) {
+  
+  /* On desktop, the app container becomes a flexbox to hold the sidebar and content side-by-side */
+  .app-container {
+    display: flex;
+  }
+
+  .main-content {
+    /* The main content area should grow to fill the remaining space */
+    flex: 1; 
+    
+    /* We explicitly add a left margin to prevent the fixed-position sidebar from overlapping it.
+       This value MUST match the --sidebar-width variable in sidebar.css */
+    margin-left: 250px; 
+    
+    /* Ensure it can still scroll independently if its content is too tall */
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
