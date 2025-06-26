@@ -98,24 +98,27 @@
   color: #fff;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem; /* Added font size for consistency */
+  font-size: 1rem;
   transition: background-color 0.2s, transform 0.1s;
 }
 .buttons-area button:active:not(:disabled) {
   transform: scale(0.97);
 }
 
-/* Primary button (Add/Update) now matches the red theme */
+/* Primary button (Add/Update) */
 .btn-primary { 
   background: #c62828; /* Strong red color */
 }
 .btn-primary:hover:not(:disabled) { 
   background: #a52020; /* Darker red on hover */
 }
+
+/* DEFINITIVE FIX FOR DISABLED BUTTON */
 .btn-primary:disabled {
-  background: #fbe9e7; /* Light red when disabled */
-  color: #e57373;
+  background-color: #e9ecef; /* A standard, noticeable light grey */
+  color: #6c757d;           /* A darker grey for the text for good contrast */
   cursor: not-allowed;
+  box-shadow: none;          /* Remove any shadow effects */
 }
 
 
