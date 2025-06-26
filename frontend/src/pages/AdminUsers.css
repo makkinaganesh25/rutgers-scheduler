@@ -19,7 +19,6 @@
 /* --- Form Styles --- */
 .user-form {
   display: grid;
-  /* Updated grid for better alignment */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
   background: #fff;
@@ -72,7 +71,8 @@
 
 .checkbox-area {
   grid-column: 1 / -1;
-  flex-direction: row !important;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   margin-top: 1rem;
 }
@@ -82,9 +82,10 @@
   margin-right: 10px;
 }
 .checkbox-area label {
-  margin-bottom: 0; /* Align label with checkbox */
+  margin-bottom: 0;
 }
 
+/* --- Buttons Row --- */
 .buttons-area {
   grid-column: 1 / -1;
   display: flex;
@@ -109,23 +110,27 @@
   transform: scale(0.97);
 }
 
-.btn-primary { 
-  background-color: #c62828; 
+/* Bootstrap-blue primary button overrides */
+.buttons-area .btn-primary {
+  background-color: #007bff !important;
 }
-.btn-primary:hover:not(:disabled) { 
-  background-color: #a52020; 
+.buttons-area .btn-primary:hover:not(:disabled) {
+  background-color: #0056b3 !important;
 }
-.btn-primary:disabled {
-  background-color: #c62828;
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
+.buttons-area .btn-primary:disabled {
+  background-color: #007bff !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
 }
-.btn-secondary { 
-  background: #6c757d; 
+
+/* Secondary (cancel/clear) button */
+.btn-secondary {
+  background: #6c757d;
 }
-.btn-secondary:hover { 
-  background: #5a6268; 
+.btn-secondary:hover {
+  background: #5a6268;
 }
 
 /* --- User List Tabs --- */
@@ -163,7 +168,6 @@
   width: 100%;
   border-collapse: collapse;
 }
-
 .users-table thead th {
   background: #343a40;
   color: #fff;
@@ -173,67 +177,127 @@
   font-size: 0.9rem;
   white-space: nowrap;
 }
-.toggle-header { cursor: pointer; }
-.toggle-header .toggle-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.2);
-  font-weight: 600;
+.users-table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+.users-table tbody tr:last-child {
+  border-bottom: none;
+}
+.users-table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+.users-table tbody tr:hover {
+  background: #fce4e4;
+}
+.users-table th,
+.users-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+.action-buttons button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
   transition: background-color 0.2s;
 }
-.toggle-header:hover .toggle-pill {
-  background: rgba(255, 255, 255, 0.3);
+.btn-edit {
+  background: #17a2b8;
+}
+.btn-edit:hover {
+  background: #117a8b;
+}
+.btn-delete {
+  background: #dc3545;
+}
+.btn-delete:hover {
+  background: #a71d2a;
 }
 
-.users-table tbody tr { border-bottom: 1px solid #eee; }
-.users-table tbody tr:last-child { border-bottom: none; }
-.users-table tbody tr:nth-child(even) { background: #f8f9fa; }
-.users-table tbody tr:hover { background: #fce4e4; }
-.users-table th, .users-table td { padding: 1rem; font-size: 0.9rem; vertical-align: middle; }
-
-.action-buttons { display: flex; gap: 0.5rem; }
-.action-buttons button { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; color: #fff; font-weight: 500; transition: background-color 0.2s; }
-.btn-edit { background: #17a2b8; }
-.btn-edit:hover { background: #117a8b; }
-.btn-delete { background: #dc3545; }
-.btn-delete:hover { background: #a71d2a; }
-
-
 /* ===================================================================== */
-/* === Responsive Styles (for Mobile) === */
+/* === Responsive Styles (for Mobile) ===                                */
 /* ===================================================================== */
 @media (max-width: 800px) {
-  .AdminUsers { padding: 0; margin: 1rem 0; }
-  .AdminUsers h2 { font-size: 1.5rem; }
-  
-  .user-form { grid-template-columns: 1fr; padding: 1.5rem; gap: 1rem; border-radius: 0; }
-  .form-title { font-size: 1.25rem; }
-  .buttons-area { flex-direction: column; gap: 0.75rem; }
-  .buttons-area button { width: 100%; }
+  .AdminUsers {
+    padding: 0;
+    margin: 1rem 0;
+  }
+  .AdminUsers h2 {
+    font-size: 1.5rem;
+  }
+
+  .user-form {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1rem;
+    border-radius: 0;
+  }
+  .form-title {
+    font-size: 1.25rem;
+  }
+  .buttons-area {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .buttons-area button {
+    width: 100%;
+  }
 
   .user-list-tabs {
     padding: 0 1rem;
   }
 
   .users-table thead {
-    display: none;  
+    display: none;
   }
-
   .table-wrapper {
-      background: transparent;
-      box-shadow: none;
+    background: transparent;
+    box-shadow: none;
   }
-
-  .users-table tbody, .users-table tr, .users-table td { display: block; width: 100%; }
-  .users-table tr { margin: 0 1rem 1rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; }
-  .users-table td { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0.25rem; border-bottom: 1px dashed #eee; text-align: right; }
-  .users-table td:last-child { border-bottom: none; }
-
-  .users-table td::before { content: attr(data-label); font-weight: 600; color: #c62828; text-align: left; margin-right: 1rem; }
-  
-  td[data-label="Actions"] .action-buttons { width: 100%; justify-content: stretch; }
-  td[data-label="Actions"] .action-buttons button { flex: 1; }
+  .users-table tbody,
+  .users-table tr,
+  .users-table td {
+    display: block;
+    width: 100%;
+  }
+  .users-table tr {
+    margin: 0 1rem 1rem 1rem;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .users-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.25rem;
+    border-bottom: 1px dashed #eee;
+    text-align: right;
+  }
+  .users-table td:last-child {
+    border-bottom: none;
+  }
+  .users-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #c62828;
+    text-align: left;
+    margin-right: 1rem;
+  }
+  td[data-label="Actions"] .action-buttons {
+    width: 100%;
+    justify-content: stretch;
+  }
+  td[data-label="Actions"] .action-buttons button {
+    flex: 1;
+  }
 }
