@@ -524,14 +524,12 @@ const useMediaQuery = (query) => {
     const media = window.matchMedia(query);
     const listener = () => setMatches(media.matches);
 
-    // Modern browsers
     if (media.addEventListener) {
       media.addEventListener('change', listener);
-    } else { // Deprecated for older browsers
+    } else {
       media.addListener(listener);
     }
     
-    // Cleanup
     return () => {
       if (media.removeEventListener) {
         media.removeEventListener('change', listener);
@@ -547,12 +545,9 @@ const useMediaQuery = (query) => {
 function AppContent() {
   const { pathname } = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  // Use a media query to detect screen size
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  // Render Login page separately without the main app layout
   if (pathname === '/') {
     return (
       <Routes>
@@ -562,7 +557,6 @@ function AppContent() {
     );
   }
 
-  // Mobile menu toggle button style
   const mobileButtonStyle = {
     position: 'fixed',
     bottom: '20px',
@@ -584,22 +578,18 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      {/* Mobile-only menu button */}
       {!isDesktop && (
         <button style={mobileButtonStyle} onClick={toggleSidebar} aria-label="Open menu">
           <FaBars />
         </button>
       )}
 
-      {/* CRITICAL CHANGE:
-        The Sidebar is now considered "open" if it's a desktop view OR if the mobile toggle is active.
-        This ensures the sidebar is always visible on large screens.
-      */}
       <Sidebar isOpen={isDesktop || isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
+            {/* Core pages */}
             <Route path="/hierarchy" element={<CommandHierarchy />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/coverages" element={<Coverages />} />
@@ -609,7 +599,7 @@ function AppContent() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shifts" element={<ShiftList />} />
 
-            {/* Permanent Shifts */}
+            {/* Admin: Permanent Shifts */}
             <Route
               path="/admin/permanent-shifts"
               element={
@@ -633,7 +623,7 @@ function AppContent() {
               }
             />
 
-            {/* Admin Users */}
+            {/* Admin: Users */}
             <Route
               path="/admin/users"
               element={
@@ -654,7 +644,7 @@ function AppContent() {
               }
             />
 
-            {/* Overview */}
+            {/* Supervisor: Overview */}
             <Route
               path="/overview"
               element={
@@ -678,7 +668,7 @@ function AppContent() {
               element={
                 <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
                   <CsoLeaveApproval />
-                </Route>
+                </RoleRoute>
               }
             />
             <Route
@@ -708,12 +698,11 @@ function AppContent() {
               }
             />
 
-            {/* Fallback */}
+            {/* Fallback redirect */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
       </div>
-
       <Chatbot />
     </div>
   );
