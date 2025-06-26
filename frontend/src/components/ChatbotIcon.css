@@ -1,9 +1,113 @@
 /* src/components/ChatbotIcon.css */
-@keyframes jump { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0); } }
-@keyframes shadow { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(0.7); opacity: 0.3; } 100% { transform: scale(1); opacity: 0.5; } }
 
-.chatbot-icon-button { position: fixed; bottom: 25px; right: 25px; width: 70px; height: 90px; background: transparent; border: none; cursor: pointer; z-index: 1000; padding: 0; }
-.chatbot-icon-button:hover .icon-container { animation-play-state: paused; transform: translateY(-15px) scale(1.1); }
-.chatbot-icon-button:hover .icon-shadow { animation-play-state: paused; transform: scale(0.6); }
-.icon-container { width: 70px; height: 70px; animation: jump 1.8s infinite ease-in-out; transition: transform 0.3s ease; }
-.icon-shadow { width: 50px; height: 10px; background-color: #000; opacity: 0.5; border-radius: 50%; margin: 10px auto 0; animation: shadow 1.8s infinite ease-in-out; transition: transform 0.3s ease, opacity 0.3s ease; }
+/* --- KEYFRAME ANIMATIONS --- */
+
+/* Initial jump animation */
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Shadow for the jump animation */
+@keyframes shadow-jump {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(0.7); opacity: 0.3; }
+}
+
+/* A fun little dance animation */
+@keyframes dance {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(10deg) translateY(-10px); }
+  75% { transform: rotate(-10deg) translateY(-10px); }
+}
+
+/* Shadow for the dance animation */
+@keyframes shadow-dance {
+  0%, 100% { transform: scale(1); }
+  25%, 75% { transform: scale(0.8); }
+}
+
+/* Fade-in for the accessories */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* --- BASE STYLES --- */
+
+.chatbot-icon-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 80px; /* Slightly wider to accommodate radio */
+  height: 90px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  padding: 0;
+}
+
+.icon-container {
+  width: 100%;
+  height: 70px;
+  transition: transform 0.3s ease;
+}
+
+.icon-shadow {
+  width: 50px;
+  height: 10px;
+  background-color: #000;
+  border-radius: 50%;
+  margin: 10px auto 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hide accessories by default */
+.accessory {
+  opacity: 0;
+}
+
+/* --- ANIMATION STATE STYLES --- */
+
+/* State 1: Initial Jumping */
+.chatbot-icon-button.initial .icon-container {
+  animation: jump 1.8s infinite ease-in-out;
+}
+.chatbot-icon-button.initial .icon-shadow {
+  animation: shadow-jump 1.8s infinite ease-in-out;
+}
+
+/* State 2: Dancing */
+.chatbot-icon-button.dancing .icon-container {
+  animation: dance 1s infinite ease-in-out;
+}
+.chatbot-icon-button.dancing .icon-shadow {
+  animation: shadow-dance 1s infinite ease-in-out;
+}
+
+/* State 3: Final "Cop" Form */
+.chatbot-icon-button.final .icon-container {
+  transform: translateY(-5px); /* A cool, steady pose */
+}
+.chatbot-icon-button.final .icon-shadow {
+  transform: scale(0.9);
+  opacity: 0.4;
+}
+/* Make accessories appear in the final state */
+.chatbot-icon-button.final .accessory {
+  opacity: 1;
+  animation: fadeIn 0.5s ease-in;
+}
+
+
+/* --- HOVER EFFECT (applies to all states) --- */
+.chatbot-icon-button:hover .icon-container {
+  animation-play-state: paused; /* Pause any animation on hover */
+  transform: translateY(-15px) scale(1.1); /* Lift and enlarge */
+}
+.chatbot-icon-button:hover .icon-shadow {
+  animation-play-state: paused;
+  transform: scale(0.6);
+}
