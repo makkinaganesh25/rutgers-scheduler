@@ -99,7 +99,7 @@
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
 }
 .buttons-area button:active:not(:disabled) {
   transform: scale(0.97);
@@ -107,18 +107,18 @@
 
 /* Primary button (Add/Update) */
 .btn-primary { 
-  background: #c62828; /* Strong red color */
+  background-color: #c62828; /* Strong red color */
 }
 .btn-primary:hover:not(:disabled) { 
-  background: #a52020; /* Darker red on hover */
+  background-color: #a52020; /* Darker red on hover */
 }
 
-/* DEFINITIVE FIX FOR DISABLED BUTTON */
+/* FINAL FIX FOR DISABLED BUTTON */
 .btn-primary:disabled {
-  background-color: #e9ecef; /* A standard, noticeable light grey */
-  color: #6c757d;           /* A darker grey for the text for good contrast */
+  background-color: #c62828; /* Keep the same red background */
+  opacity: 0.5;             /* Make it partially transparent to indicate it's disabled */
   cursor: not-allowed;
-  box-shadow: none;          /* Remove any shadow effects */
+  box-shadow: none;
 }
 
 
