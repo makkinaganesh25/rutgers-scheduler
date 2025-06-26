@@ -1,3 +1,6 @@
+Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal additions at the bottom to ensure your disabled “Add User” button remains visible:
+
+```css
 /* ===================================================================== */
 /* File: src/pages/AdminUsers.css                                        */
 /* ===================================================================== */
@@ -116,11 +119,10 @@
 /* FINAL FIX FOR DISABLED BUTTON */
 .btn-primary:disabled {
   background-color: #c62828; /* Keep the same red background */
-  opacity: 0.5;             /* Make it partially transparent to indicate it's disabled */
+  opacity: 0.5;             /* Make it partially transparent */
   cursor: not-allowed;
   box-shadow: none;
 }
-
 
 /* Secondary button (Clear/Cancel) */
 .btn-secondary { 
@@ -131,32 +133,31 @@
 }
 /* --- BUTTON FIX ENDS HERE --- */
 
-
 /* --- Mobile View Toggle --- */
 .mobile-view-toggle {
-    display: none; 
-    justify-content: center;
-    background-color: #e9ecef;
-    border-radius: 8px;
-    padding: 5px;
-    margin-bottom: 2rem;
+  display: none; 
+  justify-content: center;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  padding: 5px;
+  margin-bottom: 2rem;
 }
 .mobile-view-toggle .toggle-btn {
-    flex: 1;
-    padding: 0.75rem;
-    border: none;
-    background-color: transparent;
-    color: #333;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  background-color: transparent;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
 }
 .mobile-view-toggle .toggle-btn.active {
-    background-color: #fff;
-    color: #c62828;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #fff;
+  color: #c62828;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* --- Table Styles --- */
@@ -208,7 +209,6 @@
 .btn-delete { background: #dc3545; }
 .btn-delete:hover { background: #a71d2a; }
 
-
 /* ===================================================================== */
 /* === Responsive Styles (for Mobile) === */
 /* ===================================================================== */
@@ -222,9 +222,8 @@
   .buttons-area button { width: 100%; }
 
   .mobile-view-toggle {
-      display: flex;
-      margin-left: 1rem;
-      margin-right: 1rem;
+    display: flex;
+    margin: 0 1rem 1rem;
   }
 
   .users-table thead {
@@ -232,17 +231,27 @@
   }
 
   .table-wrapper {
-      background: transparent;
-      box-shadow: none;
+    background: transparent;
+    box-shadow: none;
   }
 
   .users-table tbody, .users-table tr, .users-table td { display: block; width: 100%; }
-  .users-table tr { margin: 0 1rem 1rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; }
+  .users-table tr { margin: 0 1rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; }
   .users-table td { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0.25rem; border-bottom: 1px dashed #eee; text-align: right; }
   .users-table td:last-child { border-bottom: none; }
-
   .users-table td::before { content: attr(data-label); font-weight: 600; color: #c62828; text-align: left; margin-right: 1rem; }
   
   td[data-label="Actions"] .action-buttons { width: 100%; justify-content: stretch; }
   td[data-label="Actions"] .action-buttons button { flex: 1; }
 }
+
+/* ===================================================================== */
+/* === FINAL FIX: Prevent disabled .btn-primary from collapsing === */
+.buttons-area button {
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
+}
+```
+
+That last block ensures your primary (“Add User”) button always remains at least 120px wide with its label visible, even when disabled.
