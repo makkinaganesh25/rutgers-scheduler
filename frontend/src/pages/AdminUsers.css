@@ -1,6 +1,3 @@
-Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal additions at the bottom to ensure your disabled “Add User” button remains visible:
-
-```css
 /* ===================================================================== */
 /* File: src/pages/AdminUsers.css                                        */
 /* ===================================================================== */
@@ -93,7 +90,7 @@ Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal addition
   margin-top: 1rem;
 }
 
-/* --- BUTTON FIX STARTS HERE --- */
+/* --- BUTTON STYLES --- */
 .buttons-area button {
   padding: 12px 24px;
   border: none;
@@ -103,6 +100,10 @@ Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal addition
   font-weight: 600;
   font-size: 1rem;
   transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
+  /* ensure the button never collapses when disabled */
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
 }
 .buttons-area button:active:not(:disabled) {
   transform: scale(0.97);
@@ -115,11 +116,10 @@ Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal addition
 .btn-primary:hover:not(:disabled) { 
   background-color: #a52020; /* Darker red on hover */
 }
-
-/* FINAL FIX FOR DISABLED BUTTON */
+/* Keep the red background but dim when disabled */
 .btn-primary:disabled {
-  background-color: #c62828; /* Keep the same red background */
-  opacity: 0.5;             /* Make it partially transparent */
+  background-color: #c62828;
+  opacity: 0.5;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -131,7 +131,6 @@ Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal addition
 .btn-secondary:hover { 
   background: #5a6268; 
 }
-/* --- BUTTON FIX ENDS HERE --- */
 
 /* --- Mobile View Toggle --- */
 .mobile-view-toggle {
@@ -244,14 +243,3 @@ Here’s your **complete** `src/pages/AdminUsers.css`, with the minimal addition
   td[data-label="Actions"] .action-buttons { width: 100%; justify-content: stretch; }
   td[data-label="Actions"] .action-buttons button { flex: 1; }
 }
-
-/* ===================================================================== */
-/* === FINAL FIX: Prevent disabled .btn-primary from collapsing === */
-.buttons-area button {
-  display: inline-block;
-  min-width: 120px;
-  text-align: center;
-}
-```
-
-That last block ensures your primary (“Add User”) button always remains at least 120px wide with its label visible, even when disabled.
