@@ -1,20 +1,25 @@
 /* src/app.css */
 
-/* --- Default Mobile-First Styles --- */
-/* These styles apply to all screen sizes by default */
+/* --- Global Styles & Resets --- */
+/* CRITICAL FIX: This prevents the main browser window from ever showing a scrollbar. */
+html, body {
+  overflow: hidden;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9; /* A single background for the whole page */
+}
 
+/* --- Default Mobile-First Styles --- */
 .app-container {
   height: 100vh;
-  font-family: Arial, sans-serif;
   position: relative;
-  background-color: #f4f4f9; /* A base background for the entire app viewport */
+  /* On mobile, the entire app container is scrollable, which is the expected behavior. */
+  overflow-y: auto; 
 }
 
 .main-content {
-    /* On mobile, main-content is the primary view */
+    /* On mobile, padding is needed, but height is determined by the natural flow of content. */
     padding: 20px;
-    height: 100%;
-    overflow-y: auto;
 }
 
 .content-section {
@@ -25,39 +30,46 @@
   margin-bottom: 20px;
 }
 
-/* Special layout for the login page to override app layout */
+/* Special layout for the login page to override the app layout */
 .app-container.login-layout {
   display: block;
   height: 100vh;
+  overflow: hidden; /* No scrolling on the login page */
 }
 
 .app-container.login-layout .main-content {
   padding: 0;
   background: none;
   height: 100vh;
-  overflow: hidden;
 }
 
 
 /* --- Desktop Layout Styles --- */
-/* Applied only on screens 768px and wider */
+/* These styles apply only on screens 768px and wider */
 @media (min-width: 768px) {
   
-  /* On desktop, the app container becomes a flexbox to hold the sidebar and content side-by-side */
+  /* On desktop, the container itself should NOT scroll. It just acts as a flex container. */
   .app-container {
     display: flex;
+    overflow: hidden; /* Important: Prevents this container from having a scrollbar */
+    height: 100vh;
   }
 
   .main-content {
-    /* The main content area should grow to fill the remaining space */
+    /* This tells the content area to grow and fill all available space next to the sidebar */
     flex: 1; 
     
-    /* We explicitly add a left margin to prevent the fixed-position sidebar from overlapping it.
-       This value MUST match the --sidebar-width variable in sidebar.css */
+    /* This margin MUST match the width of your sidebar (from sidebar.css) */
     margin-left: 250px; 
     
-    /* Ensure it can still scroll independently if its content is too tall */
-    height: 100vh;
+    /* CRITICAL FIX:
+       - The height is 100% of its parent (the app-container), not the whole viewport.
+       - overflow-y: auto enables scrolling ONLY within this main content area if needed.
+    */
+    height: 100%;
     overflow-y: auto;
+    
+    /* Re-apply padding for desktop view */
+    padding: 20px;
   }
 }
