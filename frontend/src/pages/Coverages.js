@@ -1261,9 +1261,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../api';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationsContext';
-import './Coverages.css';
+import './Coverages.css'; // Your beautiful CSS file
 
-// --- Helper function to get a date string (YYYY-MM-DD) ---
+// Helper to get YYYY-MM-DD format
 const toISODateString = (date) => {
     return date.toISOString().split('T')[0];
 };
@@ -1272,42 +1272,35 @@ export default function Coverages() {
     const { user, logout } = useAuth();
     const { addNotification } = useNotifications();
 
-    // --- FIX: Default start date is now today ---
+    // --- FIX: Default start date is today, end date is optional ---
     const [dateFilter, setDateFilter] = useState({
         startDate: toISODateString(new Date()),
-        endDate: '' // End date is now optional
+        endDate: '' 
     });
 
-    // Data states
     const [myShifts, setMyShifts] = useState([]);
     const [pendingCov, setPendingCov] = useState([]);
     const [pendingSwaps, setPendingSwaps] = useState([]);
     const [candidates, setCandidates] = useState({});
-
-    // Loading & error states
     const [loading, setLoading] = useState({ my: true, cov: true, swaps: true });
     const [errorMsg, setErrorMsg] = useState('');
-
-    // Swap modal state
     const [swapModal, setSwapModal] = useState({ open: false, requesterShiftId: null });
     const [chosenOfficer, setChosenOfficer] = useState('');
     const [theirShifts, setTheirShifts] = useState([]);
     const [targetShiftId, setTargetShiftId] = useState('');
     const [conflictPre, setConflictPre] = useState(null);
 
-    // Formatting helpers
     const fmtDate = iso => new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' });
-    const fmtTime = t => t.slice(0, 5);
+    const fmtTime = t => t ? t.slice(0, 5) : '';
 
-    // --- Data Loading Functions (with updated filtering logic) ---
     const loadMy = useCallback(async () => {
         setLoading(l => ({ ...l, my: true }));
         try {
-            // Backend now handles the date filtering based on params provided
             const { data } = await api.get('/api/shifts/me', {
                 params: {
                     startDate: dateFilter.startDate,
-                    endDate: dateFilter.endDate || '9999-12-31' // Use a far-future date if no end date
+                    // Send end date only if it's been set by the user
+                    endDate: dateFilter.endDate || undefined 
                 }
             });
             setMyShifts(data);
@@ -1323,7 +1316,7 @@ export default function Coverages() {
         try {
             const { data } = await api.get('/api/shifts/coverage-requests/pending');
             const today = toISODateString(new Date());
-            // --- FIX: Filter for upcoming requests only ---
+            // --- FIX: Filter for upcoming requests and exclude user's own requests ---
             const upcomingCov = data.filter(r => r.date >= today && r.requester_officer !== user.username);
             setPendingCov(upcomingCov);
         } catch (e) {
@@ -1338,7 +1331,7 @@ export default function Coverages() {
         try {
             const { data } = await api.get('/api/shifts/swap-requests/pending');
             const today = toISODateString(new Date());
-            // --- FIX: Filter for upcoming swaps only ---
+            // --- FIX: Filter for upcoming swaps ---
             const upcomingSwaps = data.filter(r => r.target_shift.date >= today);
             setPendingSwaps(upcomingSwaps);
         } catch (e) {
@@ -1348,19 +1341,17 @@ export default function Coverages() {
         }
     }, [logout]);
 
-    // This effect reloads "My Shifts" whenever the date filter is changed by the user.
+    // Reload "My Shifts" when date filter changes
     useEffect(() => {
         loadMy();
     }, [loadMy]);
 
-    // Initial load for other sections (only runs once)
+    // Initial load for other sections
     useEffect(() => {
         loadCov();
         loadSwaps();
     }, [loadCov, loadSwaps]);
 
-
-    // --- Action Handlers (Unchanged, but will now work with backend fix) ---
     const requestCoverage = async id => {
         setErrorMsg('');
         try {
@@ -1374,6 +1365,7 @@ export default function Coverages() {
         }
     };
     
+    // ... all other action handlers (acceptCoverage, openSwap, etc.) remain the same
     const acceptCoverage = async id => {
         setErrorMsg('');
         try {
@@ -1430,21 +1422,16 @@ export default function Coverages() {
         } catch (e) { setErrorMsg(e.response?.data?.error || 'Swap conflict—cannot accept.'); }
     };
 
+
     const handleDateChange = (e) => {
-        setDateFilter(prev => ({
-            ...prev,
-            [e.target.name]: e.target.value
-        }));
+        setDateFilter(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
     
-    // --- Render Helper for List Content ---
     const renderListContent = (loading, items, renderItem, noItemsMessage) => {
-        if (loading) {
-            return <p className="loading-text">Loading…</p>;
-        }
-        if (items.length === 0) {
-            return <p className="loading-text">{noItemsMessage}</p>;
-        }
+        if (loading) return <p className="loading-text">Loading…</p>;
+        if (items.length === 0) return <p className="loading-text">{noItemsMessage}</p>;
+        
+        // This JS logic now works perfectly with your existing CSS
         return (
             <div className={`list-wrapper ${items.length > 3 ? 'scrollable' : ''}`}>
                 <ul className="coverages-list">
@@ -1454,15 +1441,14 @@ export default function Coverages() {
         );
     };
 
-    // --- JSX RENDER ---
     return (
         <div className="coverages-container">
-            <h1>Coverage & Swap Management</h1>
+            <h1>Coverage & Swap</h1>
             {errorMsg && <div className="error-message">{errorMsg}</div>}
 
             <section className="coverages-section">
                 <div className="section-header">
-                    <h2>My Upcoming Shifts</h2>
+                    <h2>My Shifts</h2>
                     <div className="date-filters">
                         <div className="filter-group">
                             <label htmlFor="startDate">From:</label>
@@ -1470,7 +1456,7 @@ export default function Coverages() {
                         </div>
                         <div className="filter-group">
                             <label htmlFor="endDate">To:</label>
-                            <input type="date" id="endDate" name="endDate" value={dateFilter.endDate} onChange={handleDateChange} placeholder="No end date" />
+                            <input type="date" id="endDate" name="endDate" value={dateFilter.endDate} onChange={handleDateChange} />
                         </div>
                     </div>
                 </div>
@@ -1508,7 +1494,7 @@ export default function Coverages() {
                             <button className="btn-accept" onClick={() => acceptCoverage(r.shift_id)}>Accept</button>
                         </div>
                     </li>
-                ), "No upcoming coverage requests.")}
+                ), "No upcoming coverage requests available.")}
             </section>
 
             <section className="coverages-section">
@@ -1532,12 +1518,29 @@ export default function Coverages() {
                 ), "No pending swap requests for you.")}
             </section>
             
-            {/* Swap Modal (Unchanged) */}
             {swapModal.open && (
                 <div className="swap-modal">
                     <div className="swap-content">
                         <h3>Request a Swap</h3>
-                        {/* ... modal content ... */}
+                        <p>You are offering your shift. Choose a colleague and one of their shifts to swap with.</p>
+                        <label htmlFor="officer-select">Choose officer:</label>
+                        <select id="officer-select" value={chosenOfficer} onChange={e => setChosenOfficer(e.target.value)}>
+                            <option value="">— Select a person —</option>
+                            {Object.keys(candidates).map(off => (<option key={off} value={off}>{off}</option>))}
+                        </select>
+                        <label htmlFor="shift-select">Select their shift to trade for:</label>
+                        <select id="shift-select" value={targetShiftId} onChange={e => setTargetShiftId(e.target.value)} disabled={!chosenOfficer || theirShifts.length === 0}>
+                            <option value="">— Select a shift —</option>
+                            {theirShifts.length > 0 
+                                ? theirShifts.map(s => (<option key={s.shift_id} value={s.shift_id}>{s.shift_type} on {fmtDate(s.date)}</option>))
+                                : <option disabled>No available shifts</option>
+                            }
+                        </select>
+                        {conflictPre && (<div className="error-message" style={{ marginTop: '0.5rem' }}>⚠️ Conflict with your “{conflictPre.shift_type}” on {fmtDate(conflictPre.date)}.</div>)}
+                        <div className="swap-buttons">
+                            <button className="btn-decline" onClick={() => setSwapModal({ open: false, requesterShiftId: null })}>Cancel</button>
+                            <button className="btn-accept" disabled={!targetShiftId || !!conflictPre} onClick={submitSwap}>Submit Request</button>
+                        </div>
                     </div>
                 </div>
             )}
