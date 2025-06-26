@@ -286,6 +286,10 @@ export function updateEventSlot(eid, sid, slot) {
 export function deleteEvent(id) {
   return api.delete(`/api/events/${id}`).then(r => r.data);
 }
+export const deleteEventSlot = async (eventId, slotId) => {
+  const { data } = await api.delete(`/api/events/${eventId}/slots/${slotId}`);
+  return data;
+};
 
 // ────────────────────────────────────────────────────────────────
 // Hierarchy (org chart) CRUD
