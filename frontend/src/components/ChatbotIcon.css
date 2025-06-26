@@ -1,92 +1,9 @@
 /* src/components/ChatbotIcon.css */
+@keyframes jump { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0); } }
+@keyframes shadow { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(0.7); opacity: 0.3; } 100% { transform: scale(1); opacity: 0.5; } }
 
-/* Keyframe animation for the 3D spin */
-@keyframes spin-transform {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
-/* Base button styles */
-.chatbot-icon-button {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 90px; 
-  height: 110px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 1000;
-  padding: 0;
-  /* This is needed for the 3D perspective */
-  perspective: 1000px; 
-}
-
-/* The flipper container handles the 3D space and animation */
-.icon-flipper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.5s;
-  transform-style: preserve-3d;
-}
-
-/* Apply the animation when the 'spinning' class is active */
-.icon-flipper.spinning {
-  animation: spin-transform 1.5s ease-in-out;
-}
-
-/* After spinning, settle into the transformed state */
-.icon-flipper.transformed {
-  transform: rotateY(360deg);
-}
-
-/* Shared styles for both front and back faces */
-.icon-front,
-.icon-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
-  backface-visibility: hidden; /* Hides the back side of an element when it's rotated */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-front img,
-.icon-back img {
-  width: 85px; /* Adjust size as needed */
-  transition: transform 0.3s ease;
-}
-
-/* The back face starts off rotated and hidden */
-.icon-back {
-  transform: rotateY(180deg);
-}
-
-/* The shadow element */
-.icon-shadow {
-  width: 60px;
-  height: 10px;
-  background-color: #000;
-  opacity: 0.3;
-  border-radius: 50%;
-  margin: -5px auto 0; /* Position shadow correctly */
-  transition: all 0.3s ease;
-}
-
-
-/* --- HOVER EFFECT --- */
-.chatbot-icon-button:hover .icon-flipper img {
-   transform: scale(1.1);
-}
-
-.chatbot-icon-button:hover .icon-shadow {
-  transform: scale(0.8);
-  opacity: 0.2;
-}
+.chatbot-icon-button { position: fixed; bottom: 25px; right: 25px; width: 70px; height: 90px; background: transparent; border: none; cursor: pointer; z-index: 1000; padding: 0; }
+.chatbot-icon-button:hover .icon-container { animation-play-state: paused; transform: translateY(-15px) scale(1.1); }
+.chatbot-icon-button:hover .icon-shadow { animation-play-state: paused; transform: scale(0.6); }
+.icon-container { width: 70px; height: 70px; animation: jump 1.8s infinite ease-in-out; transition: transform 0.3s ease; }
+.icon-shadow { width: 50px; height: 10px; background-color: #000; opacity: 0.5; border-radius: 50%; margin: 10px auto 0; animation: shadow 1.8s infinite ease-in-out; transition: transform 0.3s ease, opacity 0.3s ease; }
