@@ -457,6 +457,8 @@
 //-------------------------------------------------
 // src/App.js
 
+// src/App.js
+
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
@@ -555,6 +557,7 @@ function AppContent() {
     );
   }
 
+  // Mobile button style object
   const mobileButtonStyle = {
     position: 'fixed',
     bottom: '20px',
@@ -564,9 +567,9 @@ function AppContent() {
     color: 'white',
     border: 'none',
     borderRadius: '50%',
-    width: '40px',
-    height: '40px',
-    fontSize: '1rem',
+    width: '50px',  // Increased button size slightly
+    height: '50px', // Increased button size slightly
+    fontSize: '1.5rem', // CRITICAL FIX: Increased font size to make the icon larger
     cursor: 'pointer',
     boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
     display: 'flex',
@@ -574,7 +577,7 @@ function AppContent() {
     justifyContent: 'center',
   };
   
-  // CRITICAL CHANGE: Conditionally add the 'desktop-layout' class
+  // Conditionally add the 'desktop-layout' class
   const appContainerClass = `app-container ${isDesktop ? 'desktop-layout' : ''}`;
 
   return (
@@ -610,7 +613,7 @@ function AppContent() {
             <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
             <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
             <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
-            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
+            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RouteRoute>} />
             <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
