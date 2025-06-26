@@ -457,8 +457,6 @@
 //-------------------------------------------------
 // src/App.js
 
-// src/App.js
-
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
@@ -613,7 +611,8 @@ function AppContent() {
             <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
             <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
             <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
-            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RouteRoute>} />
+            {/* THIS LINE WAS THE SOURCE OF THE ERROR. CORRECTED </RouteRoute> to </RoleRoute> */}
+            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
             <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
