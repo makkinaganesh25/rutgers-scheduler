@@ -680,8 +680,8 @@
 //----------------------------------------------------------
 // src/pages/AdminEvents.jsx
 // --- DEFINITIVE FINAL VERSION ---
-// This is your original file with only the onSubmit function corrected to handle
-// adding new slots while in edit mode. No other functionality has been changed.
+// Based on your original working file, with the corrected onSubmit function
+// to properly handle adding new slots while in edit mode.
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -730,7 +730,7 @@ export default function AdminEvents() {
   const today = new Date().toISOString().slice(0,10);
   const filtered = events.filter(ev => view === 'ongoing' ? ev.date >= today : ev.date < today);
 
-  // Your original, working startEdit function
+  // Using your original, working startEdit function
   async function startEdit(ev) {
     setEditingId(ev.id);
     setForm({
@@ -807,7 +807,6 @@ export default function AdminEvents() {
         }
 
         alert('✅ Event updated successfully');
-
       } else {
         // --- CREATING A NEW EVENT (Your original, working logic) ---
         const { id } = await createEvent({
