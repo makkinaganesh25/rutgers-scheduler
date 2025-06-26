@@ -512,11 +512,6 @@ import PermanentShifts from './pages/PermanentShifts';
 
 const PERMANENT_SHIFT_ROLES = ADMIN_USER_ROLES;
 
-/**
- * A custom hook to check if a media query matches.
- * @param {string} query The media query string (e.g., '(min-width: 768px)')
- * @returns {boolean}
- */
 const useMediaQuery = (query) => {
   const [matches, setMatches] = useState(window.matchMedia(query).matches);
 
@@ -548,12 +543,15 @@ function AppContent() {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
+  // Separate layout for the login page
   if (pathname === '/') {
     return (
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <div className="app-container login-layout">
+        <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
     );
   }
 
@@ -575,9 +573,12 @@ function AppContent() {
     alignItems: 'center',
     justifyContent: 'center',
   };
+  
+  // CRITICAL CHANGE: Conditionally add the 'desktop-layout' class
+  const appContainerClass = `app-container ${isDesktop ? 'desktop-layout' : ''}`;
 
   return (
-    <div className="app-container">
+    <div className={appContainerClass}>
       {!isDesktop && (
         <button style={mobileButtonStyle} onClick={toggleSidebar} aria-label="Open menu">
           <FaBars />
@@ -589,7 +590,7 @@ function AppContent() {
       <div className="main-content">
         <Routes>
           <Route element={<AuthenticatedRoute />}>
-            {/* Core pages */}
+            {/* All authenticated routes go here */}
             <Route path="/hierarchy" element={<CommandHierarchy />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/coverages" element={<Coverages />} />
@@ -598,107 +599,19 @@ function AppContent() {
             <Route path="/media-files" element={<MediaFiles />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shifts" element={<ShiftList />} />
-
-            {/* Admin: Permanent Shifts */}
-            <Route
-              path="/admin/permanent-shifts"
-              element={
-                <RoleRoute allowedRoles={PERMANENT_SHIFT_ROLES}>
-                  <PermanentShifts />
-                </RoleRoute>
-              }
-            />
-
-            {/* Special Events */}
-            <Route path="/events">
-              <Route index element={<SpecialEventsList />} />
-              <Route path=":id" element={<EventSlots />} />
-            </Route>
-            <Route
-              path="/admin/events"
-              element={
-                <RoleRoute allowedRoles={EVENT_CREATOR_ROLES}>
-                  <AdminEvents />
-                </RoleRoute>
-              }
-            />
-
-            {/* Admin: Users */}
-            <Route
-              path="/admin/users"
-              element={
-                <RoleRoute allowedRoles={ADMIN_USER_ROLES}>
-                  <AdminUsers />
-                </RoleRoute>
-              }
-            />
-
-            {/* Announcements */}
+            <Route path="/admin/permanent-shifts" element={<RoleRoute allowedRoles={PERMANENT_SHIFT_ROLES}><PermanentShifts /></RoleRoute>} />
+            <Route path="/events" element={<SpecialEventsList />} />
+            <Route path="/events/:id" element={<EventSlots />} />
+            <Route path="/admin/events" element={<RoleRoute allowedRoles={EVENT_CREATOR_ROLES}><AdminEvents /></RoleRoute>} />
+            <Route path="/admin/users" element={<RoleRoute allowedRoles={ADMIN_USER_ROLES}><AdminUsers /></RoleRoute>} />
             <Route path="/announcements" element={<Announcements />} />
-            <Route
-              path="/admin/announcements"
-              element={
-                <RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}>
-                  <AdminAnnouncements />
-                </RoleRoute>
-              }
-            />
-
-            {/* Supervisor: Overview */}
-            <Route
-              path="/overview"
-              element={
-                <RoleRoute allowedRoles={SUPERVISOR_ROLES}>
-                  <Overview />
-                </RoleRoute>
-              }
-            />
-
-            {/* CSO Leave & Mandates */}
-            <Route
-              path="/cso/leave"
-              element={
-                <RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}>
-                  <CsoLeaveRequest />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/cso/leave/approve"
-              element={
-                <RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}>
-                  <CsoLeaveApproval />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/cso/mandate"
-              element={
-                <RoleRoute allowedRoles={CSO_MANDATE_ROLES}>
-                  <CsoMandate />
-                </RoleRoute>
-              }
-            />
-
-            {/* Security Leave */}
-            <Route
-              path="/security/leave"
-              element={
-                <RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}>
-                  <SecurityLeaveRequest />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/security/leave/approve"
-              element={
-                <RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}>
-                  <SecurityLeaveApproval />
-                </RoleRoute>
-              }
-            />
-
-            {/* Fallback redirect */}
+            <Route path="/admin/announcements" element={<RoleRoute allowedRoles={ANNOUNCEMENT_CREATOR_ROLES}><AdminAnnouncements /></RoleRoute>} />
+            <Route path="/overview" element={<RoleRoute allowedRoles={SUPERVISOR_ROLES}><Overview /></RoleRoute>} />
+            <Route path="/cso/leave" element={<RoleRoute allowedRoles={CSO_LEAVE_REQUESTER_ROLES}><CsoLeaveRequest /></RoleRoute>} />
+            <Route path="/cso/leave/approve" element={<RoleRoute allowedRoles={CSO_LEAVE_APPROVER_ROLES}><CsoLeaveApproval /></RoleRoute>} />
+            <Route path="/cso/mandate" element={<RoleRoute allowedRoles={CSO_MANDATE_ROLES}><CsoMandate /></RoleRoute>} />
+            <Route path="/security/leave" element={<RoleRoute allowedRoles={SECURITY_OFFICER_ROLES}><SecurityLeaveRequest /></RoleRoute>} />
+            <Route path="/security/leave/approve" element={<RoleRoute allowedRoles={SECURITY_LEAVE_APPROVER_ROLES}><SecurityLeaveApproval /></RoleRoute>} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
