@@ -74,7 +74,8 @@ import React, { useState, useEffect, useCallback, useRef, useContext } from 'rea
 import './MediaFiles.css';
 import { FaFolder, FaFolderOpen, FaFileAlt, FaUpload, FaTrash, FaSpinner, FaEye, FaEdit } from 'react-icons/fa';
 import { fetchMediaTree, uploadMediaFile, deleteMediaFile } from '../api';
-import { AuthContext } from '../contexts/AuthContext'; // Assuming your AuthContext.js
+// import { AuthContext } from '../contexts/AuthContext'; // Assuming your AuthContext.js
+import AuthContext from '../contexts/AuthContext'; // No curly braces for default import
 
 export default function MediaFiles() {
     // Assuming AuthContext provides a 'user' object with a 'user_rank' property
