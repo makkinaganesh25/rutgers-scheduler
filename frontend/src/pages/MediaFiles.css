@@ -40,7 +40,7 @@ h1 {
     list-style: none;
     padding-left: 20px;
     margin: 0;
-    position: relative; /* For loading overlay */
+    position: relative;
 }
 
 .file-tree ul {
@@ -61,7 +61,7 @@ h1 {
 .folder-icon {
     margin-right: 8px;
     color: #666;
-    min-width: 20px; /* Ensure icons don't shift text */
+    min-width: 20px;
     text-align: center;
 }
 
@@ -69,16 +69,15 @@ h1 {
     text-decoration: none;
     color: #007bff;
     font-weight: 500;
-    flex-grow: 1; /* Allow link to take available space */
+    flex-grow: 1;
 }
 
 .file-item a:hover {
     text-decoration: underline;
 }
 
-/* Folder details styling for the expand/collapse */
 .folder-details {
-    width: 100%; /* Make details take full width */
+    width: 100%;
 }
 
 .folder-details summary {
@@ -88,12 +87,12 @@ h1 {
     font-weight: bold;
     color: #555;
     padding: 5px 0;
-    user-select: none; /* Prevent text selection on summary click */
-    position: relative; /* For the folder icon toggle */
+    user-select: none;
+    position: relative;
 }
 
 .folder-details summary::-webkit-details-marker {
-    display: none; /* Hide default arrow */
+    display: none;
 }
 
 .folder-icon .folder-closed {
@@ -109,7 +108,6 @@ h1 {
     display: inline-block;
 }
 
-/* Button styles */
 .delete-btn,
 .set-upload-target-btn,
 .clear-target-btn {
@@ -121,16 +119,16 @@ h1 {
     font-size: 0.9em;
     border-radius: 4px;
     transition: background-color 0.2s ease, color 0.2s ease;
-    display: flex; /* To center icon */
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .delete-btn {
-    color: #dc3545; /* Red for delete */
+    color: #dc3545;
 }
 .set-upload-target-btn {
-    color: #28a745; /* Green for upload target */
+    color: #28a745;
 }
 
 .delete-btn:hover {
@@ -140,15 +138,14 @@ h1 {
     background-color: #d4edda;
 }
 .clear-target-btn {
-    color: #6c757d; /* Grey for clear */
-    padding: 5px 10px; /* Adjust padding for clear button */
+    color: #6c757d;
+    padding: 5px 10px;
     border: 1px solid #ced4da;
-    margin-left: auto; /* Push to the right */
+    margin-left: auto;
 }
 .clear-target-btn:hover {
     background-color: #e2e6ea;
 }
-
 
 .delete-btn:disabled,
 .set-upload-target-btn:disabled,
@@ -158,14 +155,11 @@ h1 {
     cursor: not-allowed;
 }
 
-/* Optional: feedback when a folder is selected as target */
 .set-upload-target-btn.selected-target {
     background-color: #e6ffe6;
     border: 1px solid #a0ffa0;
 }
 
-
-/* Upload Section */
 .upload-section {
     background-color: #e9ecef;
     border: 1px solid #dee2e6;
@@ -203,10 +197,10 @@ h1 {
     font-size: 1em;
     transition: background-color 0.3s ease;
     margin-top: 15px;
-    display: flex; /* For spinner */
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Space between text and spinner */
+    gap: 8px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -223,7 +217,7 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    flex-wrap: wrap;
 }
 
 .upload-target-display strong {
@@ -231,19 +225,17 @@ h1 {
     color: #343a40;
 }
 
-
 .file-tree-wrapper {
     position: relative;
-    min-height: 100px; /* Give it some height for the spinner */
+    min-height: 100px;
 }
 
 .loading-overlay {
-    position: relative; /* For positioning the spinner */
-    opacity: 0.7; /* Dim content slightly when loading */
-    pointer-events: none; /* Disable interaction with content */
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
 }
 
-/* Spinner (for both overall loading and upload button) */
 .spinner, .spinner-icon {
     animation: spin 1s linear infinite;
 }
@@ -257,13 +249,13 @@ h1 {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -15px; /* Center vertically */
-    margin-left: -15px; /* Center horizontally */
+    margin-top: -15px;
+    margin-left: -15px;
     z-index: 10;
 }
 
 .spinner-icon {
-    font-size: 1.2em; /* Adjust size for button */
+    font-size: 1.2em;
 }
 
 @keyframes spin {
@@ -271,7 +263,6 @@ h1 {
     100% { transform: rotate(360deg); }
 }
 
-/* NEW: Mode Toggles */
 .view-mode-toggles {
     display: flex;
     justify-content: center;
