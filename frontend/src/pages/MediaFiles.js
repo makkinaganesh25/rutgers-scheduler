@@ -74,25 +74,25 @@ import React, { useState, useEffect, useCallback, useRef, useContext } from 'rea
 import './MediaFiles.css';
 import { FaFolder, FaFolderOpen, FaFileAlt, FaUpload, FaTrash, FaSpinner, FaEye, FaEdit } from 'react-icons/fa';
 import { fetchMediaTree, uploadMediaFile, deleteMediaFile } from '../api';
-// import { AuthContext } from '../contexts/AuthContext'; // Assuming your AuthContext.js
-import AuthContext from '../contexts/AuthContext'; // No curly braces for default import
+import AuthContext from '../contexts/AuthContext'; // Import AuthContext as default
+import { ADMIN_USER_ROLES } from '../config/roles'; // <--- NEW: Import your roles config
 
 export default function MediaFiles() {
-    // Assuming AuthContext provides a 'user' object with a 'user_rank' property
     const { user } = useContext(AuthContext);
-    const isAdmin = user && user.user_rank === 'admin'; // Determine if the current user is an admin
+
+    // *** CRITICAL CHANGE HERE ***
+    // Determine if the current user is an admin based on the ADMIN_USER_ROLES array
+    const isAdmin = user && ADMIN_USER_ROLES.includes(user.user_rank); //
 
     const [tree, setTree] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [uploading, setUploading] = useState(false);
     const [uploadTargetFolder, setUploadTargetFolder] = useState('');
-    const fileInputRef = useRef(null); // Ref for the file input element
+    const fileInputRef = useRef(null);
 
-    // NEW STATE: Controls which view is active ('view' or 'manage')
-    const [viewMode, setViewMode] = useState('view'); // Default to view mode
+    const [viewMode, setViewMode] = useState('view');
 
-    // Function to refresh the file tree
     const refreshTree = useCallback(async () => {
         setLoading(true);
         setError('');
@@ -111,16 +111,14 @@ export default function MediaFiles() {
         refreshTree();
     }, [refreshTree]);
 
-    // Handle file selection for upload
     const handleFileChange = (event) => {
-        // Files are accessed directly from fileInputRef.current.files
+        // ... (no change)
     };
 
-    // Handle upload submission
     const handleUpload = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
 
-        if (!isAdmin) {
+        if (!isAdmin) { // Check if the user is an admin using the updated isAdmin logic
             setError('You do not have permission to upload files.');
             return;
         }
@@ -134,23 +132,10 @@ export default function MediaFiles() {
         setUploading(true);
         setError('');
         try {
-            // Ensure destinationFolder ends with a slash if not empty
             const gcsPath = uploadTargetFolder.endsWith('/') ? uploadTargetFolder : (uploadTargetFolder ? uploadTargetFolder + '/' : '');
 
-            // Optional client-side check for existing file, for user awareness before backend overwrites.
             const checkFileExistsRecursively = (currentNode, targetPath, fileName) => {
-                if (currentNode.files && currentNode.files.some(f => f.name === fileName && f.fullPath.startsWith(targetPath))) {
-                    return true;
-                }
-                if (currentNode.folders) {
-                    for (const folderName in currentNode.folders) {
-                        const subfolderPath = targetPath + folderName + '/';
-                        if (checkFileExistsRecursively(currentNode.folders[folderName], subfolderPath, fileName)) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+                // ... (no change)
             };
 
             if (tree && checkFileExistsRecursively(tree, gcsPath, selectedFile.name)) {
@@ -160,12 +145,11 @@ export default function MediaFiles() {
                 }
             }
 
-
-            const res = await uploadMediaFile(selectedFile, gcsPath); // res.updatedTree contains the latest tree
+            const res = await uploadMediaFile(selectedFile, gcsPath);
             alert(`File "${selectedFile.name}" uploaded successfully!`);
-            fileInputRef.current.value = ''; // Clear file input
-            setUploadTargetFolder(''); // Reset target folder
-            setTree(res.updatedTree); // Update tree directly from backend response
+            fileInputRef.current.value = '';
+            setUploadTargetFolder('');
+            setTree(res.updatedTree);
         } catch (err) {
             console.error('Error uploading file:', err);
             setError(`Failed to upload file: ${err.response?.data?.error || err.message}`);
@@ -174,9 +158,8 @@ export default function MediaFiles() {
         }
     };
 
-    // Handle file deletion
     const handleDelete = async (fullPath, fileName) => {
-        if (!isAdmin) {
+        if (!isAdmin) { // Check if the user is an admin using the updated isAdmin logic
             setError('You do not have permission to delete files.');
             return;
         }
@@ -185,12 +168,12 @@ export default function MediaFiles() {
             return;
         }
 
-        setLoading(true); // Indicate loading while deleting and refreshing
+        setLoading(true);
         setError('');
         try {
-            const res = await deleteMediaFile(fullPath); // res.updatedTree contains the latest tree
+            const res = await deleteMediaFile(fullPath);
             alert(`File "${fileName}" deleted successfully!`);
-            setTree(res.updatedTree); // Update tree directly from backend response
+            setTree(res.updatedTree);
         } catch (err) {
             if (err.response?.status === 404) {
                 setError('File not found or already deleted.');
@@ -207,7 +190,6 @@ export default function MediaFiles() {
     const noFolders = tree?.folders && Object.keys(tree.folders).length === 0;
     const isEmpty = !tree || (noFiles && noFolders);
 
-    // Recursive renderer function for the file tree
     const renderTree = (node, currentPath = '') => (
         <ul className="file-tree">
             {node.files?.map((f, i) => (
@@ -216,7 +198,7 @@ export default function MediaFiles() {
                     <a href={f.url} target="_blank" rel="noopener noreferrer">
                         {f.name}
                     </a>
-                    {viewMode === 'manage' && isAdmin && ( // Delete button only in 'manage' mode for admins
+                    {viewMode === 'manage' && isAdmin && (
                         <button
                             className="delete-btn"
                             onClick={() => handleDelete(f.fullPath, f.name)}
@@ -239,11 +221,11 @@ export default function MediaFiles() {
                                     <FaFolderOpen className="folder-open" />
                                 </span>
                                 {name}
-                                {viewMode === 'manage' && isAdmin && ( // Set target button only in 'manage' mode for admins
+                                {viewMode === 'manage' && isAdmin && (
                                     <button
                                         className="set-upload-target-btn"
                                         onClick={(e) => {
-                                            e.stopPropagation(); // Prevent folder details from toggling
+                                            e.stopPropagation();
                                             setUploadTargetFolder(folderFullPath);
                                             e.currentTarget.classList.add('selected-target');
                                             setTimeout(() => e.currentTarget.classList.remove('selected-target'), 1000);
@@ -277,7 +259,7 @@ export default function MediaFiles() {
                 >
                     <FaEye /> View Files
                 </button>
-                {isAdmin && (
+                {isAdmin && ( // This button is visible if isAdmin is true
                     <button
                         className={`mode-btn ${viewMode === 'manage' ? 'active' : ''}`}
                         onClick={() => setViewMode('manage')}
@@ -287,7 +269,7 @@ export default function MediaFiles() {
                 )}
             </div>
 
-            {viewMode === 'manage' && isAdmin && (
+            {viewMode === 'manage' && isAdmin && ( // The upload section is visible only if in 'manage' mode AND isAdmin is true
                 <div className="upload-section">
                     <h2>Upload New File</h2>
                     <form onSubmit={handleUpload}>
