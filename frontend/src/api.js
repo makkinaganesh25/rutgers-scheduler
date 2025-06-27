@@ -1,8 +1,9 @@
 // import axios from 'axios';
 
-// // 1) Base URL from your .env
-// const API_BASE = process.env.REACT_APP_API_BASE_URL;  
-// // e.g. "https://rutgers-scheduler-backend.onrender.com"
+// // 1) Base URL from your .env, with local fallback
+// const API_BASE =
+//   process.env.REACT_APP_API_BASE_URL ||
+//   'http://localhost:5001';
 
 // const api = axios.create({
 //   baseURL: API_BASE,
@@ -18,23 +19,18 @@
 
 // // ────────────────────────────────────────────────────────────────
 // // Overview (org-chart) tree
-// // GET /api/overview/tree
-// // ────────────────────────────────────────────────────────────────
 // export function getOverviewTree() {
 //   return api.get('/api/overview/tree').then(r => r.data);
 // }
 
 // // ────────────────────────────────────────────────────────────────
 // // Media Files (file-tree)
-// // GET /api/media-files
-// // ────────────────────────────────────────────────────────────────
 // export function fetchMediaTree() {
 //   return api.get('/api/media-files').then(r => r.data);
 // }
 
 // // ────────────────────────────────────────────────────────────────
 // // Shifts & Coverage
-// // ────────────────────────────────────────────────────────────────
 // export function getShifts() {
 //   return api.get('/api/shifts').then(r => r.data);
 // }
@@ -42,12 +38,35 @@
 //   return api.post('/api/shifts/coverage-request', { shiftId: id }).then(r => r.data);
 // }
 // export function acceptCoverage(id) {
-//   return api.post('/api/shifts/coverage-accept',  { shiftId: id }).then(r => r.data);
+//   return api.post('/api/shifts/coverage-accept', { shiftId: id }).then(r => r.data);
+// }
+
+// // ────────────────────────────────────────────────────────────────
+// // Permanent Assignments (NEW)
+// export function listPermanentAssignments() {
+//   return api.get('/api/permanent-assignments').then(r => r.data);
+// }
+// export function createPermanentAssignment(data) {
+//   return api.post('/api/permanent-assignments', data).then(r => r.data);
+// }
+// export function updatePermanentAssignment(id, data) {
+//   return api.put(`/api/permanent-assignments/${id}`, data).then(r => r.data);
+// }
+// export function deletePermanentAssignment(id) {
+//   return api.delete(`/api/permanent-assignments/${id}`).then(r => r.data);
+// }
+// // FIXED: correct path to generate-from-permanent
+// export function generateShiftsFromPermanent(dateRange) {
+//   return api
+//     .post('/api/permanent-assignments/shifts/generate-from-permanent', dateRange)
+//     .then(r => r.data);
+// }
+// export function reassignPermanentShift(id, details) {
+//   return api.put(`/api/permanent-assignments/${id}/reassign`, details).then(r => r.data);
 // }
 
 // // ────────────────────────────────────────────────────────────────
 // // Special Events & Slots
-// // ────────────────────────────────────────────────────────────────
 // export function listEvents() {
 //   return api.get('/api/events').then(r => r.data);
 // }
@@ -72,10 +91,13 @@
 // export function deleteEvent(id) {
 //   return api.delete(`/api/events/${id}`).then(r => r.data);
 // }
+// export const deleteEventSlot = async (eventId, slotId) => {
+//   const { data } = await api.delete(`/api/events/${eventId}/slots/${slotId}`);
+//   return data;
+// };
 
 // // ────────────────────────────────────────────────────────────────
 // // Hierarchy (org chart) CRUD
-// // ────────────────────────────────────────────────────────────────
 // export function getHierarchy() {
 //   return api.get('/api/hierarchy').then(r => r.data);
 // }
@@ -90,8 +112,13 @@
 // }
 
 // // ────────────────────────────────────────────────────────────────
-// // Admin Users CRUD
+// // List all active users (for PermanentShifts dropdown)
+// export function listOfficers() {
+//   return api.get('/api/users').then(r => r.data);
+// }
+
 // // ────────────────────────────────────────────────────────────────
+// // Admin Users CRUD
 // export function getAdminUsers(showInactive = false) {
 //   const qs = showInactive ? '?showInactive=true' : '';
 //   return api.get(`/api/admin/users${qs}`).then(r => r.data);
@@ -108,7 +135,6 @@
 
 // // ────────────────────────────────────────────────────────────────
 // // CSO Leave
-// // ────────────────────────────────────────────────────────────────
 // export function applyCsoLeave(data) {
 //   return api.post('/api/cso/leave', data).then(r => r.data);
 // }
@@ -124,7 +150,6 @@
 
 // // ────────────────────────────────────────────────────────────────
 // // CSO Mandates
-// // ────────────────────────────────────────────────────────────────
 // export function getCsoMandateAvailability(params) {
 //   return api.get('/api/cso/mandates/availability', { params }).then(r => r.data);
 // }
@@ -134,7 +159,6 @@
 
 // // ────────────────────────────────────────────────────────────────
 // // Security Leave & Mandates
-// // ────────────────────────────────────────────────────────────────
 // export function applySecurityLeave(data) {
 //   return api.post('/api/security/leave', data).then(r => r.data);
 // }
@@ -156,7 +180,6 @@
 
 // // ────────────────────────────────────────────────────────────────
 // // Announcements CRUD & File Uploads
-// // ────────────────────────────────────────────────────────────────
 // export function listAnnouncements(opts = {}) {
 //   const q = opts.starred ? '?starred=true' : '';
 //   return api.get(`/api/announcements${q}`).then(r => r.data);
@@ -189,10 +212,12 @@
 
 // // ────────────────────────────────────────────────────────────────
 // // Export the raw axios instance (if ever needed directly)
-// // ────────────────────────────────────────────────────────────────
 // export default api;
 
 
+
+
+// File: src/api.js
 import axios from 'axios';
 
 // 1) Base URL from your .env, with local fallback
@@ -219,10 +244,41 @@ export function getOverviewTree() {
 }
 
 // ────────────────────────────────────────────────────────────────
-// Media Files (file-tree)
+// Media Files (file-tree) - MODIFIED: Updated endpoint and added upload/delete
 export function fetchMediaTree() {
-  return api.get('/api/media-files').then(r => r.data);
+  // CHANGED: Endpoint from /api/media-files to /api/media to match backend routes/media.js
+  return api.get('/api/media').then(r => r.data);
 }
+
+// NEW: Upload media file
+export const uploadMediaFile = async (file, destinationFolder) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('destinationFolder', destinationFolder); // Path where the file should be uploaded
+
+  const response = await api.post('/api/media/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data', // Crucial for file uploads
+    },
+  });
+  return response.data;
+};
+
+// NEW: Delete media file
+export const deleteMediaFile = async (filePath) => {
+  const response = await api.delete('/api/media/delete', {
+    data: { filePath: filePath } // For DELETE requests, body is typically sent via 'data' property
+  });
+  return response.data;
+};
+
+// ────────────────────────────────────────────────────────────────
+// Chatbot - NEW: Add chatWithBot function
+export const chatWithBot = async (query) => {
+  const response = await api.post('/api/chat', { query }); // Matches your backend /api/chat route
+  return response.data;
+};
+
 
 // ────────────────────────────────────────────────────────────────
 // Shifts & Coverage
