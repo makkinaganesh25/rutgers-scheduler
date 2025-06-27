@@ -244,10 +244,10 @@ export function getOverviewTree() {
 }
 
 // ────────────────────────────────────────────────────────────────
-// Media Files (file-tree) - MODIFIED: Updated endpoint and added upload/delete
+// Media Files (file-tree) - MODIFIED: Endpoint for fetchMediaTree and added upload/delete
 export function fetchMediaTree() {
-  // CHANGED: Endpoint from /api/media-files to /api/media to match backend routes/media.js
-  return api.get('/api/media').then(r => r.data);
+  // CORRECTED: Endpoint remains /api/media-files as per your index.js and existing usage
+  return api.get('/api/media-files').then(r => r.data);
 }
 
 // NEW: Upload media file
@@ -256,7 +256,8 @@ export const uploadMediaFile = async (file, destinationFolder) => {
   formData.append('file', file);
   formData.append('destinationFolder', destinationFolder); // Path where the file should be uploaded
 
-  const response = await api.post('/api/media/upload', formData, {
+  // CORRECTED: Endpoint for upload is /api/media-files/upload
+  const response = await api.post('/api/media-files/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data', // Crucial for file uploads
     },
@@ -266,7 +267,8 @@ export const uploadMediaFile = async (file, destinationFolder) => {
 
 // NEW: Delete media file
 export const deleteMediaFile = async (filePath) => {
-  const response = await api.delete('/api/media/delete', {
+  // CORRECTED: Endpoint for delete is /api/media-files/delete
+  const response = await api.delete('/api/media-files/delete', {
     data: { filePath: filePath } // For DELETE requests, body is typically sent via 'data' property
   });
   return response.data;
