@@ -69,20 +69,27 @@
 //     </div>
 //   );
 // }
-
 // File: src/pages/MediaFiles.js
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useContext } from 'react';
 import './MediaFiles.css';
-import { FaFolder, FaFolderOpen, FaFileAlt, FaUpload, FaTrash, FaSpinner } from 'react-icons/fa';
+import { FaFolder, FaFolderOpen, FaFileAlt, FaUpload, FaTrash, FaSpinner, FaEye, FaEdit } from 'react-icons/fa';
 import { fetchMediaTree, uploadMediaFile, deleteMediaFile } from '../api';
+import { AuthContext } from '../contexts/AuthContext'; // Assuming your AuthContext.js
 
 export default function MediaFiles() {
+    // Assuming AuthContext provides a 'user' object with a 'user_rank' property
+    const { user } = useContext(AuthContext);
+    const isAdmin = user && user.user_rank === 'admin'; // Determine if the current user is an admin
+
     const [tree, setTree] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [uploading, setUploading] = useState(false);
     const [uploadTargetFolder, setUploadTargetFolder] = useState('');
     const fileInputRef = useRef(null); // Ref for the file input element
+
+    // NEW STATE: Controls which view is active ('view' or 'manage')
+    const [viewMode, setViewMode] = useState('view'); // Default to view mode
 
     // Function to refresh the file tree
     const refreshTree = useCallback(async () => {
@@ -105,12 +112,17 @@ export default function MediaFiles() {
 
     // Handle file selection for upload
     const handleFileChange = (event) => {
-        // No direct state for selectedFile; we get it directly from ref in handleUpload
+        // Files are accessed directly from fileInputRef.current.files
     };
 
     // Handle upload submission
     const handleUpload = async (e) => {
         e.preventDefault(); // Prevent default form submission
+
+        if (!isAdmin) {
+            setError('You do not have permission to upload files.');
+            return;
+        }
 
         const selectedFile = fileInputRef.current.files[0];
         if (!selectedFile) {
@@ -121,16 +133,30 @@ export default function MediaFiles() {
         setUploading(true);
         setError('');
         try {
-            // uploadTargetFolder needs to be the full GCS path for the folder
+            // Ensure destinationFolder ends with a slash if not empty
             const gcsPath = uploadTargetFolder.endsWith('/') ? uploadTargetFolder : (uploadTargetFolder ? uploadTargetFolder + '/' : '');
-            
-            // Check if the file already exists in the target folder to prevent overwrites
-            const existingFile = tree?.folders[uploadTargetFolder.split('/')[0]]?.files?.find(f => 
-                f.name === selectedFile.name && f.fullPath === `${gcsPath}${selectedFile.name}`
-            );
-            if (existingFile && !window.confirm(`A file named "${selectedFile.name}" already exists in this folder. Do you want to replace it?`)) {
-                setUploading(false);
-                return;
+
+            // Optional client-side check for existing file, for user awareness before backend overwrites.
+            const checkFileExistsRecursively = (currentNode, targetPath, fileName) => {
+                if (currentNode.files && currentNode.files.some(f => f.name === fileName && f.fullPath.startsWith(targetPath))) {
+                    return true;
+                }
+                if (currentNode.folders) {
+                    for (const folderName in currentNode.folders) {
+                        const subfolderPath = targetPath + folderName + '/';
+                        if (checkFileExistsRecursively(currentNode.folders[folderName], subfolderPath, fileName)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            if (tree && checkFileExistsRecursively(tree, gcsPath, selectedFile.name)) {
+                 if (!window.confirm(`A file named "${selectedFile.name}" already exists in the selected folder. Do you want to replace it?`)) {
+                    setUploading(false);
+                    return;
+                }
             }
 
 
@@ -149,6 +175,11 @@ export default function MediaFiles() {
 
     // Handle file deletion
     const handleDelete = async (fullPath, fileName) => {
+        if (!isAdmin) {
+            setError('You do not have permission to delete files.');
+            return;
+        }
+
         if (!window.confirm(`Are you sure you want to delete "${fileName}"? This action cannot be undone.`)) {
             return;
         }
@@ -160,8 +191,12 @@ export default function MediaFiles() {
             alert(`File "${fileName}" deleted successfully!`);
             setTree(res.updatedTree); // Update tree directly from backend response
         } catch (err) {
-            console.error('Error deleting file:', err);
-            setError(`Failed to delete file: ${err.response?.data?.error || err.message}`);
+            if (err.response?.status === 404) {
+                setError('File not found or already deleted.');
+            } else {
+                console.error('Error deleting file:', err);
+                setError(`Failed to delete file: ${err.response?.data?.error || err.message}`);
+            }
         } finally {
             setLoading(false);
         }
@@ -171,7 +206,7 @@ export default function MediaFiles() {
     const noFolders = tree?.folders && Object.keys(tree.folders).length === 0;
     const isEmpty = !tree || (noFiles && noFolders);
 
-    // Recursive renderer function
+    // Recursive renderer function for the file tree
     const renderTree = (node, currentPath = '') => (
         <ul className="file-tree">
             {node.files?.map((f, i) => (
@@ -180,14 +215,16 @@ export default function MediaFiles() {
                     <a href={f.url} target="_blank" rel="noopener noreferrer">
                         {f.name}
                     </a>
-                    <button
-                        className="delete-btn"
-                        onClick={() => handleDelete(f.fullPath, f.name)}
-                        disabled={loading || uploading}
-                        title="Delete File"
-                    >
-                        <FaTrash />
-                    </button>
+                    {viewMode === 'manage' && isAdmin && ( // Delete button only in 'manage' mode for admins
+                        <button
+                            className="delete-btn"
+                            onClick={() => handleDelete(f.fullPath, f.name)}
+                            disabled={loading || uploading}
+                            title="Delete File"
+                        >
+                            <FaTrash />
+                        </button>
+                    )}
                 </li>
             ))}
             {node.folders && Object.entries(node.folders).map(([name, sub], i) => {
@@ -201,20 +238,21 @@ export default function MediaFiles() {
                                     <FaFolderOpen className="folder-open" />
                                 </span>
                                 {name}
-                                <button
-                                    className="set-upload-target-btn"
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // Prevent folder details from toggling
-                                        setUploadTargetFolder(folderFullPath);
-                                        // Optional: visual feedback
-                                        e.currentTarget.classList.add('selected-target');
-                                        setTimeout(() => e.currentTarget.classList.remove('selected-target'), 1000);
-                                    }}
-                                    disabled={uploading}
-                                    title="Set as Upload Destination"
-                                >
-                                    <FaUpload />
-                                </button>
+                                {viewMode === 'manage' && isAdmin && ( // Set target button only in 'manage' mode for admins
+                                    <button
+                                        className="set-upload-target-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevent folder details from toggling
+                                            setUploadTargetFolder(folderFullPath);
+                                            e.currentTarget.classList.add('selected-target');
+                                            setTimeout(() => e.currentTarget.classList.remove('selected-target'), 1000);
+                                        }}
+                                        disabled={uploading}
+                                        title="Set as Upload Destination"
+                                    >
+                                        <FaUpload />
+                                    </button>
+                                )}
                             </summary>
                             {renderTree(sub, folderFullPath)}
                         </details>
@@ -229,40 +267,59 @@ export default function MediaFiles() {
 
     return (
         <div className="media-files-container">
-            <h1>Manage Media Files</h1>
+            <h1>Media Files</h1>
 
-            <div className="upload-section">
-                <h2>Upload New File</h2>
-                <form onSubmit={handleUpload}>
-                    <input
-                        type="file"
-                        id="file-upload-input"
-                        onChange={handleFileChange}
-                        ref={fileInputRef} // Attach ref here
-                        disabled={uploading}
-                    />
-                    <div className="upload-target-display">
-                        Upload Destination: <strong>{uploadTargetFolder || "Root Folder"}</strong>
-                        {uploadTargetFolder && (
-                            <button
-                                type="button"
-                                onClick={() => setUploadTargetFolder('')}
-                                disabled={uploading}
-                                className="clear-target-btn"
-                                title="Set Root as Upload Destination"
-                            >
-                                Clear Target
-                            </button>
-                        )}
-                    </div>
-                    <button type="submit" disabled={uploading || !fileInputRef.current?.files[0]}>
-                        {uploading ? <> <FaSpinner className="spinner-icon" /> Uploading…</> : 'Upload File'}
+            <div className="view-mode-toggles">
+                <button
+                    className={`mode-btn ${viewMode === 'view' ? 'active' : ''}`}
+                    onClick={() => setViewMode('view')}
+                >
+                    <FaEye /> View Files
+                </button>
+                {isAdmin && (
+                    <button
+                        className={`mode-btn ${viewMode === 'manage' ? 'active' : ''}`}
+                        onClick={() => setViewMode('manage')}
+                    >
+                        <FaEdit /> Manage Files
                     </button>
-                </form>
+                )}
             </div>
 
+            {viewMode === 'manage' && isAdmin && (
+                <div className="upload-section">
+                    <h2>Upload New File</h2>
+                    <form onSubmit={handleUpload}>
+                        <input
+                            type="file"
+                            id="file-upload-input"
+                            onChange={handleFileChange}
+                            ref={fileInputRef}
+                            disabled={uploading}
+                        />
+                        <div className="upload-target-display">
+                            Upload Destination: <strong>{uploadTargetFolder || "Root Folder"}</strong>
+                            {uploadTargetFolder && (
+                                <button
+                                    type="button"
+                                    onClick={() => setUploadTargetFolder('')}
+                                    disabled={uploading}
+                                    className="clear-target-btn"
+                                    title="Set Root as Upload Destination"
+                                >
+                                    Clear Target
+                                </button>
+                            )}
+                        </div>
+                        <button type="submit" disabled={uploading || !fileInputRef.current?.files[0]}>
+                            {uploading ? <> <FaSpinner className="spinner-icon" /> Uploading…</> : 'Upload File'}
+                        </button>
+                    </form>
+                </div>
+            )}
+
             {isEmpty ? (
-                <p className="no-files-message">No files found. Upload some!</p>
+                <p className="no-files-message">No files found.</p>
             ) : (
                 <div className={`file-tree-wrapper ${loading ? 'loading-overlay' : ''}`}>
                     {loading && <div className="spinner"></div>}
