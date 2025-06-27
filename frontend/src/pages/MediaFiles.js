@@ -70,127 +70,205 @@
 //   );
 // }
 
+// File: src/pages/MediaFiles.js
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import './MediaFiles.css';
+import { FaFolder, FaFolderOpen, FaFileAlt, FaUpload, FaTrash, FaSpinner } from 'react-icons/fa';
+import { fetchMediaTree, uploadMediaFile, deleteMediaFile } from '../api';
 
-// File: backend/routes/media.js
-require('dotenv').config();
-const express = require('express');
-const { Storage } = require('@google-cloud/storage');
-const path = require('path');
-const multer = require('multer'); // Multer is already in your package.json
+export default function MediaFiles() {
+    const [tree, setTree] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [uploading, setUploading] = useState(false);
+    const [uploadTargetFolder, setUploadTargetFolder] = useState('');
+    const fileInputRef = useRef(null); // Ref for the file input element
 
-const router = express.Router();
-
-// Initialize Google Cloud Storage using environment variable for credentials
-const storage = new Storage({
-    credentials: JSON.parse(process.env.GCP_SERVICE_ACCOUNT_KEY),
-    projectId: process.env.PROJECT_ID, // Ensure PROJECT_ID is also set in Render env
-});
-const bucketName = 'sakai_files'; // Your GCS bucket name, ensure this is correct
-const bucket = storage.bucket(bucketName);
-
-// Configure Multer for in-memory storage
-const upload = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB file size limit (adjust as needed)
-    },
-});
-
-// --- Helper Function: List Files and Folders ---
-async function listFilesAndFolders(prefix = '') {
-    const [files] = await bucket.getFiles({ prefix, delimiter: '/' });
-    const items = { files: [], folders: {} };
-
-    // 1) Files at this level
-    items.files = files
-        .filter(f => !f.name.endsWith('/'))
-        .map(f => ({
-            name: f.name.split('/').pop(),
-            fullPath: f.name, // Add fullPath for deletion
-            url: `https://storage.googleapis.com/${bucketName}/${f.name}`,
-        }));
-
-    // 2) Sub-folders at this level
-    // bucket.getFiles returns prefixes for "directories" when delimiter is used
-    const [, , apiResponse] = await bucket.getFiles({ prefix, delimiter: '/' });
-    const prefixes = apiResponse.prefixes || [];
-    for (const folderPrefix of prefixes) {
-        const folderName = folderPrefix.slice(prefix.length).replace(/\/$/, '');
-        items.folders[folderName] = await listFilesAndFolders(folderPrefix);
-    }
-
-    return items;
-}
-
-// --- Route: Get Media Files Tree ---
-router.get('/', async (req, res) => {
-    try {
-        const data = await listFilesAndFolders('');
-        return res.json(data);
-    } catch (error) {
-        console.error('Error fetching media files:', error);
-        return res.status(500).json({ error: 'Failed to fetch media files' });
-    }
-});
-
-// --- Route: Upload File ---
-router.post('/upload', upload.single('file'), async (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded.' });
-    }
-
-    const { destinationFolder = '' } = req.body;
-    const fileName = req.file.originalname;
-    const gcsFileName = path.join(destinationFolder, fileName).replace(/\\/g, '/'); // Ensure forward slashes for GCS
-
-    try {
-        const blob = bucket.file(gcsFileName);
-        const blobStream = blob.createWriteStream({
-            resumable: false,
-            metadata: {
-                contentType: req.file.mimetype,
-            },
-        });
-
-        blobStream.on('error', err => {
-            console.error('Upload stream error:', err);
-            res.status(500).json({ error: 'File upload failed.' });
-        });
-
-        blobStream.on('finish', async () => {
-            console.log(`File ${gcsFileName} uploaded successfully.`);
-            const updatedTree = await listFilesAndFolders(''); // Refresh and send updated tree
-            res.status(200).json({ message: 'File uploaded successfully', newFile: { name: fileName, fullPath: gcsFileName }, updatedTree });
-        });
-
-        blobStream.end(req.file.buffer);
-
-    } catch (error) {
-        console.error('Error uploading file to GCS:', error);
-        res.status(500).json({ error: 'Server error during file upload.' });
-    }
-});
-
-// --- Route: Delete File ---
-router.delete('/delete', async (req, res) => {
-    const { filePath } = req.body;
-
-    if (!filePath) {
-        return res.status(400).json({ error: 'File path is required for deletion.' });
-    }
-
-    try {
-        await bucket.file(filePath).delete();
-        console.log(`File ${filePath} deleted successfully.`);
-        const updatedTree = await listFilesAndFolders(''); // Refresh and send updated tree
-        res.status(200).json({ message: 'File deleted successfully', updatedTree });
-    } catch (error) {
-        if (error.code === 404) {
-            return res.status(404).json({ error: 'File not found.' });
+    // Function to refresh the file tree
+    const refreshTree = useCallback(async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const data = await fetchMediaTree();
+            setTree(data);
+        } catch (err) {
+            console.error('Error loading media files:', err);
+            setError('Could not load files. Check console for details.');
+        } finally {
+            setLoading(false);
         }
-        console.error('Error deleting file from GCS:', error);
-        res.status(500).json({ error: 'Server error during file deletion.' });
-    }
-});
+    }, []);
 
-module.exports = router;
+    useEffect(() => {
+        refreshTree();
+    }, [refreshTree]);
+
+    // Handle file selection for upload
+    const handleFileChange = (event) => {
+        // No direct state for selectedFile; we get it directly from ref in handleUpload
+    };
+
+    // Handle upload submission
+    const handleUpload = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        const selectedFile = fileInputRef.current.files[0];
+        if (!selectedFile) {
+            alert('Please select a file to upload.');
+            return;
+        }
+
+        setUploading(true);
+        setError('');
+        try {
+            // uploadTargetFolder needs to be the full GCS path for the folder
+            const gcsPath = uploadTargetFolder.endsWith('/') ? uploadTargetFolder : (uploadTargetFolder ? uploadTargetFolder + '/' : '');
+            
+            // Check if the file already exists in the target folder to prevent overwrites
+            const existingFile = tree?.folders[uploadTargetFolder.split('/')[0]]?.files?.find(f => 
+                f.name === selectedFile.name && f.fullPath === `${gcsPath}${selectedFile.name}`
+            );
+            if (existingFile && !window.confirm(`A file named "${selectedFile.name}" already exists in this folder. Do you want to replace it?`)) {
+                setUploading(false);
+                return;
+            }
+
+
+            const res = await uploadMediaFile(selectedFile, gcsPath); // res.updatedTree contains the latest tree
+            alert(`File "${selectedFile.name}" uploaded successfully!`);
+            fileInputRef.current.value = ''; // Clear file input
+            setUploadTargetFolder(''); // Reset target folder
+            setTree(res.updatedTree); // Update tree directly from backend response
+        } catch (err) {
+            console.error('Error uploading file:', err);
+            setError(`Failed to upload file: ${err.response?.data?.error || err.message}`);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    // Handle file deletion
+    const handleDelete = async (fullPath, fileName) => {
+        if (!window.confirm(`Are you sure you want to delete "${fileName}"? This action cannot be undone.`)) {
+            return;
+        }
+
+        setLoading(true); // Indicate loading while deleting and refreshing
+        setError('');
+        try {
+            const res = await deleteMediaFile(fullPath); // res.updatedTree contains the latest tree
+            alert(`File "${fileName}" deleted successfully!`);
+            setTree(res.updatedTree); // Update tree directly from backend response
+        } catch (err) {
+            console.error('Error deleting file:', err);
+            setError(`Failed to delete file: ${err.response?.data?.error || err.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const noFiles = Array.isArray(tree?.files) && tree.files.length === 0;
+    const noFolders = tree?.folders && Object.keys(tree.folders).length === 0;
+    const isEmpty = !tree || (noFiles && noFolders);
+
+    // Recursive renderer function
+    const renderTree = (node, currentPath = '') => (
+        <ul className="file-tree">
+            {node.files?.map((f, i) => (
+                <li key={`file-${f.fullPath}`} className="file-item">
+                    <FaFileAlt className="file-icon" />
+                    <a href={f.url} target="_blank" rel="noopener noreferrer">
+                        {f.name}
+                    </a>
+                    <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(f.fullPath, f.name)}
+                        disabled={loading || uploading}
+                        title="Delete File"
+                    >
+                        <FaTrash />
+                    </button>
+                </li>
+            ))}
+            {node.folders && Object.entries(node.folders).map(([name, sub], i) => {
+                const folderFullPath = currentPath ? `${currentPath}/${name}` : name;
+                return (
+                    <li key={`folder-${folderFullPath}`} className="folder-item">
+                        <details className="folder-details">
+                            <summary>
+                                <span className="folder-icon">
+                                    <FaFolder className="folder-closed" />
+                                    <FaFolderOpen className="folder-open" />
+                                </span>
+                                {name}
+                                <button
+                                    className="set-upload-target-btn"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent folder details from toggling
+                                        setUploadTargetFolder(folderFullPath);
+                                        // Optional: visual feedback
+                                        e.currentTarget.classList.add('selected-target');
+                                        setTimeout(() => e.currentTarget.classList.remove('selected-target'), 1000);
+                                    }}
+                                    disabled={uploading}
+                                    title="Set as Upload Destination"
+                                >
+                                    <FaUpload />
+                                </button>
+                            </summary>
+                            {renderTree(sub, folderFullPath)}
+                        </details>
+                    </li>
+                );
+            })}
+        </ul>
+    );
+
+    if (loading && !tree) return <p>Loading files…</p>;
+    if (error) return <p className="error-message">{error}</p>;
+
+    return (
+        <div className="media-files-container">
+            <h1>Manage Media Files</h1>
+
+            <div className="upload-section">
+                <h2>Upload New File</h2>
+                <form onSubmit={handleUpload}>
+                    <input
+                        type="file"
+                        id="file-upload-input"
+                        onChange={handleFileChange}
+                        ref={fileInputRef} // Attach ref here
+                        disabled={uploading}
+                    />
+                    <div className="upload-target-display">
+                        Upload Destination: <strong>{uploadTargetFolder || "Root Folder"}</strong>
+                        {uploadTargetFolder && (
+                            <button
+                                type="button"
+                                onClick={() => setUploadTargetFolder('')}
+                                disabled={uploading}
+                                className="clear-target-btn"
+                                title="Set Root as Upload Destination"
+                            >
+                                Clear Target
+                            </button>
+                        )}
+                    </div>
+                    <button type="submit" disabled={uploading || !fileInputRef.current?.files[0]}>
+                        {uploading ? <> <FaSpinner className="spinner-icon" /> Uploading…</> : 'Upload File'}
+                    </button>
+                </form>
+            </div>
+
+            {isEmpty ? (
+                <p className="no-files-message">No files found. Upload some!</p>
+            ) : (
+                <div className={`file-tree-wrapper ${loading ? 'loading-overlay' : ''}`}>
+                    {loading && <div className="spinner"></div>}
+                    {renderTree(tree)}
+                </div>
+            )}
+        </div>
+    );
+}
