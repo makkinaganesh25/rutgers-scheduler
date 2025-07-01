@@ -1,3 +1,4 @@
+// // File: src/api.js
 // import axios from 'axios';
 
 // // 1) Base URL from your .env, with local fallback
@@ -24,10 +25,43 @@
 // }
 
 // // ────────────────────────────────────────────────────────────────
-// // Media Files (file-tree)
+// // Media Files (file-tree) - MODIFIED: Endpoint for fetchMediaTree and added upload/delete
 // export function fetchMediaTree() {
+//   // CORRECTED: Endpoint remains /api/media-files as per your index.js and existing usage
 //   return api.get('/api/media-files').then(r => r.data);
 // }
+
+// // NEW: Upload media file
+// export const uploadMediaFile = async (file, destinationFolder) => {
+//   const formData = new FormData();
+//   formData.append('file', file);
+//   formData.append('destinationFolder', destinationFolder); // Path where the file should be uploaded
+
+//   // CORRECTED: Endpoint for upload is /api/media-files/upload
+//   const response = await api.post('/api/media-files/upload', formData, {
+//     headers: {
+//       'Content-Type': 'multipart/form-data', // Crucial for file uploads
+//     },
+//   });
+//   return response.data;
+// };
+
+// // NEW: Delete media file
+// export const deleteMediaFile = async (filePath) => {
+//   // CORRECTED: Endpoint for delete is /api/media-files/delete
+//   const response = await api.delete('/api/media-files/delete', {
+//     data: { filePath: filePath } // For DELETE requests, body is typically sent via 'data' property
+//   });
+//   return response.data;
+// };
+
+// // ────────────────────────────────────────────────────────────────
+// // Chatbot - NEW: Add chatWithBot function
+// export const chatWithBot = async (query) => {
+//   const response = await api.post('/api/chat', { query }); // Matches your backend /api/chat route
+//   return response.data;
+// };
+
 
 // // ────────────────────────────────────────────────────────────────
 // // Shifts & Coverage
@@ -213,8 +247,6 @@
 // // ────────────────────────────────────────────────────────────────
 // // Export the raw axios instance (if ever needed directly)
 // export default api;
-
-
 
 
 // File: src/api.js
@@ -462,6 +494,28 @@ export function starAnnouncement(id) {
 export function unstarAnnouncement(id) {
   return api.delete(`/api/announcements/${id}/star`).then(r => r.data);
 }
+
+// ────────────────────────────────────────────────────────────────
+// NEW: Payroll Export Functions
+export const getPayrollMappings = async () => {
+  const response = await api.get('/api/admin/payroll/mappings');
+  return response.data;
+};
+
+export const updatePayrollMappings = async (mappings) => {
+  const response = await api.put('/api/admin/payroll/mappings', { mappings });
+  return response.data;
+};
+
+export const getPayrollExportData = async ({ userIds, startDate, endDate, payCodeMappings }) => {
+  const response = await api.post('/api/admin/payroll/export-data', {
+    userIds,
+    startDate,
+    endDate,
+    payCodeMappings,
+  });
+  return response.data;
+};
 
 // ────────────────────────────────────────────────────────────────
 // Export the raw axios instance (if ever needed directly)
