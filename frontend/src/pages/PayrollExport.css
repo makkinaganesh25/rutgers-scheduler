@@ -1,0 +1,309 @@
+/* ===================================================================== */
+/* File: src/pages/PayrollExport.css                                     */
+/* ===================================================================== */
+.PayrollExport {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #333;
+}
+
+.PayrollExport h2 {
+  text-align: center;
+  color: #c62828;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.PayrollExport .card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  margin-bottom: 2rem;
+}
+
+.PayrollExport h3 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+}
+
+.PayrollExport .card-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.PayrollExport label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.PayrollExport input[type="text"],
+.PayrollExport input[type="date"], /* For react-datepicker */
+.PayrollExport .react-datepicker-wrapper input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+.PayrollExport .react-datepicker-wrapper {
+    width: 100%; /* Make date picker input take full width */
+}
+.PayrollExport input[type="text"]:focus,
+.PayrollExport input[type="date"]:focus,
+.PayrollExport .react-datepicker-wrapper input:focus {
+  border-color: #c62828;
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.15);
+  outline: none;
+}
+
+.PayrollExport button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
+  display: flex; /* For icon alignment */
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.PayrollExport button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.PayrollExport button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: #5a6268;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+.btn-success:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+/* Pay Code Mappings */
+.paycode-mappings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.mapping-item {
+  display: flex;
+  flex-direction: column;
+}
+.mapping-item label {
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+.save-mappings-btn {
+  margin-top: 1rem;
+  margin-left: auto; /* Aligns to the right */
+  display: block; /* Ensure it takes up full width for margin-left: auto to work */
+}
+
+/* Custom Pay Code Input */
+.custom-paycode-add {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+  border-top: 1px dashed #eee;
+  padding-top: 1rem;
+}
+.custom-paycode-add input {
+    margin-bottom: 0; /* Override default input margin */
+}
+
+/* Date Pickers */
+.date-picker-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.date-picker-section label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0; /* Reset default label margin */
+  gap: 10px;
+}
+
+/* Employee Selection */
+.employee-selection {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+.employee-selection h4 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.select-all-checkbox {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+.user-list-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+}
+.user-list-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 0;
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for long names */
+}
+.user-list-checkboxes input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-bottom: 0; /* Reset default input margin */
+}
+
+/* Download Section */
+.download-section {
+  text-align: center;
+}
+.fetch-data-btn {
+  margin-bottom: 2rem;
+}
+.download-btn {
+  margin-top: 1.5rem;
+}
+.download-hint {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+/* Data Preview Table */
+.data-preview {
+  margin-top: 1.5rem;
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
+}
+.data-preview h4 {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.preview-table th,
+.preview-table td {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.preview-table th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+.preview-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.preview-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Spin icon for loading */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+
+/* --- Responsive Styles --- */
+@media (max-width: 768px) {
+  .PayrollExport {
+    padding: 0 0.5rem;
+    margin: 1rem auto;
+  }
+  .PayrollExport .card {
+    padding: 1.5rem 1rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .PayrollExport h2 {
+    font-size: 1.75rem;
+  }
+  .date-picker-section {
+    grid-template-columns: 1fr;
+  }
+  .paycode-mappings {
+    grid-template-columns: 1fr;
+  }
+  .save-mappings-btn {
+    float: none;
+    width: 100%;
+  }
+  .download-section button {
+    width: 100%;
+  }
+  .user-list-checkboxes {
+    grid-template-columns: 1fr;
+    max-height: 200px;
+  }
+  .preview-table {
+    display: block;
+    overflow-x: auto; /* Enable horizontal scrolling for tables */
+    -webkit-overflow-scrolling: touch;
+  }
+  .preview-table thead, .preview-table tbody {
+    display: table; /* Make them behave like table elements again */
+    width: 100%;
+  }
+}
