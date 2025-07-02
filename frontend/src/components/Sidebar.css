@@ -9,25 +9,25 @@
   --breakpoint-md: 768px;
 }
 
-/* --- UPDATED: New color themes for Shiftelix branding --- */
+/* --- RESTORED: Original Red Color Themes --- */
 .sidebar.light {
-  --bg: #F9FAFB; /* Off-white */
-  --fg: #1F2937; /* Dark Gray */
-  --hover: #F3F4F6; /* Lighter Gray */
-  --accent: #007BFF; /* Shiftelix Blue */
-  --muted: #6B7280; /* Medium Gray */
-  --btn-bg: #F3F4F6;
-  --btn-hover: #E5E7EB;
+  --bg: #8e1e1e;
+  --fg: #fff;
+  --hover: rgba(255, 255, 255, 0.1);
+  --accent: #db0a22;
+  --muted: #ddd;
+  --btn-bg: #db0a22;
+  --btn-hover: #b10b20;
 }
 
 .sidebar.dark {
-  --bg: #111827; /* Dark Slate Blue */
-  --fg: #E5E7EB; /* Light Gray */
-  --hover: #1F2937; /* Darker Slate */
-  --accent: #007BFF; /* Shiftelix Blue */
-  --muted: #9CA3AF; /* Medium Gray */
-  --btn-bg: #1F2937;
-  --btn-hover: #374151;
+  --bg: #2f2f2f;
+  --fg: #eee;
+  --hover: rgba(255, 255, 255, 0.08);
+  --accent: #ff4757;
+  --muted: #aaa;
+  --btn-bg: #ff4757;
+  --btn-hover: #e84118;
 }
 
 
@@ -92,7 +92,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* ADDED: Styles for the new header with logo */
+/* Styles for the new header with logo */
 .logo-title {
   display: flex;
   align-items: center;
@@ -105,11 +105,11 @@
   font-size: 1.5rem;
   line-height: 1;
   text-shadow: none;
-  margin: 0; /* Removing original margin */
+  margin: 0;
   font-weight: 700;
 }
 
-/* Kept your original .sidebar-title for safety, though it's now styled via .logo-title */
+/* Original .sidebar-title for safety */
 .sidebar-title {
   grid-column: 2 / 3;
   text-align: center;
@@ -165,11 +165,14 @@
   padding: 0.8rem 1rem;
   font-weight: 600;
   background: var(--btn-bg);
-  color: var(--fg); /* Use --fg for better contrast */
+  color: #fff;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -210,17 +213,16 @@
 
   .sidebar-link:hover {
     background: var(--hover);
-    color: var(--fg);
   }
 
   .sidebar-link.active::before {
     content: '';
     position: absolute;
     top: 50%;
-    left: -1rem; /* Move it outside the padding box */
+    left: -1rem;
     transform: translateY(-50%);
     width: 4px;
-    height: 70%; /* Make it shorter than the link */
+    height: 70%;
     background: var(--accent);
     border-top-right-radius: var(--radius);
     border-bottom-right-radius: var(--radius);
@@ -234,9 +236,4 @@
     background: var(--btn-hover);
     transform: scale(1.02);
   }
-
-  /*
-    REMOVED the conflicting .main-content rule from here.
-    Its layout is now handled entirely by app.css.
-  */
 }
