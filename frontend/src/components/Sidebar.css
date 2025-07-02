@@ -90,6 +90,27 @@
   margin-bottom: 0.5rem;
 }
 
+/*
+  vvv --- ONLY ADDITIONS ARE HERE --- vvv
+*/
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  grid-column: 2 / 3;
+  justify-self: center;
+}
+
+.logo-title .sidebar-title {
+  font-size: 1.5rem;
+  line-height: 1;
+  text-shadow: none;
+  margin: 0;
+}
+/*
+  ^^^ --- ONLY ADDITIONS ARE HERE --- ^^^
+*/
+
 .sidebar-title {
   grid-column: 2 / 3;
   text-align: center;
