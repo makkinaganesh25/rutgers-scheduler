@@ -10,7 +10,7 @@
 
 
 // export default function AdminUsers() {
-//   const [users, setUsers]     = useState([]);
+//   const [users, setUsers]       = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [editing, setEditing] = useState(null);
 //   const [filter, setFilter]   = useState('active'); // 'active' | 'inactive'
@@ -20,26 +20,19 @@
 //     active: true,
 //   });
 
-//   // Load users when filter changes
 //   const load = async () => {
 //     setLoading(true);
 //     try {
-//       const all = await getAdminUsers(filter === 'inactive');
-//       setUsers(
-//         filter === 'inactive'
-//           ? all.filter(u => !u.active)
-//           : all.filter(u => u.active)
-//       );
+//       const all = await getAdminUsers(true);
+//       setUsers(all);
 //     } finally {
 //       setLoading(false);
 //     }
 //   };
 
-//   // we deliberately omit `load` here; it’s stable enough for our use
-//   /* eslint-disable-next-line react-hooks/exhaustive-deps */
 //   useEffect(() => {
 //     load();
-//   }, [filter]);
+//   }, []);
 
 //   const onChange = e => {
 //     const { name, value, type, checked } = e.target;
@@ -83,87 +76,56 @@
 //       manager_id: u.manager_id || '',
 //       active:     u.active,
 //     });
+//     window.scrollTo({ top: 0, behavior: 'smooth' });
 //   };
 
 //   const onDelete = async id => {
-//     if (!window.confirm('Delete this user?')) return;
+//     if (!window.confirm('Delete this user? This action cannot be undone.')) return;
 //     await deleteAdminUser(id);
 //     load();
 //     window.dispatchEvent(new Event('hierarchyUpdated'));
 //   };
+  
+//   const supervisors = users.filter(u => u.user_rank !== 'CSO' && u.user_rank !== 'CDT');
+//   const displayedUsers = users.filter(u => filter === 'active' ? u.active : !u.active);
 
 //   return (
 //     <div className="AdminUsers">
 //       <h2>User Management</h2>
 
 //       <form className="user-form" onSubmit={onSubmit}>
-//         {/* Username */}
+//         <div className="form-title">{editing ? `Editing: ${editing.username}` : 'Add New User'}</div>
+        
 //         <div>
 //           <label>Username</label>
-//           <input
-//             name="username"
-//             value={form.username}
-//             onChange={onChange}
-//             required
-//             disabled={!!editing}
-//           />
+//           <input name="username" value={form.username} onChange={onChange} required disabled={!!editing} />
 //         </div>
-
-//         {/* Password */}
+        
 //         {!editing && (
 //           <div>
 //             <label>Password</label>
-//             <input
-//               name="password"
-//               type="password"
-//               value={form.password}
-//               onChange={onChange}
-//               required
-//             />
+//             <input name="password" type="password" value={form.password} onChange={onChange} required />
 //           </div>
 //         )}
-
-//         {/* Full Name */}
+        
 //         <div>
 //           <label>Full Name</label>
-//           <input
-//             name="first_name"
-//             value={form.first_name}
-//             onChange={onChange}
-//             required
-//           />
+//           <input name="first_name" value={form.first_name} onChange={onChange} required />
 //         </div>
-
-//         {/* Email */}
+        
 //         <div>
 //           <label>Email</label>
-//           <input
-//             name="email"
-//             type="email"
-//             value={form.email}
-//             onChange={onChange}
-//           />
+//           <input name="email" type="email" value={form.email} onChange={onChange} />
 //         </div>
-
-//         {/* Phone */}
+        
 //         <div>
 //           <label>Phone</label>
-//           <input
-//             name="phone"
-//             value={form.phone}
-//             onChange={onChange}
-//           />
+//           <input name="phone" value={form.phone} onChange={onChange} />
 //         </div>
-
-//         {/* Role */}
+        
 //         <div>
 //           <label>Role</label>
-//           <select
-//             name="user_rank"
-//             value={form.user_rank}
-//             onChange={onChange}
-//             required
-//           >
+//           <select name="user_rank" value={form.user_rank} onChange={onChange} required>
 //             <option value="">— Select —</option>
 //             <option value="CDT">CDT</option>
 //             <option value="CSO">CSO</option>
@@ -174,96 +136,98 @@
 //             <option value="LT">LT</option>
 //           </select>
 //         </div>
-
-//         {/* Supervisor */}
+        
 //         <div>
 //           <label>Supervisor</label>
-//           <select
-//             name="manager_id"
-//             value={form.manager_id || ''}
-//             onChange={onChange}
-//           >
+//           <select name="manager_id" value={form.manager_id || ''} onChange={onChange}>
 //             <option value="">— None —</option>
-//             {users.map(u => (
-//               <option key={u.id} value={u.id}>
-//                 {u.username}
-//               </option>
+//             {supervisors.map(u => (
+//               <option key={u.id} value={u.id}>{u.first_name} ({u.username})</option>
 //             ))}
 //           </select>
 //         </div>
-
-//         {/* Active? */}
-//         <div className="checkbox">
-//           <label>Active?</label>
-//           <input
-//             name="active"
-//             type="checkbox"
-//             checked={form.active}
-//             onChange={onChange}
-//           />
+        
+//         <div className="checkbox-area">
+//           <label htmlFor="active-checkbox">Active</label>
+//           <input id="active-checkbox" name="active" type="checkbox" checked={form.active} onChange={onChange} />
 //         </div>
-
-//         {/* Buttons */}
-//         <div className="buttons">
-//           <button type="submit">{editing ? 'Update' : 'Add'}</button>
+        
+//         <div className="buttons-area">
+//           <button type="submit" className="btn-primary">{editing ? 'Update User' : 'Add User'}</button>
 //           {editing && (
-//             <button type="button" onClick={cancelEdit}>
-//               Cancel
-//             </button>
+//             <button type="button" className="btn-secondary" onClick={cancelEdit}>Cancel</button>
 //           )}
 //         </div>
 //       </form>
 
-//       {/* Table */}
+//       {/* --- NEW: Mobile-Only View Toggle Buttons --- */}
+//       <div className="mobile-view-toggle">
+//         <button 
+//             className={`toggle-btn ${filter === 'active' ? 'active' : ''}`}
+//             onClick={() => setFilter('active')}
+//         >
+//             Active Users
+//         </button>
+//         <button 
+//             className={`toggle-btn ${filter === 'inactive' ? 'active' : ''}`}
+//             onClick={() => setFilter('inactive')}
+//         >
+//             Inactive Users
+//         </button>
+//       </div>
+//       {/* --- END NEW --- */}
+
+
 //       {loading ? (
-//         <p>Loading…</p>
+//         <p>Loading users…</p>
 //       ) : (
-//         <table className="users-table">
-//           <thead>
-//             <tr>
-//               <th>#</th>
-//               <th>Username</th>
-//               <th>Name</th>
-//               <th>Email</th>
-//               <th>Role</th>
-//               <th>Mgr</th>
-//               <th
-//                 className="toggle-header"
-//                 onClick={() =>
-//                   setFilter(f => (f === 'active' ? 'inactive' : 'active'))
-//                 }
-//                 title="Toggle Active/Inactive"
-//               >
-//                 <span className="toggle-pill">
-//                   {filter === 'active' ? <>Active <FaCheck/></> : <>Inactive <FaTimes/></>}
-//                 </span>
-//               </th>
-//               <th>Actions</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {users.map((u, i) => (
-//               <tr key={u.id}>
-//                 <td>{i + 1}</td>
-//                 <td>{u.username}</td>
-//                 <td>{u.first_name}</td>
-//                 <td>{u.email}</td>
-//                 <td>{u.user_rank}</td>
-//                 <td>{u.manager_id || '—'}</td>
-//                 <td>{u.active ? 'Yes' : 'No'}</td>
-//                 <td>
-//                   <button onClick={() => startEdit(u)}>Edit</button>
-//                   <button onClick={() => onDelete(u.id)}>Delete</button>
-//                 </td>
+//         <div className="table-wrapper">
+//           <table className="users-table">
+//             <thead>
+//               <tr>
+//                 <th>#</th>
+//                 <th>Username</th>
+//                 <th>Name</th>
+//                 <th>Email</th>
+//                 <th>Role</th>
+//                 <th>Mgr ID</th>
+//                 <th
+//                   className="toggle-header"
+//                   onClick={() => setFilter(f => (f === 'active' ? 'inactive' : 'active'))}
+//                   title="Toggle Active/Inactive"
+//                 >
+//                   <span className="toggle-pill">
+//                     {filter === 'active' ? <>Active <FaCheck/></> : <>Inactive <FaTimes/></>}
+//                   </span>
+//                 </th>
+//                 <th>Actions</th>
 //               </tr>
-//             ))}
-//           </tbody>
-//         </table>
+//             </thead>
+//             <tbody>
+//               {displayedUsers.map((u, i) => (
+//                 <tr key={u.id}>
+//                   <td data-label="#">{i + 1}</td>
+//                   <td data-label="Username">{u.username}</td>
+//                   <td data-label="Name">{u.first_name}</td>
+//                   <td data-label="Email">{u.email}</td>
+//                   <td data-label="Role">{u.user_rank}</td>
+//                   <td data-label="Mgr ID">{u.manager_id || '—'}</td>
+//                   <td data-label="Active">{u.active ? 'Yes' : 'No'}</td>
+//                   <td data-label="Actions">
+//                     <div className="action-buttons">
+//                         <button className="btn-edit" onClick={() => startEdit(u)}>Edit</button>
+//                         <button className="btn-delete" onClick={() => onDelete(u.id)}>Delete</button>
+//                     </div>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
 //       )}
 //     </div>
-// );
+//   );
 // }
-
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -275,13 +239,22 @@ import {
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import './AdminUsers.css';
 
+// TODO: Replace with the actual ID from your authentication context/store
+// This is needed to prevent the user from deleting themselves on the frontend.
+// The backend already protects against this, but disabling the button is good UX.
+const LOGGED_IN_USER_ID = 1;
 
 export default function AdminUsers() {
-  const [users, setUsers]       = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [filter, setFilter]   = useState('active'); // 'active' | 'inactive'
-  const [form, setForm]       = useState({
+  const [filter, setFilter] = useState('active'); // 'active' | 'inactive'
+  
+  // --- NEW STATE FOR BETTER UX ---
+  const [actionError, setActionError] = useState(''); // To display errors from the server
+  const [deletingId, setDeletingId] = useState(null);   // To track which user is being deleted
+
+  const [form, setForm] = useState({
     username: '', password: '', first_name: '',
     email: '', phone: '', user_rank: '', manager_id: '',
     active: true,
@@ -289,9 +262,12 @@ export default function AdminUsers() {
 
   const load = async () => {
     setLoading(true);
+    setActionError(''); // Clear previous errors on every load/reload
     try {
       const all = await getAdminUsers(true);
       setUsers(all);
+    } catch (err) {
+      setActionError('Failed to load users. Please refresh the page.');
     } finally {
       setLoading(false);
     }
@@ -317,6 +293,7 @@ export default function AdminUsers() {
 
   const onSubmit = async e => {
     e.preventDefault();
+    setActionError(''); // Clear previous errors before submitting
     try {
       if (editing) {
         await updateAdminUser(editing.id, form);
@@ -327,7 +304,8 @@ export default function AdminUsers() {
       window.dispatchEvent(new Event('hierarchyUpdated'));
       cancelEdit();
     } catch (err) {
-      alert(err.response?.data?.error || 'Save failed');
+      // Use setActionError to display server validation errors instead of alert()
+      setActionError(err.response?.data?.error || 'Save failed. Please check the form.');
     }
   };
 
@@ -346,11 +324,22 @@ export default function AdminUsers() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const onDelete = async id => {
+  const onDelete = async (id) => {
     if (!window.confirm('Delete this user? This action cannot be undone.')) return;
-    await deleteAdminUser(id);
-    load();
-    window.dispatchEvent(new Event('hierarchyUpdated'));
+    
+    setDeletingId(id); // Set loading state for this specific user
+    setActionError('');  // Clear previous errors
+
+    try {
+      await deleteAdminUser(id);
+      load(); // Reload the list from the server to ensure UI is in sync
+      window.dispatchEvent(new Event('hierarchyUpdated'));
+    } catch (err) {
+      // Display the specific error from the server (e.g., "Cannot delete your own account")
+      setActionError(err.response?.data?.error || 'Failed to delete user.');
+    } finally {
+      setDeletingId(null); // Clear loading state regardless of outcome
+    }
   };
   
   const supervisors = users.filter(u => u.user_rank !== 'CSO' && u.user_rank !== 'CDT');
@@ -427,23 +416,23 @@ export default function AdminUsers() {
         </div>
       </form>
 
-      {/* --- NEW: Mobile-Only View Toggle Buttons --- */}
+      {/* --- NEW: Error Display Area --- */}
+      {actionError && <div className="user-action-error">{actionError}</div>}
+
       <div className="mobile-view-toggle">
-        <button 
+        <button  
             className={`toggle-btn ${filter === 'active' ? 'active' : ''}`}
             onClick={() => setFilter('active')}
         >
             Active Users
         </button>
-        <button 
+        <button  
             className={`toggle-btn ${filter === 'inactive' ? 'active' : ''}`}
             onClick={() => setFilter('inactive')}
         >
             Inactive Users
         </button>
       </div>
-      {/* --- END NEW --- */}
-
 
       {loading ? (
         <p>Loading users…</p>
@@ -482,8 +471,14 @@ export default function AdminUsers() {
                   <td data-label="Active">{u.active ? 'Yes' : 'No'}</td>
                   <td data-label="Actions">
                     <div className="action-buttons">
-                        <button className="btn-edit" onClick={() => startEdit(u)}>Edit</button>
-                        <button className="btn-delete" onClick={() => onDelete(u.id)}>Delete</button>
+                      <button className="btn-edit" onClick={() => startEdit(u)}>Edit</button>
+                      <button 
+                        className="btn-delete" 
+                        onClick={() => onDelete(u.id)}
+                        disabled={deletingId === u.id || u.id === LOGGED_IN_USER_ID}
+                      >
+                        {deletingId === u.id ? 'Deleting...' : 'Delete'}
+                      </button>
                     </div>
                   </td>
                 </tr>
