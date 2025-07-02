@@ -9,27 +9,29 @@
   --breakpoint-md: 768px;
 }
 
+/* --- UPDATED: New color themes for Shiftelix branding --- */
 .sidebar.light {
-  --bg: #8e1e1e;
-  --fg: #fff;
-  --hover: rgba(255, 255, 255, 0.1);
-  --accent: #db0a22;
-  --muted: #ddd;
-  --btn-bg: #db0a22;
-  --btn-hover: #b10b20;
+  --bg: #F9FAFB; /* Off-white */
+  --fg: #1F2937; /* Dark Gray */
+  --hover: #F3F4F6; /* Lighter Gray */
+  --accent: #007BFF; /* Shiftelix Blue */
+  --muted: #6B7280; /* Medium Gray */
+  --btn-bg: #F3F4F6;
+  --btn-hover: #E5E7EB;
 }
 
 .sidebar.dark {
-  --bg: #2f2f2f;
-  --fg: #eee;
-  --hover: rgba(255, 255, 255, 0.08);
-  --accent: #ff4757;
-  --muted: #aaa;
-  --btn-bg: #ff4757;
-  --btn-hover: #e84118;
+  --bg: #111827; /* Dark Slate Blue */
+  --fg: #E5E7EB; /* Light Gray */
+  --hover: #1F2937; /* Darker Slate */
+  --accent: #007BFF; /* Shiftelix Blue */
+  --muted: #9CA3AF; /* Medium Gray */
+  --btn-bg: #1F2937;
+  --btn-hover: #374151;
 }
 
-/* --- MOBILE-FIRST STYLES --- */
+
+/* --- MOBILE-FIRST STYLES (Original structure preserved) --- */
 
 .sidebar-backdrop {
   position: fixed;
@@ -90,6 +92,24 @@
   margin-bottom: 0.5rem;
 }
 
+/* ADDED: Styles for the new header with logo */
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  grid-column: 2 / 3;
+  justify-self: center;
+}
+
+.logo-title .sidebar-title {
+  font-size: 1.5rem;
+  line-height: 1;
+  text-shadow: none;
+  margin: 0; /* Removing original margin */
+  font-weight: 700;
+}
+
+/* Kept your original .sidebar-title for safety, though it's now styled via .logo-title */
 .sidebar-title {
   grid-column: 2 / 3;
   text-align: center;
@@ -145,14 +165,15 @@
   padding: 0.8rem 1rem;
   font-weight: 600;
   background: var(--btn-bg);
-  color: #fff;
+  color: var(--fg); /* Use --fg for better contrast */
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
   flex-shrink: 0;
 }
 
-/* --- DESKTOP STYLES --- */
+
+/* --- DESKTOP STYLES (Original structure preserved) --- */
 @media (min-width: 768px) {
   .sidebar-backdrop, .sidebar-handle {
     display: none;
@@ -189,15 +210,17 @@
 
   .sidebar-link:hover {
     background: var(--hover);
+    color: var(--fg);
   }
 
   .sidebar-link.active::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: -1rem; /* Move it outside the padding box */
+    transform: translateY(-50%);
     width: 4px;
-    height: 100%;
+    height: 70%; /* Make it shorter than the link */
     background: var(--accent);
     border-top-right-radius: var(--radius);
     border-bottom-right-radius: var(--radius);
@@ -216,74 +239,4 @@
     REMOVED the conflicting .main-content rule from here.
     Its layout is now handled entirely by app.css.
   */
-}
-```
-
-
-```css
-/* src/app.css */
-
-/* --- Global Styles & Resets --- */
-/* This prevents the main browser window from ever showing a scrollbar, which is key */
-html, body {
-  overflow: hidden; 
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-}
-
-/* --- Mobile-First Default Styles (No 'desktop-layout' class) --- */
-.app-container {
-  height: 100vh;
-  position: relative;
-  overflow-y: auto; /* The entire container is scrollable on mobile */
-}
-
-.main-content {
-  padding: 20px;
-  /* On mobile, height is determined by the natural flow of content */
-}
-
-/* --- Login Page Specific Layout --- */
-.app-container.login-layout {
-  display: block;
-  overflow: hidden; /* No scrolling on login page */
-}
-.app-container.login-layout .main-content {
-  padding: 0;
-  height: 100vh;
-  background: none;
-}
-
-
-/* --- Desktop Layout Styles --- */
-/* These rules ONLY apply when the 'desktop-layout' class from App.js is present */
-
-/* Make the container a stable block that does not scroll */
-.app-container.desktop-layout {
-  display: block;
-  overflow: hidden;
-  height: 100vh;
-  position: relative;
-}
-
-/* The .main-content is now the ONLY scrollable area on desktop */
-.app-container.desktop-layout .main-content {
-  /* This margin MUST match the width of your sidebar */
-  margin-left: 250px; 
-  
-  /* Make the content area fill the container and be scrollable */
-  height: 100vh;
-  overflow-y: auto; 
-  padding: 20px;
-}
-
-
-/* --- Shared Styles --- */
-.content-section {
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
 }
