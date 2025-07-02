@@ -1,9 +1,9 @@
-/* Define a new, modern color palette */
+/* Keep this part the same */
 :root {
-  --primary-color: #007BFF;       /* A vibrant, professional blue */
+  --primary-color: #007BFF;
   --primary-color-hover: #0069D9;
   --primary-color-active: #0056B3;
-  --card-background: rgba(10, 10, 20, 0.6); /* Dark, semi-transparent for glass effect */
+  --card-background: rgba(10, 10, 20, 0.6);
   --input-background: #1a1a2a;
   --input-border: #40405a;
   --text-color: #f0f0f0;
@@ -12,68 +12,69 @@
   --error-background: rgba(255, 50, 50, 0.1);
   --error-border: rgba(255, 50, 50, 0.4);
 }
-
-/* full-screen dark + stars */
-.login-page {
-  position: relative;
-  width: 100vw; height: 100vh;
-  overflow: hidden;
-  background: #050510; /* A very dark blue, not pure black */
-  display: flex; align-items: center; justify-content: center;
+.login-page, .login-background-canvas, .login-overlay { /* No changes needed here */
+    position: relative;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    background: #050510;
+    display: flex; align-items: center; justify-content: center;
 }
 .login-background-canvas {
-  position: absolute; inset: 0; z-index: 0;
+    position: absolute; inset: 0; z-index: 0;
 }
 .login-overlay {
-  position: absolute; inset: 0;
-  /* UPDATED: Radial gradient to focus the center */
-  background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
-  z-index: 1;
+    position: absolute; inset: 0;
+    background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
 }
+
+/* --- REVISED SECTIONS START HERE --- */
 
 /* UPDATED: Glassmorphism login card */
 .login-card {
   position: relative;
   z-index: 2;
-  width: 340px;
-  padding: 32px;
+  width: 360px; /* Increased width for better spacing */
+  padding: 40px; /* Increased padding */
   background: var(--card-background);
-  border-radius: 12px;
+  border-radius: 16px; /* Larger radius for a softer look */
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  backdrop-filter: blur(12px); /* The key to the frosted glass look */
+  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: var(--text-color);
   text-align: center;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* NEW: Logo styles */
+/* UPDATED: Logo styles */
 .logo-container {
-  margin-bottom: 24px;
+  margin-bottom: 20px; /* Adjusted margin */
   animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
 	0% { transform: translateY(0px); }
 	50% { transform: translateY(-10px); }
-	100% { transform: translateY(0px); }
+	100% { translateY(0px); }
 }
 
 /* UPDATED: Branding text styles */
 .login-card h1 {
-  margin: 0 0 8px;
-  font-size: 24px;
+  margin: 0 0 4px; /* Reduced margin-bottom */
+  font-size: 26px; /* Slightly larger font */
   font-weight: 600;
   color: var(--text-color);
 }
 .login-card .subtitle {
-  margin: 0 0 24px;
-  font-size: 14px;
+  margin: 0 0 32px; /* Increased margin-bottom to push form down */
+  font-size: 15px; /* Slightly larger font */
+  font-weight: 300; /* Lighter font weight for elegance */
   color: var(--subtitle-color);
+  letter-spacing: 0.5px; /* Added letter spacing */
 }
 
-/* UPDATED: Error styles */
+/* Keep error styles the same */
 .error {
   margin-bottom: 16px;
   padding: 8px;
@@ -88,13 +89,13 @@
 .login-card input {
   width: 100%;
   margin-bottom: 16px;
-  padding: 12px 14px;
-  font-size: 15px;
+  padding: 14px 16px; /* Increased padding */
+  font-size: 16px; /* Larger font size */
   background: var(--input-background);
   border: 1px solid var(--input-border);
-  border-radius: 6px;
+  border-radius: 8px; /* Softer radius */
   color: var(--text-color);
-  transition: all 0.3s ease; /* Smoother transition */
+  transition: all 0.3s ease;
 }
 .login-card input::placeholder {
   color: #666;
@@ -103,26 +104,28 @@
   outline: none;
   border-color: var(--primary-color);
   background: #2a2a3a;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus glow */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 /* UPDATED: Modern button styles */
 .login-card button {
   width: 100%;
-  padding: 12px;
+  padding: 14px; /* Increased padding */
+  margin-top: 8px; /* Added margin-top for breathing room */
   font-size: 16px;
   font-weight: bold;
+  letter-spacing: 0.5px; /* Added letter spacing */
   color: #fff;
   background: var(--primary-color);
   border: none;
-  border-radius: 6px;
+  border-radius: 8px; /* Softer radius */
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
 }
 .login-card button:hover {
   background: var(--primary-color-hover);
-  transform: translateY(-2px); /* Subtle lift on hover */
+  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
 }
 .login-card button:active {
